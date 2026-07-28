@@ -15,10 +15,10 @@ class AssessmentTypeMeasurementType(CreatedAndUpdatedMetaModel):
     name = models.TextField()
     description = models.TextField()
     assessment_type = models.ForeignKey(
-        "assessment.AssessmentType", on_delete=models.PROTECT
+        "core.AssessmentType", on_delete=models.PROTECT
     )
     measurement_type = models.ForeignKey(
-        "assessment.MeasurementType", on_delete=models.PROTECT
+        "core.MeasurementType", on_delete=models.PROTECT
     )
 
     class Meta:

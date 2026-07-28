@@ -14,7 +14,7 @@ class Assessment(CreatedAndUpdatedMetaModel):
     name = models.TextField()
     description = models.TextField()
     type = models.ForeignKey(
-        "assessment.AssessmentType", on_delete=models.PROTECT, null=True, blank=True
+        "core.AssessmentType", on_delete=models.PROTECT, null=True, blank=True
     )
 
     class Meta:

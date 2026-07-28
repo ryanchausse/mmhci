@@ -252,6 +252,9 @@ frontend logic nonexistent.
 - A connection pool for DB connections is essential. During deployment to AWS, we might
   choose to use the RDS Proxy service.
 - The API layer(s) will use Django-Ninja
+- In model definitions, place PK field(s) at the top of the attribute list, then FKs,
+  then model-specific attributes. Every model gets metadata fields by inheritance from
+  the custom base class (created_by, updated_at, etc.)
 
 
 ## Standard Cookiecutter-Django README

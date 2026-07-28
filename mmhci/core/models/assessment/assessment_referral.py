@@ -13,8 +13,8 @@ from mmhci.core.models import CreatedAndUpdatedMetaModel
 class AssessmentReferral(CreatedAndUpdatedMetaModel):
     name = models.TextField()
     description = models.TextField()
-    assessment = models.ForeignKey("assessment.Assessment", on_delete=models.PROTECT)
-    referral = models.ForeignKey("referral.Referral", on_delete=models.PROTECT)
+    assessment = models.ForeignKey("core.Assessment", on_delete=models.PROTECT)
+    referral = models.ForeignKey("core.Referral", on_delete=models.PROTECT)
 
     class Meta:
         ordering = ["-created_at"]

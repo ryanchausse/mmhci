@@ -14,7 +14,7 @@ class Measurement(CreatedAndUpdatedMetaModel):
     name = models.TextField()
     description = models.TextField()
     type = models.ForeignKey(
-        "assessment.MeasurementType", on_delete=models.PROTECT, null=True, blank=True
+        "core.MeasurementType", on_delete=models.PROTECT, null=True, blank=True
     )
     # This table stores the actual measurement values. To make it generalisable, we
     # need to support all possible field types
