@@ -6,6 +6,13 @@ Each model will get a created_at, updated_at, created_by, and updated_by.
 
 Ruff settings will remain cranked to maintain strict standards.
 
+## TL;DR
+
+The most important takeaways:
+
+- Models don't import anything
+- Services only import models from their own domain / bounded context
+- Orchestrations only import from services to execute cross-functional workflows
 
 ## Motivation
 

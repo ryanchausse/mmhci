@@ -1,0 +1,34 @@
+"""
+Risk Assessment / IAR-DST / K10+ / K5 / SDQ
+Model
+  - AssessmentTypeMeasurementType (metadata/relational, enumerates Measurement Types
+  for an Assessment type. Needed to construct Assessments.)
+"""
+
+from django.db import models
+
+from mmhci.core.models import CreatedAndUpdatedMetaModel
+
+
+# Relational
+class AssessmentTypeMeasurementType(CreatedAndUpdatedMetaModel):
+    name = models.TextField()
+    description = models.TextField()
+    assessment_type = models.ForeignKey(
+        "assessment.AssessmentType", on_delete=models.PROTECT
+    )
+    measurement_type = models.ForeignKey(
+        "assessment.MeasurementType", on_delete=models.PROTECT
+    )
+
+    class Meta:
+        ordering = ["-created_at"]
+        get_latest_by = ["created_at"]
+        verbose_name = "MeasurementTypeAssessmentType"
+        verbose_name_plural = "MeasurementTypeAssessmentTypes"
+
+    def __str__(self):
+        return (
+            f"AssessmentTypeMeasurementType: Assessment Type: {self.assessment_type} - "
+            f"Measurement Type: {self.measurement_type}"
+        )
