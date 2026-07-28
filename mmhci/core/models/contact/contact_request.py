@@ -14,6 +14,11 @@ class ContactRequest(CreatedAndUpdatedMetaModel):
     )
     description = models.TextField()
     method = models.TextField()
+    # There should be a FK to an "Availability" model that represents the best days
+    # and times to call a Person. This might involve a few tables:
+    # - days_of_week
+    # - availability_hours (FK to days_of_week and Person)
+    # - possibly a date_overrides table for exceptions to availability
 
     class Meta:
         ordering = ["-created_at"]
