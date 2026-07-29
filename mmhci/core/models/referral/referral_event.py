@@ -1,0 +1,48 @@
+"""
+Model
+  - ReferralEvent ("ReferredTo" in our current system, sort of?)
+"""
+
+from django.db import models
+
+from mmhci.core.models import CreatedAndUpdatedMetaModel
+
+# Enum. Move to another location. Duplicated in Referral model
+class Statuses(models.IntegerChoices):
+    NEW = 0, "New"
+    IN_PROGRESS = 1, "In Progress"
+    ABANDONED = 2, "Abandoned"
+    COMPLETED = 3, "Completed"
+    SENT = 4, "Sent"
+    ACCEPTED = 5, "Accepted"
+
+# Enum. Move to another location.
+class EventTypes(models.IntegerChoices):
+    ORIGINATED = 0, "Originated"
+    ASSIGNED = 1, "Assigned"
+    STATUS_CHANGED = 2, "Status Changed"
+
+
+class ReferralEvent(CreatedAndUpdatedMetaModel):
+    referral = models.ForeignKey("core.Referral", on_delete=models.PROTECT)
+    organisation = models.ForeignKey(
+        "core.Organisation", on_delete=models.PROTECT, null=True, blank=True
+    )
+    practitioner = models.ForeignKey(
+        "core.Practitioner", on_delete=models.PROTECT, null=True, blank=True
+    )
+    event_type = models.IntegerField(choices=EventTypes, null=True, blank=True)
+    status = models.IntegerField(choices=Statuses, null=True, blank=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        get_latest_by = ["created_at"]
+        verbose_name = "ReferralEvent"
+        verbose_name_plural = "ReferralEvent"
+
+    def __str__(self):
+        return (
+            f"ReferralEvent Referral: {self.referral} - "
+            f"Organisation: {self.organisation} - Practitioner: {self.practitioner} - "
+            f"Event Type: {self.type} - Status: {self.status}"
+        )

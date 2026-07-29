@@ -1,0 +1,22 @@
+"""
+Model
+  - ReferralUpload (relational)
+"""
+
+from django.db import models
+
+from mmhci.core.models import CreatedAndUpdatedMetaModel
+
+
+class ReferralUpload(CreatedAndUpdatedMetaModel):
+    referral = models.ForeignKey("core.Referral", on_delete=models.PROTECT)
+    upload = models.ForeignKey("core.Upload", on_delete=models.PROTECT)
+
+    class Meta:
+        ordering = ["-created_at"]
+        get_latest_by = ["created_at"]
+        verbose_name = "ReferralUpload"
+        verbose_name_plural = "ReferralUpload"
+
+    def __str__(self):
+        return f"ReferralUpload Referral: {self.referral} -  Upload: {self.upload}"

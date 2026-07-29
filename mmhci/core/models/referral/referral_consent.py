@@ -1,0 +1,22 @@
+"""
+Model
+  - ReferralConsent (relational)
+"""
+
+from django.db import models
+
+from mmhci.core.models import CreatedAndUpdatedMetaModel
+
+
+class ReferralConsent(CreatedAndUpdatedMetaModel):
+    referral = models.ForeignKey("core.Referral", on_delete=models.PROTECT)
+    consent = models.ForeignKey("core.Consent", on_delete=models.PROTECT)
+
+    class Meta:
+        ordering = ["-created_at"]
+        get_latest_by = ["created_at"]
+        verbose_name = "ReferralConsent"
+        verbose_name_plural = "ReferralConsent"
+
+    def __str__(self):
+        return f"ReferralConsent Referral: {self.referral} -  Consent: {self.consent}"
