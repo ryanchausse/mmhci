@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .. import views
+from mmhci.core.views.contact import contact
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", contact.index, name="index"),
 ]

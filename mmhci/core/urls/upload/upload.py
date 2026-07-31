@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .. import views
+from mmhci.core.views.upload import upload
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", upload.index, name="index"),
 ]

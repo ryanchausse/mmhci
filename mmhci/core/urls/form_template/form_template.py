@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .. import views
+from mmhci.core.views.form_template import form_template
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", form_template.index, name="index"),
 ]

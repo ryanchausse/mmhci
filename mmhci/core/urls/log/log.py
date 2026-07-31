@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .. import views
+from mmhci.core.views.log import log
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", log.index, name="index"),
 ]

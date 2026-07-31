@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .. import views
+from mmhci.core.views.policy import policy
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", policy.index, name="index"),
 ]

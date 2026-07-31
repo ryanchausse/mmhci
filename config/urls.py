@@ -9,6 +9,7 @@ from django.views.generic import TemplateView
 from .api import api
 
 urlpatterns = [
+    # Likely moving this path into the main core app. Leaving alone for now.
     path(
         "",
         TemplateView.as_view(template_name="main_template_files/index.html"),
@@ -24,81 +25,11 @@ urlpatterns = [
     # User management
     path("users/", include("mmhci.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
-    path("core/", include("mmhci.core.urls.core", namespace="core")),
+    # Core app URLs live at the root
+    path("", include("mmhci.core.urls", namespace="core")),
     # Your stuff: custom urls includes go here
-    path(
-        "assessment/",
-        include("mmhci.core.urls.assessment", namespace="assessment"),
-    ),
-    path(
-        "consent/",
-        include("mmhci.core.urls.consent", namespace="consent"),
-    ),
-    path(
-        "contact/",
-        include("mmhci.core.urls.contact", namespace="contact"),
-    ),
-    path(
-        "form_template/",
-        include(
-            "mmhci.core.urls.form_template", namespace="form_template"
-        ),
-    ),
-    path(
-        "log/",
-        include("mmhci.core.urls.log", namespace="log"),
-    ),
-    path(
-        "note/",
-        include("mmhci.core.urls.note", namespace="note"),
-    ),
-    path(
-        "organisation/",
-        include("mmhci.core.urls.organisation", namespace="organisation"),
-    ),
-    path(
-        "person/",
-        include("mmhci.core.urls.person", namespace="person"),
-    ),
-    path(
-        "policy/",
-        include("mmhci.core.urls.policy", namespace="policy"),
-    ),
-    path(
-        "practitioner/",
-        include("mmhci.core.urls.practitioner", namespace="practitioner"),
-    ),
-    path(
-        "referral/",
-        include("mmhci.core.urls.referral", namespace="referral"),
-    ),
-    path(
-        "role/",
-        include("mmhci.core.urls.role", namespace="role"),
-    ),
-    path(
-        "sms/",
-        include("mmhci.core.urls.sms", namespace="sms"),
-    ),
-    path(
-        "survey/",
-        include("mmhci.core.urls.survey", namespace="survey"),
-    ),
-    path(
-        "tag/",
-        include("mmhci.core.urls.tag", namespace="tag"),
-    ),
-    path(
-        "third_party_service/",
-        include(
-            "mmhci.core.urls.third_party_service",
-            namespace="third_party_service",
-        ),
-    ),
-    path(
-        "upload/",
-        include("mmhci.core.urls.upload", namespace="upload"),
-    ),
+    # (These have been moved into the core app - see __init__.py in /mmhci/core/urls
+    # directory)
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]

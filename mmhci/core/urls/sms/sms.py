@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .. import views
+from mmhci.core.views.sms import sms
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", sms.index, name="index"),
 ]

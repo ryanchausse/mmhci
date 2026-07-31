@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .. import views
+from mmhci.core.views.role import role
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", role.index, name="index"),
 ]

@@ -1,7 +1,7 @@
 from django.urls import path
 
-from .. import views
+from mmhci.core.views.referral import referral
 
 urlpatterns = [
-    path("", views.index, name="index"),
+    path("", referral.index, name="index"),
 ]
