@@ -1,0 +1,20 @@
+from django.db import models
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
+
+
+class Announcement(CreatedAndUpdatedBase):
+    name = models.TextField()
+    description = models.TextField()
+    content = models.TextField()
+    active = models.BooleanField(default=True)
+    start = models.DateTimeField(null=True)
+    expiry = models.DateTimeField(null=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        get_latest_by = ["created_at"]
+        verbose_name = "Announcement"
+        verbose_name_plural = "Announcements"
+
+    def __str__(self):
+        return f"Announcement Name: {self.name}"

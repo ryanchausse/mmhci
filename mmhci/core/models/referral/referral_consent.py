@@ -5,10 +5,10 @@ Model
 
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
-class ReferralConsent(CreatedAndUpdatedMetaModel):
+class ReferralConsent(CreatedAndUpdatedBase):
     referral = models.ForeignKey("core.Referral", on_delete=models.PROTECT)
     consent = models.ForeignKey("core.Consent", on_delete=models.PROTECT)
 

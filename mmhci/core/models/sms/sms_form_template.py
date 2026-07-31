@@ -5,10 +5,10 @@ Model
 
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
-class SmsFormTemplate(CreatedAndUpdatedMetaModel):
+class SmsFormTemplate(CreatedAndUpdatedBase):
     sms = models.ForeignKey("core.Sms", on_delete=models.PROTECT)
     form_template = models.ForeignKey(
         "core.FormTemplate", on_delete=models.PROTECT

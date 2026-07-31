@@ -7,10 +7,10 @@ Probably add a relation for Survey <-> Assessment
 
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
-class Survey(CreatedAndUpdatedMetaModel):
+class Survey(CreatedAndUpdatedBase):
     name = models.TextField()
     description = models.TextField()
 

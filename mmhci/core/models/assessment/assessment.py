@@ -6,11 +6,11 @@ Model
 
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
 # This directory is for assessment models (IAR-DST, K10+, Surveys)
-class Assessment(CreatedAndUpdatedMetaModel):
+class Assessment(CreatedAndUpdatedBase):
     name = models.TextField()
     description = models.TextField()
     type = models.ForeignKey(

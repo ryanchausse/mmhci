@@ -5,7 +5,7 @@ Model
 
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 # Enum. Move to another location.
 class Statuses(models.IntegerChoices):
@@ -17,7 +17,7 @@ class Statuses(models.IntegerChoices):
     ACCEPTED = 5, "Accepted"
 
 
-class Referral(CreatedAndUpdatedMetaModel):
+class Referral(CreatedAndUpdatedBase):
     org_originated = models.ForeignKey(
         "core.Organisation",
         on_delete=models.PROTECT,

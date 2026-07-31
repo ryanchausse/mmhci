@@ -6,10 +6,10 @@ Model
 from django.conf import settings
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
-class Practitioner(CreatedAndUpdatedMetaModel):
+class Practitioner(CreatedAndUpdatedBase):
     name = models.TextField()
     description = models.TextField()
     # Practitioner possibly has a user

@@ -5,10 +5,10 @@ Model
 
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
-class PersonAddress(CreatedAndUpdatedMetaModel):
+class PersonAddress(CreatedAndUpdatedBase):
     person = models.ForeignKey(
         "core.Person", on_delete=models.PROTECT
     )

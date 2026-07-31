@@ -6,11 +6,11 @@ Model
 
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
 # Relational
-class AssessmentReferral(CreatedAndUpdatedMetaModel):
+class AssessmentReferral(CreatedAndUpdatedBase):
     name = models.TextField()
     description = models.TextField()
     assessment = models.ForeignKey("core.Assessment", on_delete=models.PROTECT)

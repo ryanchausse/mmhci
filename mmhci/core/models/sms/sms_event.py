@@ -6,10 +6,10 @@ Model
 from django.conf import settings
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
-class SmsEvent(CreatedAndUpdatedMetaModel):
+class SmsEvent(CreatedAndUpdatedBase):
     sms = models.ForeignKey("core.Sms", on_delete=models.PROTECT)
     # A few different options for "to whom". Later, maybe add a constraint that checks
     # if at least one of the following three FKs are non-null

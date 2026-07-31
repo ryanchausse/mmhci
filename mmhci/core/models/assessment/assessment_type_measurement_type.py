@@ -7,11 +7,11 @@ Model
 
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
 # Relational
-class AssessmentTypeMeasurementType(CreatedAndUpdatedMetaModel):
+class AssessmentTypeMeasurementType(CreatedAndUpdatedBase):
     name = models.TextField()
     description = models.TextField()
     assessment_type = models.ForeignKey(

@@ -5,10 +5,10 @@ Model
 
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
-class Organisation(CreatedAndUpdatedMetaModel):
+class Organisation(CreatedAndUpdatedBase):
     name = models.TextField()
     description = models.TextField()
 

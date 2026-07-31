@@ -8,7 +8,7 @@ Might also add "exception to availability on a certain date(s)"
 
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
 # Enums
@@ -22,7 +22,7 @@ class DaysOfWeek(models.IntegerChoices):
     SUNDAY = 6, "Sunday"
 
 
-class PersonAvailability(CreatedAndUpdatedMetaModel):
+class PersonAvailability(CreatedAndUpdatedBase):
     person = models.ForeignKey(
         "core.Person", on_delete=models.PROTECT, null=True, blank=True
     )

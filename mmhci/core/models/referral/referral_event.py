@@ -5,7 +5,7 @@ Model
 
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 # Enum. Move to another location. Duplicated in Referral model
 class Statuses(models.IntegerChoices):
@@ -23,7 +23,7 @@ class EventTypes(models.IntegerChoices):
     STATUS_CHANGED = 2, "Status Changed"
 
 
-class ReferralEvent(CreatedAndUpdatedMetaModel):
+class ReferralEvent(CreatedAndUpdatedBase):
     referral = models.ForeignKey("core.Referral", on_delete=models.PROTECT)
     organisation = models.ForeignKey(
         "core.Organisation", on_delete=models.PROTECT, null=True, blank=True

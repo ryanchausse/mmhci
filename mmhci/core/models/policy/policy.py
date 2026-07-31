@@ -42,10 +42,10 @@ from django.contrib.contenttypes.models import ContentType
 
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
-class Policy(CreatedAndUpdatedMetaModel):
+class Policy(CreatedAndUpdatedBase):
     name = models.TextField()
     description = models.TextField()
     content = models.TextField()

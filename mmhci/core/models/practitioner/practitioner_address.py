@@ -6,10 +6,10 @@ Model
 from django.db import models
 from django.db.models import Q
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
-class PractitionerAddress(CreatedAndUpdatedMetaModel):
+class PractitionerAddress(CreatedAndUpdatedBase):
     practitioner = models.ForeignKey(
         "core.Practitioner", on_delete=models.PROTECT
     )

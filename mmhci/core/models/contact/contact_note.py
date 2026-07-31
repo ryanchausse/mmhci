@@ -5,10 +5,10 @@ Model
 
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
-class ContactNote(CreatedAndUpdatedMetaModel):
+class ContactNote(CreatedAndUpdatedBase):
     name = models.TextField()
     contact = models.ForeignKey("core.Contact", on_delete=models.PROTECT)
     description = models.TextField()

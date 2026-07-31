@@ -7,10 +7,10 @@ Possibly part of permissions overhaul. See comments in the Policy model
 
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
-class Role(CreatedAndUpdatedMetaModel):
+class Role(CreatedAndUpdatedBase):
     name = models.TextField()
     description = models.TextField()
 

@@ -8,10 +8,10 @@ flexible as it's unclear how it should be organised at this time
 
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
-class FormTemplate(CreatedAndUpdatedMetaModel):
+class FormTemplate(CreatedAndUpdatedBase):
     name = models.TextField()
     description = models.TextField()
     # Allow storage of text or to make use of JSON optimisation/structure

@@ -8,10 +8,10 @@ Probably needs more metadata. We have relational tables like "Model"Log we can u
 from django.conf import settings
 from django.db import models
 
-from mmhci.core.models import CreatedAndUpdatedMetaModel
+from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
 
-class Log(CreatedAndUpdatedMetaModel):
+class Log(CreatedAndUpdatedBase):
     name = models.TextField()
     description = models.TextField()
     type = models.TextField()
