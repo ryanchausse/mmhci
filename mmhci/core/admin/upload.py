@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from mmhci.core.models.upload import upload
+from mmhci.core.models.upload import *
 
-admin.site.register(upload)
+admin.site.register(Upload)

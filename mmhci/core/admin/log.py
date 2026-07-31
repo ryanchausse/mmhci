@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from mmhci.core.models.log import log
+from mmhci.core.models.log import *
 
-admin.site.register(log)
+admin.site.register(Log)

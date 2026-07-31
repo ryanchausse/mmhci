@@ -1,9 +1,7 @@
 from django.contrib import admin
 
-from mmhci.core.models.sms import sms_event
-from mmhci.core.models.sms import sms_form_template
-from mmhci.core.models.sms import sms
+from mmhci.core.models.sms import *
 
-admin.site.register(sms_event)
-admin.site.register(sms_form_template)
-admin.site.register(sms)
+admin.site.register(SmsEvent)
+admin.site.register(SmsFormTemplate)
+admin.site.register(Sms)

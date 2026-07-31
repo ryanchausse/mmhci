@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from mmhci.core.models.consent import consent
+from mmhci.core.models.consent import *
 
-admin.site.register(consent)
+admin.site.register(Consent)

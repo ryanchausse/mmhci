@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from mmhci.core.models.note import note
+from mmhci.core.models.note import *
 
-admin.site.register(note)
+admin.site.register(Note)

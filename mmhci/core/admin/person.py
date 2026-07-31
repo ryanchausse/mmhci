@@ -1,9 +1,7 @@
 from django.contrib import admin
 
-from mmhci.core.models.person import person_address
-from mmhci.core.models.person import person_availability
-from mmhci.core.models.person import person
+from mmhci.core.models.person import *
 
-admin.site.register(person_address)
-admin.site.register(person_availability)
-admin.site.register(person)
+admin.site.register(PersonAddress)
+admin.site.register(PersonAvailability)
+admin.site.register(Person)

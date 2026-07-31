@@ -84,24 +84,6 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "mmhci.users",
     "mmhci.core",
-    # Your stuff: custom apps go here
-    # "mmhci.apps.assessment",
-    # "mmhci.apps.consent",
-    # "mmhci.apps.contact",
-    # "mmhci.apps.form_template",
-    # "mmhci.apps.log",
-    # "mmhci.apps.note",
-    # "mmhci.apps.organisation",
-    # "mmhci.apps.person",
-    # "mmhci.apps.policy",
-    # "mmhci.apps.practitioner",
-    # "mmhci.apps.referral",
-    # "mmhci.apps.role",
-    # "mmhci.apps.sms",
-    # "mmhci.apps.survey",
-    # "mmhci.apps.tag",
-    # "mmhci.apps.third_party_service",
-    # "mmhci.apps.upload",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

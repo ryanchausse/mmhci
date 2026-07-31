@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from mmhci.core.models.survey import survey
+from mmhci.core.models.survey import *
 
-admin.site.register(survey)
+admin.site.register(Survey)

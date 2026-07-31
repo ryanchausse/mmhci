@@ -1,17 +1,11 @@
 from django.contrib import admin
 
-from mmhci.core.models.assessment import assessment_measurement
-from mmhci.core.models.assessment import assessment_referral
-from mmhci.core.models.assessment import assessment_type_measurement_type
-from mmhci.core.models.assessment import assessment_type
-from mmhci.core.models.assessment import assessment
-from mmhci.core.models.assessment import measurement_type
-from mmhci.core.models.assessment import measurement
+from mmhci.core.models.assessment import *
 
-admin.site.register(assessment_measurement)
-admin.site.register(assessment_referral)
-admin.site.register(assessment_type_measurement_type)
-admin.site.register(assessment_type)
-admin.site.register(assessment)
-admin.site.register(measurement_type)
-admin.site.register(measurement)
+admin.site.register(AssessmentMeasurement)
+admin.site.register(AssessmentReferral)
+admin.site.register(AssessmentTypeMeasurementType)
+admin.site.register(AssessmentType)
+admin.site.register(Assessment)
+admin.site.register(MeasurementType)
+admin.site.register(Measurement)

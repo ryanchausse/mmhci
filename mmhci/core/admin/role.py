@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from mmhci.core.models.role import role
+from mmhci.core.models.role import *
 
-admin.site.register(role)
+admin.site.register(Role)

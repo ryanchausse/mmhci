@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from mmhci.core.models.tag import tag
+from mmhci.core.models.tag import *
 
-admin.site.register(tag)
+admin.site.register(Tag)
