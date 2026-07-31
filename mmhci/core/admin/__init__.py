@@ -1,0 +1,16 @@
+from . import assessment  # noqa: F401
+from . import consent     # noqa: F401
+from . import contact     # noqa: F401
+from . import form_template  # noqa: F401
+from . import log     # noqa: F401
+from . import note     # noqa: F401
+from . import organisation  # noqa: F401
+from . import person     # noqa: F401
+from . import policy     # noqa: F401
+from . import practitioner  # noqa: F401
+from . import referral     # noqa: F401
+from . import role     # noqa: F401
+from . import sms  # noqa: F401
+from . import survey     # noqa: F401
+from . import tag     # noqa: F401
+from . import upload     # noqa: F401

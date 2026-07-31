@@ -28,8 +28,8 @@ urlpatterns = [
     # Core app URLs live at the root
     path("", include("mmhci.core.urls", namespace="core")),
     # Your stuff: custom urls includes go here
-    # (These have been moved into the core app - see __init__.py in /mmhci/core/urls
-    # directory)
+    # (These have been moved from /mmhci/core/urls.py into the core app -
+    # see __init__.py in /mmhci/core/urls directory)
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]

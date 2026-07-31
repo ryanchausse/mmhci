@@ -1,3 +1,9 @@
-from django.contrib import admin  # noqa: F401
+from django.contrib import admin
 
-# Register your models here.
+from mmhci.core.models.practitioner import practitioner_address
+from mmhci.core.models.practitioner import practitioner_organisation
+from mmhci.core.models.practitioner import practitioner
+
+admin.site.register(practitioner_address)
+admin.site.register(practitioner_organisation)
+admin.site.register(practitioner)
