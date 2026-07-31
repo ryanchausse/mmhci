@@ -65,7 +65,7 @@ class Referral(CreatedAndUpdatedBase):
     # Intentionally duplicated vs. querying ReferralEvent which can return latest status
     status = models.IntegerField(choices=Statuses, null=True, blank=True)
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "Referral"

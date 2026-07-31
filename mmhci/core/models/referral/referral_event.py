@@ -34,7 +34,7 @@ class ReferralEvent(CreatedAndUpdatedBase):
     event_type = models.IntegerField(choices=EventTypes, null=True, blank=True)
     status = models.IntegerField(choices=Statuses, null=True, blank=True)
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "ReferralEvent"

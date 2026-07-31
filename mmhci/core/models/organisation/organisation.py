@@ -12,7 +12,7 @@ class Organisation(CreatedAndUpdatedBase):
     name = models.TextField()
     description = models.TextField()
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "Organisation"

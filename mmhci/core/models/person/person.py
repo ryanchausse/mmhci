@@ -22,7 +22,7 @@ class Person(CreatedAndUpdatedBase):
     phone = models.TextField(blank=True)
     email = models.EmailField(blank=True)
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "Person"

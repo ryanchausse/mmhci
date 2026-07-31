@@ -19,7 +19,7 @@ class FormTemplate(CreatedAndUpdatedBase):
     content_json = models.JSONField(default=dict, null=True, blank=True)
     shareable = models.BooleanField(null=True, default=False)
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "FormTemplate"

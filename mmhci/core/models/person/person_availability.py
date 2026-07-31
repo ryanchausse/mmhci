@@ -30,7 +30,7 @@ class PersonAvailability(CreatedAndUpdatedBase):
     time_from = models.TimeField(null=True, blank=True)
     time_until = models.TimeField(null=True, blank=True)
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "PersonAvailability"

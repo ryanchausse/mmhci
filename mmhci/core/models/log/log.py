@@ -21,7 +21,7 @@ class Log(CreatedAndUpdatedBase):
         settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True
     )
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "Log"

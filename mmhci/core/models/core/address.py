@@ -9,7 +9,7 @@ class Address(CreatedAndUpdatedBase):
     state = models.TextField()
     country = models.TextField(default="AU", max_length=2)
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "Address"

@@ -14,7 +14,7 @@ class Sms(CreatedAndUpdatedBase):
     # Might want to make nullable due to SmsTemplate relation?
     content = models.TextField()
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "SMS"

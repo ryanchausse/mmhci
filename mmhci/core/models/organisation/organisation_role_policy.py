@@ -15,7 +15,7 @@ class OrganisationRolePolicy(CreatedAndUpdatedBase):
     role = models.ForeignKey("core.Role", on_delete=models.PROTECT)
     policy = models.ForeignKey("core.Policy", on_delete=models.PROTECT)
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "OrganisationRolePolicy"

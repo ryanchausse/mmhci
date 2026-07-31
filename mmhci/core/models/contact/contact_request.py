@@ -20,7 +20,7 @@ class ContactRequest(CreatedAndUpdatedBase):
     # - availability_hours (FK to days_of_week and Person)
     # - possibly a date_overrides table for exceptions to availability
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "ContactRequest"

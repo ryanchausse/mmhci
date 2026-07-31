@@ -15,7 +15,7 @@ class ContactAttempt(CreatedAndUpdatedBase):
     description = models.TextField()
     method = models.TextField()
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "ContactAttempt"

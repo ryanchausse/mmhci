@@ -15,7 +15,7 @@ class Upload(CreatedAndUpdatedBase):
     content = models.TextField()
     file_location = models.TextField()
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "Upload"

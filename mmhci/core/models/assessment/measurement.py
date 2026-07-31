@@ -27,7 +27,7 @@ class Measurement(CreatedAndUpdatedBase):
         decimal_places=50, max_digits=100, null=True, blank=True
     )
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "Measurement"

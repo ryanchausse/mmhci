@@ -15,7 +15,7 @@ class ContactConsent(CreatedAndUpdatedBase):
     # Although Contact contains an FK to Person/ContactPerson, they could be NULL
     person = models.ForeignKey("core.Person", on_delete=models.PROTECT)
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "ContactConsent"

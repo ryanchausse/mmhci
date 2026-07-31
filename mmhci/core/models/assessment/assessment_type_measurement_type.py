@@ -21,7 +21,7 @@ class AssessmentTypeMeasurementType(CreatedAndUpdatedBase):
         "core.MeasurementType", on_delete=models.PROTECT
     )
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "MeasurementTypeAssessmentType"

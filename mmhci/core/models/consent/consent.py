@@ -14,7 +14,7 @@ class Consent(CreatedAndUpdatedBase):
     # Don't default to False because it would make unclear if the value is affirmative
     given = models.BooleanField()
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "Consent"

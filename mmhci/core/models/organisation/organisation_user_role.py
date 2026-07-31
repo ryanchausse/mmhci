@@ -16,7 +16,7 @@ class OrganisationUserRole(CreatedAndUpdatedBase):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     role = models.ForeignKey("core.Role", on_delete=models.PROTECT)
 
-    class Meta:
+    class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]
         get_latest_by = ["created_at"]
         verbose_name = "OrganisationUserRole"
