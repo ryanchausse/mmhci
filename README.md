@@ -257,6 +257,126 @@ frontend logic nonexistent.
   the custom base class (created_by, updated_at, etc.)
 
 
+## Development notes on permissions/RBAC
+
+We can partially leverage Django's native cacheing for user permissions and use the
+Django-native PermissionRequired mixin. Django fetches all user permissions for the
+has_perm() function on the first time it is queried, on a per HTTP request round trip
+basis. This latter piece might not work for us, however.
+
+Will use a middleware class to ensure all routes are @login_required by default, then a
+PermissionRequiredMixin to all views. Like so (Gemini):
+
+#### views.py
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.views.generic import ListView
+from .models import Article
+
+class ArticleListView(PermissionRequiredMixin, ListView):
+    model = Article
+    template_name = 'articles/list.html'
+
+    # Define the required permission using 'app_label.codename'
+    permission_required = 'articles.view_article'
+
+    # Customise behavior when access is denied
+    login_url = '/login/'
+    redirect_field_name = 'next'
+
+
+#### PermissionRequiredMixin override class
+
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
+from myapp.models import UserRole, TenantPermission, ObjectOverride
+
+class FineGrainedRBACMixin(PermissionRequiredMixin):
+    """
+    Custom mixin that overrides Django's default permission system
+    to query multiple tables for fine-grained access control.
+    """
+    # You can still use this as a variable target for your queries
+    permission_required = 'edit_article'
+
+    def has_permission(self):
+        user = self.request.user
+
+        # 1. Always allow superusers (optional but standard)
+        if user.is_superuser:
+            return True
+
+        # 2. Extract context from the request (e.g., URL parameters)
+        tenant_id = self.kwargs.get('tenant_id')
+        object_id = self.kwargs.get('pk')
+
+        # 3. Table 1 Check: Global User Roles
+        # Example: Check if user has an 'Admin' or 'Editor' role record
+        has_role = UserRole.objects.filter(
+            user=user,
+            role_name__in=['Admin', 'Editor']
+        ).exists()
+
+        if not has_role:
+            return False
+
+        # 4. Table 2 Check: Tenant/Organization Boundaries
+        # Example: Ensure the user belongs to the specific company/tenant route
+        has_tenant_access = TenantPermission.objects.filter(
+            user=user,
+            tenant_id=tenant_id,
+            action=self.permission_required
+        ).exists()
+
+        if not has_tenant_access:
+            return False
+
+        # 5. Table 3 Check: Specific Object Blacklists/Overrides
+        # Example: Check if this specific user has been explicitly blocked from this row
+        is_blocked = ObjectOverride.objects.filter(
+            user=user,
+            object_id=object_id,
+            access_level='DENIED'
+        ).exists()
+
+        if is_blocked:
+            return False
+
+        # If all multi-table database checks pass, grant access
+        return True
+
+#### and in the view:
+
+from django.views.generic import UpdateView
+from myapp.models import Article
+
+class ArticleUpdateView(FineGrainedRBACMixin, UpdateView):
+    model = Article
+    template_name = 'articles/edit.html'
+    fields = ['title', 'content']
+
+    # Used by your mixin's custom query logic
+    permission_required = 'edit_article'
+    raise_exception = True
+
+
+### Logging
+Offload logging to Celery as we block views via this RBAC policy, so logging, as long as
+dead letter queues and retry logic are configured correctly, should not be dropped. It's
+very costly to INSERT on every page READ so that might be an adequate way to do this for
+now. I don't want to use a no-SQL database, so we'll she how far we can push Postgres in
+the meantime.
+
+
+
+
+
+
+
+
+
+
+
+
 ## Standard Cookiecutter-Django README
 
 [![Built with Cookiecutter Django](https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg?logo=cookiecutter)](https://github.com/cookiecutter/cookiecutter-django/)
