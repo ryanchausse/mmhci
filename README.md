@@ -371,6 +371,89 @@ https://adminlte.io/themes/v4/index.html
 Free under MIT licence and available for commercial theft (use)
 
 
+### Existing major use cases / functionality
+
+Functions present in our PMHCIS app that don't map to PMHC-MDS (prob. non-exhaustive)
+- A unified search bar for Contacts/Clients|Referrals by name, initials, phone, DOB
+- Create New Contact/Client|Referral
+- View incomplete Contact/Client|Referral
+- Assign owning org to Referral
+- Assign permissions/RBAC/org to user/org/role/policy
+  - this can override default permissions "policy" for each role pertaining to a
+    resource in an org
+- View Reports -> Contacts
+  - input pathways, PII, outcome, created_by, assigned to org, minutes spent
+- View Reports -> Referrals
+  - last updated/dates, status, pathway, suburb, IAR-DST results, suicide flag, notes,
+    assigned to org/user, input pathway, outcome, PHN if org not PHN, time spent, hours
+    spent
+- View Reports -> Abandoned Referrals
+  - date, status, pathway, IAR-DST level, abandon reason, notes, org, created_by, hours
+    spent
+- View Reports -> "Callback Requests"
+  - contact outcomes and pathways
+  - contact outcome by PHN and pathway
+  - outcomes of "converted callbacks"
+    - (when Contacts get a Referral [and are "converted" to a Client], they will/may
+      have a Referral outcome)
+- "Inbox" with "Incoming Referrals"
+  - this seems to be a sort of staging area. We expose an interface for clients to use
+    an API (Delta API?) to send us data for merging into our system; this seems also to
+    accept the input of the external-facing web form that we host in a different
+    location. The user can review and import each record ("convert to a Referral" -> not
+    the same as converting a Contact/Client to a Referral within this internal web app
+    though)
+  - Each Referral ("eReferral" in our language for this staging area) has:
+    - a status like converting/converted/new/declined
+    - A source
+    - date
+    - name/DOB
+    - suburb, suicide flag, IAR-DST level of care, referrer, assigned to
+    - Things like Medicare card / NDIS data
+    - IAR-DST data, risk assessment data
+    - metadata like notes
+    - Attachment files associated with the eReferral (maybe we can call these uploads)
+    - "Activities", a really good log of what was done, by whom, and when (this is in
+      our fat JavaScript on the Client side, which I would like to move into the server
+      side)
+- Dashboards -> Survey: charts based on patient-facing survey data (I felt listened to,
+  overall experience likert measures, etc.)
+  - Overall experience likert chart
+  - experience over time likert chart
+  - chart of positive feedback over time, filterable by date line chart
+  - survey responses/% responded vs. time for PHN vs. national rate
+- Dashboards -> Intake: charts based on activity by team member and filterable by date
+  - Contacts created vs. time (aggregate among all team members or individual)
+  - IAR-DSTs completed
+  - Average assessment levels by domain (cool!)
+  - Team member activity (does not seem implemented?), probably based on ActivityLog
+- Ability to download PMHC-MDS data Intake in ZIP file format
+- Ability to upload PMHC-MDS data in ZIP file format
+- Ability to upload (I think these are rarely used):
+  - Service model PDF file(?)
+  - System & Telephony Support Process PDF(?)
+  - Intake Survey Information PDF
+  - Protecting PII in the PMHCIS Intake Module PDF
+  - Offline Form Word file
+  - Operations Manual PDF
+- Ability to specify IAR-DST, Note, and SMS templates (with templates and a "mark as
+  shared")
+- A Client and Referral data quality check page (e.g. Records with missing data)
+- A user account audit page, listing user activity:
+  - User name
+  - orgs
+  - roles
+  - records viewed per month
+- A Tag entity system with CRUD
+- Print a referral w/ obscured lines if user has no access to PII. Same for Contacts
+- Links to various documentation/guides, most notably our help page/documentation which
+  ships with the app
+  - https://pmhcis-test.intake.org.au/help
+- Basically all the rest, from what I can see, is admin stuff - create new org, assign
+  to org, download list of orgs, upload list of orgs by CSV, edit user details like
+  name, MFA toggle, change password, roles/org level permissions on CRUD operations,
+  etc.
+
 
 
 
