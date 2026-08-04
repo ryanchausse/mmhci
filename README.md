@@ -461,19 +461,372 @@ Functions present in our PMHCIS app that don't map to PMHC-MDS (prob. non-exhaus
 
 Implicated models:
 - User
+- PermissionException
 - Group
 - Organisation
-- Role
 - Policy
+
+Relational tables:
+- UserPolicyException? UPDATE: no because this is implicit in the OrgPolicy
+- UserOrganisationGroup (user's group context in the org)
+- OrganisationPolicy
+- GroupPolicy (default group policies)
 
 ... and also something like AccessException (UserRoleException?) which grants one-time
 exceptions to the rules? I am not perfectly comfortable with this but I think that is
 the full scope. We could also make exceptions time bound.
 
+Permission flow:
+- GET request
+- LoginRequiredMiddleware ensures user is logged in
+- Each View has FineGrainedPermissionMixin which accepts:
+  - request.user to get the user profile. Might get permissions here too
+  - the object being requested
+- Then, the FineGrainedPermissionMixin:
+  1. checks to see if user is a superuser (if so, provide access)
+  2. checks to see if user has an exception to the required permissions UPDATE: no, User
+     can be assigned to a group with n = 1
+  3. checks to see if the org has a role permission exception
+  4. checks base role permissions
+
+The middleware returns a 403 wherever one of these layers denies the action. The Mixin
+requires the organisation, the object, and the user to work (role, exception, and
+policy can be derived from these)
+
+Checking in FineGrainedPermissionMixin:
+
+1. If User is superuser, return True
+2. If specific User has an exception for permissions to this particular Object instance,
+   and the exception time has not expired, return True UPDATE: no, because the User can
+   be assigned to a Group with n=1. Checking datetimes for permissions can come later as
+   this is a costly query and we can add that query later to Views themselves.
+3. If the Org has a permission Policy on the Object being requested, for the
+   OrganisationRole, get those and see if the User has/has not got access via the
+   Organisation context. This is a return False or a return True.
+4. Check base/default Role permissions systemwide
+
+Further permissions can be sorted out in the view itself, combined with the Object model
+
+Object here means model, Role would seem to map to Group
+
+Model permissions can be added willy nilly and checked in the View
+
+e.g. "can_export_contact_surnames" can be defined in the model's Meta permission set,
+and the View would check whether the User has those permissions?
+
+Should new "exception" groups be created instead of a particular user having a
+particular permission exception? Seems like a group of 1 would be best there because
+of ease of adding new exceptions. yeah that's better.
+
+Yeah so here's the best way:
+
+Custom Authorisation backend that takes into account three things:
+
+- User
+- Group
+- Organisation
+
+Can't I just make OrganisationGroups, as in the name of the Group? No. Too complex in
+the long run.
+
+Things like checking if the Referral originating / assigned Org can be done in the view
+perhaps. Maybe not - Org policy should take into account if they want to customise this
+behaviour. Should it be done by querying a Policy table, or could it be handled by a
+model-based permission mapped to an Org? Prob the latter.
+
+So yeah, in the end, just three things are needed, with Group permissions assignment
+happening through the admin interface at first.
+
+From Gemini:
+
+#### backend.py:
+from django.contrib.auth.backends import BaseBackend
+
+class OrganizationPermissionBackend(BaseBackend):
+    def has_perm(self, user_obj, perm, obj=None):
+        # 1. Skip if user is inactive
+        if not user_obj.is_active:
+            return False
+
+        # 2. Skip if no organization context is passed
+        if obj is None or not hasattr(obj, 'organization'):
+            return False
+
+        # 3. Check membership and permissions within that organization
+        org = obj.organization
+
+        # Example logic: Adjust based on your Organization/Membership models
+        return org.memberships.filter(
+            user=user_obj,
+            role__permissions__codename=perm
+        ).exists()
 
 
+#### settings/config
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Default global perms
+    'path.to.backends.OrganizationPermissionBackend',  # Your custom context perms
+]
+
+#### the view
+def edit_document(request, doc_id):
+    document = get_object_or_404(Document, id=doc_id)
+
+    # Django passes 'document' as the 'obj' argument to your backend
+    if not request.user.has_perm('app.change_document', document):
+        raise PermissionDenied
+
+    # Proceed with view...
+
+# !!This is how to do it. Finalised design!!
+
+I don't think so. I submitted a further prompt that asked to associate Organisations with groups in a way that did not create a cross-product between Organisation and Group (i.e. group names like [org].[app].referral_edit)
+
+It suggested an OrganisationGroup model something like:
+
+#models.py:
+from django.db import models
+from django.contrib.auth.models import Group
+
+class Organization(models.Model):
+    name = models.CharField(max_length=255)
+
+class OrganizationGroup(models.Model):
+    # Links a standard, clean Django group to a specific organization
+    group = models.OneToOneField(Group, on_delete=models.CASCADE, related_name='org_context')
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, related_name='org_groups')
+
+### Here, groups specific to the org would be uniquely named to the org like "nwmphn_clinician", not really getting around that, whereas default group names would be like "default_clinician" or something
+
+##### custom Django-native backend to do auth
+from django.contrib.auth.backends import BaseBackend
+
+class ScopedGroupPermissionBackend(BaseBackend):
+    def has_perm(self, user_obj, perm, obj=None):
+        if not user_obj.is_active:
+            return False
+        if user_obj.is_superuser:
+            return True
+
+        # We explicitly require the organization context to be passed as 'obj'
+        if obj is None or not isinstance(obj, Organization):
+            return False
+
+        # Query: Does the user belong to a group that:
+        # 1. Belongs to THIS organization?
+        # 2. Has THIS specific permission?
+        return user_obj.groups.filter(
+            org_context__organization=obj,
+            permissions__codename=perm
+        ).exists()
+
+#### and in the view:
+def edit_document(request, org_slug, doc_id):
+    # 1. Fetch the organization context from the URL/Session
+    organization = get_object_or_404(Organization, slug=org_slug)
+
+    # 2. Fetch your clean, unlinked document
+    document = get_object_or_404(Document, id=doc_id)
+
+    # 3. Pass the organization instance as the 'obj' context
+    if not request.user.has_perm('app.change_document', organization):
+        raise PermissionDenied
+
+    # Proceed to edit...
 
 
+So basically, I'd pass the org relevant to the operation in this context. Might need to check up to two orgs in two steps, but it would seem not to be too often.
+
+This is the way. Even works in the service layer context. Perfect!
+
+##### Example service
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404
+from .models import Document, Organization
+
+class DocumentService:
+    @staticmethod
+    def update_document(user, org_slug, doc_id, new_data):
+        """
+        Handles the business logic and authorization for updating a document.
+        """
+        # 1. Fetch the organization context
+        organization = get_object_or_404(Organization, slug=org_slug)
+
+        # 2. Check permissions using your ScopedGroupPermissionBackend
+        # This passes the Organization instance to the 'obj' argument
+        if not user.has_perm('app.change_document', organization):
+            raise PermissionDenied("You do not have permission to edit documents in this organization.")
+
+        # 3. Fetch and update the document (which has no organization FK)
+        document = get_object_or_404(Document, id=doc_id)
+
+        for key, value in new_data.items():
+            setattr(document, key, value)
+        document.save()
+
+        return document
+
+#### and the corresponding view:
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from .services import DocumentService
+
+@require_POST
+def edit_document_view(request, org_slug, doc_id):
+    # Extract data from the request
+    new_data = {"title": request.POST.get("title")}
+
+    try:
+        # Call the service layer
+        updated_doc = DocumentService.update_document(
+            user=request.user,
+            org_slug=org_slug,
+            doc_id=doc_id,
+            new_data=new_data
+        )
+        return JsonResponse({"status": "success", "document_id": updated_doc.id})
+
+    except PermissionDenied as e:
+        return JsonResponse({"error": str(e)}, status=403)
+
+
+...ScopedGroupPermissionBackend can live in app/backends.py. BaseBackend is django-native and has a contract with methods that can be overwritten. Prob important to keep the variable names in that example as-is.
+
+Full suggested backends.py file (includes cacheing of user permissions per-request):
+
+from django.contrib.auth.backends import BaseBackend
+from .models import Organization  # Adjust the import to match your model path
+
+class BaseObjectPermissionBackend(BaseBackend):
+    """
+    Handles global security checks and request-level query caching.
+    """
+    def has_perm(self, user_obj, perm, obj=None):
+        if not user_obj.is_active:
+            return False
+
+        if user_obj.is_superuser:
+            return True
+
+        if obj is None:
+            return False
+
+        if not hasattr(user_obj, '_obj_perm_cache'):
+            user_obj._obj_perm_cache = {}
+
+        cache_key = (obj._meta.model_name, getattr(obj, 'pk', id(obj)), perm)
+
+        if cache_key in user_obj._obj_perm_cache:
+            return user_obj._obj_perm_cache[cache_key]
+
+        result = self._has_obj_perm(user_obj, perm, obj)
+        user_obj._obj_perm_cache[cache_key] = result
+        return result
+
+    def _has_obj_perm(self, user_obj, perm, obj):
+        raise NotImplementedError("Subclasses must implement _has_obj_perm()")
+
+
+class ScopedGroupPermissionBackend(BaseObjectPermissionBackend):
+    """
+    Validates permissions against organization-linked Django groups.
+    """
+    def _has_obj_perm(self, user_obj, perm, obj):
+        # We explicitly require the organization context to be passed as 'obj'
+        if not isinstance(obj, Organization):
+            return False
+
+        # Query: Does the user belong to a group that:
+        # 1. Belongs to THIS organization?
+        # 2. Has THIS specific permission?
+        return user_obj.groups.filter(
+            org_context__organization=obj,
+            permissions__codename=perm
+        ).exists()
+
+
+...must register in settings.py
+
+AUTHENTICATION_BACKENDS = [
+    # 1. Keeps standard username/password logins and global permissions working
+    'django.contrib.auth.backends.ModelBackend',
+
+    # 2. Wire up your new organization-scoped group check
+    'core.backends.ScopedGroupPermissionBackend',  # Change 'core' to your app name
+]
+
+To create OrganisationGroup records:
+OrganizationGroup.objects.create(
+    group=django_group,
+    organization=instance
+)
+
+There was a suggestion to use a django Signal to detect creation of an organisation, which would then create groups based on org name and default group name, and add them to OrganisationGroup, but I think that's a bit too far for my purposes at present.
+
+Remember too that any uncreated group like "[org]_clinicans" should/will be overridden by the default permission set from group name "default_clinicians" if "[org]_clinicians" doesn't exist. This lets orgs override by defining a group with more restrictive permissions if they want, but falls back if that group isn't found to the default permissions for that group.
+
+Actually, is this correct? UPDATE: no - there must be a record in OrganisationGroup for it to match on a User's org-dependent group relational table record. So, no need to create links in the OrganisationGroup table to default groups, but maybe can insert default groups there based on the default group permissions? So basically, when an Organisation is created, for all default groups, create new groups called "[org]_[group]" that carry over all default group permissions.
+
+So:
+- Role roughly matches to Group and OrganisationGroup
+- Policy roughly matches to permissions as defined/enumerated in models and enforced by services and views that consult OrganisationGroup via the custom BaseBackend
+
+
+-----------------------
+
+currently, auth works like this:
+
+- the User model has bullshit like:
+   - can_administer_system()
+   - can_assign_referral_within_phn()
+... which depend on the organisation in a local context (action)
+
+- the "active" organisation is derived from the "current_organisation_id" in the session object I think (app/auth/forms.py)
+  - the auth user object has like, user.organisations and user.currentorganisation
+
+The flow:
+  - who dat user
+  - which org is currently selected
+  - what roles does user have in org
+
+- Org policies are loaded as a rules engine
+  - the AccessPolicy object for the active org is used for:
+    - resource is visible
+    - action is allowed
+    - which roles can do it
+... so, load active org policies, map to resources and actions, then see if user has a matching role
+
+So:
+
+1. Get the User
+2. Get the active/current Org
+3. Load Org Policies
+4. Try to match User's Roles against policy/resource/action and allow/deny
+
+
+Mentioning nothing about the lack of adherence to a pattern (using current_user.is_an_admin_of_some_sort() vs. comparing the user's role list against the org roles and policies), I can see how this might be confusing and inefficient. IIRC we cache the User's permissions but dang.
+
+---------------------------------------------------
+
+In the more elegant solution, I would think that we'd benefit from:
+- native Django caching of User permissions and fewer JOINs
+- not using complex JSON string parsing to determine allowable user actions
+- more expressive/obvious "who has permission to do what" structure (in compact views/models/services)
+- It would be more obvious which user groups have which permissions and we can easily resolve these issues in django admin
+
+
+Still to be figured out:
+- how to figure out the current org bits DONE
+
+
+In the use case "transfer Referral to another Org", wouldn't that just be a User in the owning Org has permission on the view / service "update assigned_org_id or whatever?)
+
+In the situation where a user is a clinical admin in one org and not in the other (and thus should not be able to see the person's name on a Referral), why does it matter what the current org's context is?
+
+Can we just enforce this at the view level by doing a "if user is in a group that allows them to view names on owning org Referrals, let them see the name"? This is weird if the owning org does not want the originating org clinical group members to see the transferred Referral's person's name, or something. But that permission can be resolved in the local views/services context, no? With the permission string being defined on the Referral model?
+
+---------------------------------------------------------------
 
 
 
