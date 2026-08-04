@@ -12,13 +12,8 @@ urlpatterns = [
     # Likely moving this path into the main core app. Leaving alone for now.
     path(
         "",
-        TemplateView.as_view(template_name="main_template_files/index.html"),
+        TemplateView.as_view(template_name="adminlte_4_1/index2.html"),
         name="home",
-    ),
-    path(
-        "about/",
-        TemplateView.as_view(template_name="pages/about.html"),
-        name="about",
     ),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),

@@ -14,6 +14,9 @@ The most important takeaways:
 - Services only import models from their own domain / bounded context
 - Orchestrations only import from services to execute cross-functional workflows
 
+Stand up local development server:
+`docker compose -f docker-compose.local.yml up`
+
 ## Motivation
 
 We frequently confuse our data model / schema with our UI, and speak directly to our
@@ -453,6 +456,63 @@ Functions present in our PMHCIS app that don't map to PMHC-MDS (prob. non-exhaus
   to org, download list of orgs, upload list of orgs by CSV, edit user details like
   name, MFA toggle, change password, roles/org level permissions on CRUD operations,
   etc.
+
+### More thinking about RBAC / permissions
+
+Implicated models:
+- User
+- Group
+- Organisation
+- Role
+- Policy
+
+... and also something like AccessException (UserRoleException?) which grants one-time
+exceptions to the rules? I am not perfectly comfortable with this but I think that is
+the full scope. We could also make exceptions time bound.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
