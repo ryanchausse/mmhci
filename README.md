@@ -826,7 +826,43 @@ In the situation where a user is a clinical admin in one org and not in the othe
 
 Can we just enforce this at the view level by doing a "if user is in a group that allows them to view names on owning org Referrals, let them see the name"? This is weird if the owning org does not want the originating org clinical group members to see the transferred Referral's person's name, or something. But that permission can be resolved in the local views/services context, no? With the permission string being defined on the Referral model?
 
+-----
+
+passing the org context... maybe we can do things like display all referral records for both orgs in the same view for a user that belongs to both? Let's think through CRUD:
+
+- Create: user should select org at create Referral, Contact, etc. time
+- Read: The most complex. Possibly resolvable without passing org context by having multiple panes, each corresponding to different orgs. Could be card tabs or separate tables if it is desirable to see all records for all orgs on same page at once
+- Update: Generally, don't need org context
+- Delete: Generally, don't need org context
+
+with this in mind, do i need org context? Possibly not. Just populate everything based on user's group memberships
+
+might require thinking around AJAX-style stuff as it could be too much querying
+
+At least bootstrap cards are collapsible. Maybe I can have two 100% width cards stacked and rely on the user to hit the minus button if they don't want to see one or the other org
+
+Or put the user in the driver's seat and allow them to choose their own dashboard / interface components?
+
 ---------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
