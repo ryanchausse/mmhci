@@ -36,3 +36,14 @@ class User(AbstractUser):
 
         """
         return reverse("users:detail", kwargs={"pk": self.id})
+
+    def has_org_permission(self, organisation_id, permission_codename):
+        """
+        Checks if the user belongs to any group inside the organization
+        that grants them the required permission via their assigned role.
+        """
+        # Query the OrganisationMembership table
+        return self.user_memberships.filter(
+            organisation_group__organisation_id=organisation_id,
+            organisation_role__permissions__codename=permission_codename
+        ).exists()
