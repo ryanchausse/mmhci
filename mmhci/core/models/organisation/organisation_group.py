@@ -1,6 +1,8 @@
 """
 Model
   - OrganisationGroup
+
+This defines named groups within orgs
 """
 
 from django.db import models

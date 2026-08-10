@@ -1,6 +1,11 @@
 """
 Model
   - OrganisationMembership (relational)
+
+This gives a User an org role and an org group association
+
+e.g. Dr. Diana Smith is in the "Clinicians" org group with org role "Doctor" which,
+     through the Doctor role, has multiple defined permissions, like "view_referral".
 """
 
 from django.conf import settings

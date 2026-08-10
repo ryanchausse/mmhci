@@ -2,7 +2,9 @@
 Model
   - OrganisationRole (relational)
 
-NB: There is not a Role base model; all roles are in an org context.
+This assigns 1:M permissions to each org "role", which is defined in this model.
+There is not a Role base model; all roles are in an org context. In the future, perhaps
+there will be global roles.
 """
 
 from django.db import models
@@ -15,7 +17,7 @@ class OrganisationRole(CreatedAndUpdatedBase):
     organisation = models.ForeignKey(
         "core.Organisation", on_delete=models.PROTECT, related_name="roles"
     )
-    name = models.TextField()  # "Clinician", "Intake Admin"
+    name = models.TextField()  # "Doctor", "Counselor", "Intake Administrator"
     # Connects to Django default Permissions object, which gets permissions from models
     # This is where specific permissions are assigned to roles in an organisation
     permissions = models.ManyToManyField(
