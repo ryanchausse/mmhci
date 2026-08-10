@@ -655,7 +655,20 @@ class DocumentService:
 
         # 2. Check permissions using your ScopedGroupPermissionBackend
         # This passes the Organization instance to the 'obj' argument
-        if not user.has_perm('app.change_document', organization):
+        if not user.has_perm('app.change_document', organization):I have the User, Group, and OrganisationGroup models for authorisation.
+
+Use case 1: show user all data they should be able to see on dashboard
+
+request comes in from user
+get all groups and permissions for user
+in view, call services that take the user with its cached permissions and shows data
+
+
+Use case 2: allow user to update a model instance with a new value for a field
+
+request comes in from user
+get all groups and permissions for user
+in view, must get the org to get the relevant permission, as no org FK exists on most tables
             raise PermissionDenied("You do not have permission to edit documents in this organization.")
 
         # 3. Fetch and update the document (which has no organization FK)
@@ -746,7 +759,569 @@ class ScopedGroupPermissionBackend(BaseObjectPermissionBackend):
         ).exists()
 
 
+### This one accepts multiple orgs and makes sure they all match (len())
+
+from django.db.models import Count
+
+class ScopedGroupPermissionBackend(BaseObjectPermissionBackend):
+    """
+    Validates permissions against organization-linked Django groups.
+    """
+    def _has_obj_perm(self, user_obj, perm, obj):
+        # Handle a single Organization instance
+        if isinstance(obj, Organization):
+            target_orgs = [obj]
+
+        # Handle an iterable of Organizations
+        elif isinstance(obj, (list, tuple)) or hasattr(obj, '__iter__'):
+            # Convert querysets or generators to a set of distinct instances or IDs
+            # This ensures an accurate mathematical match and removes duplicates
+            target_orgs = set(obj)
+            
+        else:
+            return False
+
+        # If an empty collection is passed, fail safely
+        if not target_orgs:
+            return False
+
+        # Count how many unique target organizations the user has this permission for
+        matching_orgs_count = Organization.objects.filter(
+            id__in=[org.id for org in target_orgs],
+            # Traverse reverse relation: Organization -> OrgContext -> Group -> User
+            org_context__group__user=user_obj,
+            org_context__group__permissions__codename=perm
+        ).distinct().count()
+
+        # The user has permission only if they match EVERY target organization
+        return matching_orgs_count == len(target_orgs)
+
+
 ...must register in settings.py
+
+I guess I could use the latter to display all org data on one page (maybe in separate
+tables). The way to do that would be to supply all user orgs to the mixin, perhaps?
+
+--------------------------------
+So, I would put the following fields in the base model class(?):
+
+org_originated
+org_owned
+org_assigned
+is_active
+is_deleted
+
+but perhaps only certain models should have a base class with these
+
+Then groups like "Org 1 Admins"
+
+and then I'd do like the view:
+
+from django.shortcuts import get_object_or_404
+
+def delete_task_view(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+
+    # Check the default delete permission against the row's assigned organization context
+    if not has_org_permission(request.user, task.org_assigned_id, 'delete_task'):
+        raise PermissionDenied("You cannot delete this item within this organization scope.")
+
+    task.delete()
+    ...
+
+or
+
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import render
+
+def create_task_view(request, org_id):
+    # Check if the user has the default 'add_task' permission in this specific org context
+    if not has_org_permission(request.user, org_id, 'add_task'):
+        raise PermissionDenied("You do not have permission to add tasks in this organization.")
+
+    if request.method == "POST":
+        # Safe to create the item because the context was validated up front
+        Task.objects.create(
+            title=request.POST['title'],
+            org_origin_id=org_id,
+            org_assigned_id=org_id
+        )
+        ...
+
+and a util function for permissions checks:
+
+def has_org_permission(user, org_id, perm_codename):
+    """
+    Checks if a user holds a default Django permission within a specific organization.
+    
+    Example: has_org_permission(request.user, 5, 'change_task')
+    """
+    if not user.is_active:
+        return False
+        
+    if user.is_superuser:
+        return True
+
+    # Strip the app label if passed (e.g., 'myapp.change_task' -> 'change_task')
+    if '.' in perm_codename:
+        perm_codename = perm_codename.split('.')[-1]
+
+    # Query: Is the user in a group that:
+    # 1. Belongs to THIS specific organization?
+    # 2. Holds THIS specific default Django permission?
+    return user.groups.filter(
+        organisationgroup__organization_id=org_id,
+        permissions__codename=perm_codename
+    ).exists()
+
+
+
+another implementation:
+
+# auth_backends.py
+class OrganisationPermissionBackend:
+    def authenticate(self, request, username=None, password=None):
+        return None  # Only handles permissions, not login
+
+    def has_perm(self, user_obj, perm, obj=None):
+        # If no specific organisation object is passed, skip this backend
+        if obj is None or not hasattr(obj, 'organisation'):
+            return False
+            
+        # Check the user's role inside this specific organisation
+        membership = user_obj.memberships.filter(organisation=obj).first()
+        if not membership:
+            return False
+
+        # Map your custom permissions cleanly to roles
+        if membership.role == 'ADMIN':
+            return True  # Admins can do everything
+            
+        if membership.role == 'EDITOR' and perm in ['app.view_model', 'app.change_model']:
+            return True
+            
+        if membership.role == 'VIEWER' and perm == 'app.view_model':
+            return True
+
+        return False
+
+then settings.py:
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',  # Default global perms
+    'path.to.OrganisationPermissionBackend',      # Your new row-level perms
+]
+
+then view:
+# Django natively handles checking this specific row!
+if request.user.has_perm('app.change_model', current_organisation):
+    # Proceed with action
+
+-------------
+
+alternatively, to supply the org to a permission mixin:
+
+from django.core.exceptions import PermissionDenied
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class OrganisationPermissionMixin(LoginRequiredMixin):
+    permission_required = None  # e.g., 'app.view_document'
+
+    def get_organisation(self):
+        """
+        Override this method in individual views if the logic 
+        to find the organisation changes.
+        """
+        # Default fallback: get it from the URL slug
+        org_slug = self.kwargs.get('org_slug')
+        return Organisation.objects.get(slug=org_slug)
+
+    def dispatch(self, request, *args, **kwargs):
+        # 1. Get the context-specific organisation
+        org = self.get_organisation()
+
+        # 2. Check the permission against that specific organisation
+        if not request.user.has_perm(self.permission_required, org):
+            raise PermissionDenied
+
+        return super().dispatch(request, *args, **kwargs)
+
+
+# Case 1: Simple list view using the URL slug
+class DocumentListView(OrganisationPermissionMixin, ListView):
+    permission_required = 'app.view_document'
+    model = Document
+
+# Case 2: Detail view where the org logic is different (fetched from the target object)
+class DocumentDetailView(OrganisationPermissionMixin, DetailView):
+    permission_required = 'app.change_document'
+    model = Document
+
+    def get_organisation(self):
+        # Override the logic: Find the specific document first, then get its org
+        document = self.get_object()
+        return document.organisation
+
+Note this presupposes an OrganisationPermissionBackend:
+# auth_backends.py
+class OrganisationPermissionBackend:
+    def authenticate(self, request, username=None, password=None):
+        return None  # Only handles permissions, not login
+
+    def has_perm(self, user_obj, perm, obj=None):
+        # If no specific organisation object is passed, skip this backend
+        if obj is None or not hasattr(obj, 'organisation'):
+            return False
+            
+        # Check the user's role inside this specific organisation
+        membership = user_obj.memberships.filter(organisation=obj).first()
+        if not membership:
+            return False
+
+        # Map your custom permissions cleanly to roles
+        if membership.role == 'ADMIN':
+            return True  # Admins can do everything
+            
+        if membership.role == 'EDITOR' and perm in ['app.view_model', 'app.change_model']:
+            return True
+            
+        if membership.role == 'VIEWER' and perm == 'app.view_model':
+            return True
+
+        return False
+
+
+--------------------
+making this backend more dynamic:
+
+from django.db import models
+from django.contrib.auth.models import User, Permission
+from django.contrib.contenttypes.models import ContentType
+
+class Organisation(models.Model):
+    name = models.CharField(max_length=255)
+
+class Role(models.Model):
+    name = models.CharField(max_length=100)  # e.g., "Editor", "Manager"
+    organisation = models.ForeignKey(Organisation, on_delete=models.CASCADE, related_name='custom_roles')
+
+    # Links directly to Django's native or custom model permissions
+    permissions = models.ManyToManyField(Permission, blank=True)
+
+    class Meta:
+        # Prevents duplicate role names within the same organisation
+        unique_together = ('name', 'organisation')
+
+class OrganisationMembership(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='memberships')
+    organisation = models.ForeignKey(Organisation, on_delete=models.CASCADE, related_name='members')
+
+    # Links the user to a dynamically managed database role
+    role = models.ForeignKey(Role, on_delete=models.PROTECT)
+
+    class Meta:
+        unique_together = ('user', 'organisation')
+
+
+# auth_backends.py
+class DynamicOrganisationPermissionBackend:
+    def authenticate(self, request, username=None, password=None):
+        return None
+
+    def has_perm(self, user_obj, perm, obj=None):
+        # Ensure we are checking permissions against an Organisation context
+        if obj is None or not isinstance(obj, Organisation):
+            return False
+            
+        # 1. Fetch the user's membership for this specific organisation
+        membership = user_obj.memberships.filter(organisation=obj).select_related('role').first()
+        if not membership:
+            return False  # User is not a member of this organisation
+
+        # 2. Extract the app_label and codename from the standard permission string (e.g., 'app.view_model')
+        try:
+            app_label, codename = perm.split('.')
+        except ValueError:
+            return False
+
+        # 3. Check if the dynamic role has this permission assigned to it
+        return membership.role.permissions.filter(
+            codename=codename,
+            content_type__app_label=app_label
+        ).exists()
+
+
+--------------------------------
+
+Ok, so... building from first principles.
+
+Models:
+- User
+- Organisation
+- OrganisationGroup (Group specific to an org, strict org separation)
+- OrganisationRole (Role specific to an org)
+- OrganisationGroupRoleUser (links Users, OrganisationGroup, and OrganisationRole)
+  - can also be called Membership or OrganisationMembership. Probably better.
+
+from django.db import models
+from django.contrib.auth.models import Permission  # Built-in Django permission system
+
+class OrganisationRole(models.Model):
+    organisation = models.ForeignKey(Organisation, on_delete=models.CASCADE, related_name="roles")
+    name = models.CharField(max_length=100)  # e.g., "Admin", "Manager"
+    
+    # Add this: Links this company's custom role to granular permissions
+    permissions = models.ManyToManyField(Permission, blank=True, related_name="organisation_roles")
+
+    class Meta:
+        unique_together = ('organisation', 'name')
+
+    def __str__(self):
+        return f"{self.organisation.name} - {self.name}"
+
+# Inside your custom User model in models.py
+class User(AbstractUser):
+    # ... existing fields ...
+
+    def has_org_permission(self, organisation_id, permission_codename):
+        """
+        Checks if the user belongs to any group inside the organization 
+        that grants them the required permission via their assigned role.
+        """
+        # We query the Membership table to see if any valid row matches the criteria
+        return self.memberships.filter(
+            # 1. Scope it to the current organization
+            organisation_group__organisation_id=organisation_id,
+            # 2. Look through the role into its permissions many-to-many field
+            organisation_role__permissions__codename=permission_codename
+        ).exists()
+
+# The mixin
+from django.contrib.auth.mixins import AccessMixin
+from django.core.exceptions import PermissionDenied
+
+class OrgPermissionRequiredMixin(AccessMixin):
+    """
+    Checks if the user has the required permission code via their 
+    assigned role within the organization context.
+    """
+    required_permission = None  # Set this in your View (e.g., 'change_organisation')
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return self.handle_no_permission()
+
+        org_id = kwargs.get('organisation_id')
+        if not org_id:
+            raise PermissionDenied("Organisation context is missing from URL.")
+
+        # Check permissions dynamically through the User helper method
+        if not request.user.has_org_permission(org_id, self.required_permission):
+            raise PermissionDenied("You do not have the required permissions in this organisation.")
+
+        return super().dispatch(request, *args, **kwargs)
+
+# Sample view
+from django.views.generic import UpdateView
+from .models import Organisation
+from .permissions import OrgPermissionRequiredMixin
+
+class OrganisationSettingsView(OrgPermissionRequiredMixin, UpdateView):
+    model = Organisation
+    template_name = "orgs/settings.html"
+    fields = ['name']
+    pk_url_kwarg = 'organisation_id'
+    
+    # Secure the view using the permission codename instead of a role name
+    required_permission = "change_organisation" 
+
+
+# admin.py
+from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from .models import User, Organisation, OrganisationGroup, OrganisationRole, Membership
+
+# 1. Manage Memberships inside the User page
+class MembershipInline(admin.TabularInline):
+    model = Membership
+    extra = 1  # Provides a blank row to easily add a new assignment
+
+@admin.register(User)
+class UserAdmin(BaseUserAdmin):
+    inlines = [MembershipInline]
+
+# 2. Make custom permissions easy to select with a dual-list box
+@admin.register(OrganisationRole)
+class OrganisationRoleAdmin(admin.ModelAdmin):
+    list_display = ('name', 'organisation')
+    list_filter = ('organisation',)
+    filter_horizontal = ('permissions',)  # Adds the elegant left-to-right selection box
+
+Would a view just check org permissions against available permissions for the user?
+Maybe the Referral model should have permissions like "can_view_from_owning_org" and
+"can_view_from_assigned_org". How, then, to work out when an org e.g. does not want to
+ever let another org view its referrals? Maybe some bool flags on the models like
+"can_access_from_another_org"? Or a separate permission with a similar name that
+overrides access logic in the view?
+
+e.g. role = get_object_or_404(OrganisationRole, id=role_id, organisation_id=organisation_id)
+
+
+---
+
+# Implementing a custom cache for user permissions per request (because this does not)
+# Hold off on this for now.
+# Inside your custom User model in models.py
+class User(AbstractUser):
+    # ... your existing code ...
+
+    def has_org_permission(self, organisation_id, permission_codename):
+        # 1. Initialize the cache dictionary on this user instance if it doesn't exist
+        if not hasattr(self, '_org_perm_cache'):
+            self._org_perm_cache = {}
+
+        # Create a unique cache key combining the org and the permission
+        cache_key = f"{organisation_id}:{permission_codename}"
+
+        # 2. If we haven't checked this specific permission yet, query the database
+        if cache_key not in self._org_perm_cache:
+            has_perm = self.memberships.filter(
+                organisation_group__organisation_id=organisation_id,
+                organisation_role__permissions__codename=permission_codename
+            ).exists()
+            
+            # Save the boolean result (True/False) to our cache
+            self._org_perm_cache[cache_key] = has_perm
+
+        # 3. Return the cached result
+        return self._org_perm_cache[cache_key]
+
+
+Would a view just check org permissions against available permissions for the user? Maybe the Referral model should have permissions like "can_view_from_owning_org" and "can_view_from_assigned_org"
+
+
+-------------------------------
+
+BaseBackend strategy for the above (hold off for now, shouldn't be too bad to get
+perms on each request)
+
+# myapp/backends.py
+from django.contrib.auth.backends import BaseBackend
+from .models import Organisation
+
+class OrganisationPermissionBackend(BaseBackend):
+    """
+    Custom auth backend that routes standard Django permission checks
+    through our multi-tenant OrganisationGroup, OrganisationRole, and Membership schema.
+    """
+
+    def has_perm(self, user_obj, perm, obj=None):
+        # 1. Anonymous users have no multi-tenant permissions
+        if not user_obj.is_authenticated:
+            return False
+
+        # 2. We expect the 'obj' argument to be the current Organisation instance
+        if not isinstance(obj, Organisation):
+            return False
+
+        # 3. Extract the permission codename (Django permissions look like 'app_label.codename')
+        if '.' in perm:
+            _, permission_codename = perm.split('.', 1)
+        else:
+            permission_codename = perm
+
+        # 4. Initialize request-level cache mirroring Django's native approach
+        if not hasattr(user_obj, '_org_perm_cache'):
+            user_obj._org_perm_cache = {}
+
+        cache_key = f"{obj.id}:{permission_codename}"
+
+        # 5. Query the database only if this specific check hasn't run during this request
+        if cache_key not in user_obj._org_perm_cache:
+            has_permission = user_obj.memberships.filter(
+                organisation_group__organisation_id=obj.id,
+                organisation_role__permissions__codename=permission_codename
+            ).exists()
+            
+            user_obj._org_perm_cache[cache_key] = has_permission
+
+        return user_obj._org_perm_cache[cache_key]
+
+# myapp/mixins.py
+from django.contrib.auth.mixins import AccessMixin
+from django.shortcuts import get_object_or_404
+from .models import Organisation
+
+class OrgPermissionRequiredMixin(AccessMixin):
+    org_permission = None
+
+    def dispatch(self, request, *args, **kwargs):
+        org = get_object_or_404(Organisation, id=kwargs.get('organisation_id'))
+        
+        if not request.user.has_perm(self.org_permission, obj=org):
+            return self.handle_no_permission()
+            
+        request.organisation = org # Cache it on the request for easy access in your view
+        return super().dispatch(request, *args, **kwargs)
+
+
+
+# Updated model definitions for auth
+
+from django.db import models
+from django.contrib.auth.models import AbstractUser, Permission
+
+# 1. User
+class User(AbstractUser):
+    pass
+
+# 2. Organisation
+class Organisation(models.Model):
+    name = models.CharField(max_length=255)
+
+# 3. OrganisationGroup
+class OrganisationGroup(models.Model):
+    organisation = models.ForeignKey(Organisation, on_delete=models.CASCADE, related_name="groups")
+    name = models.CharField(max_length=100) # e.g., "Engineering", "Marketing"
+
+    class Meta:
+        unique_together = ('organisation', 'name')
+
+# 4. OrganisationRole (Where permissions are assigned!)
+class OrganisationRole(models.Model):
+    organisation = models.ForeignKey(Organisation, on_delete=models.CASCADE, related_name="roles")
+    name = models.CharField(max_length=100) # e.g., "Manager", "Viewer"
+    
+    # THIS IS THE EXACT ASSIGNMENT POINT
+    # Connects this specific company role to Django's built-in system permissions
+    permissions = models.ManyToManyField(Permission, blank=True, related_name="org_roles")
+
+    class Meta:
+        unique_together = ('organisation', 'name')
+
+# 5. Membership
+class Membership(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="memberships")
+    organisation_group = models.ForeignKey(OrganisationGroup, on_delete=models.CASCADE, related_name="members")
+    organisation_role = models.ForeignKey(OrganisationRole, on_delete=models.CASCADE, related_name="members")
+
+    class Meta:
+        unique_together = ('user', 'organisation_group')
+
+# How to assign permissions in code
+# 1. Grab the permission you want to assign (e.g., native Django app permissions)
+from django.contrib.auth.models import Permission
+can_edit_billing = Permission.objects.get(codename="change_billing")
+
+# 2. Fetch the specific role for that target organisation
+from .models import OrganisationRole, Organisation
+acme_corp = Organisation.objects.get(name="ACME Corp")
+manager_role = OrganisationRole.objects.get(organisation=acme_corp, name="Manager")
+
+# 3. ASSIGN IT HERE
+manager_role.permissions.add(can_edit_billing)
+
+
+--------------------------------
 
 AUTHENTICATION_BACKENDS = [
     # 1. Keeps standard username/password logins and global permissions working

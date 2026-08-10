@@ -43,10 +43,6 @@ urlpatterns = [
         include(("mmhci.core.urls.person.person", "person"), namespace="person"),
     ),
     path(
-        "policy/",
-        include(("mmhci.core.urls.policy.policy", "policy"), namespace="policy"),
-    ),
-    path(
         "practitioner/",
         include(
             ("mmhci.core.urls.practitioner.practitioner", "practitioner"),
@@ -59,10 +55,6 @@ urlpatterns = [
             ("mmhci.core.urls.referral.referral", "referral"),
             namespace="referral"
         ),
-    ),
-    path(
-        "role/",
-        include(("mmhci.core.urls.role.role", "role"), namespace="role"),
     ),
     path(
         "sms/",
