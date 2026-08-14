@@ -1419,6 +1419,111 @@ At least bootstrap cards are collapsible. Maybe I can have two 100% width cards 
 Or put the user in the driver's seat and allow them to choose their own dashboard / interface components?
 
 ---------------------------------------------------------------
+UI planning:
+
+left hand column items:
+
+(All users)
+- Announcements
+- People (Consumers)
+- Contacts
+- Referrals
+- Assessments? / Surveys?
+- Messages
+- Settings
+- Help documentation
+
+(Admins of varying kinds)
+- Config
+  - Users
+    - Groups
+    - Roles / Permissions (permissions for each org role)
+    - Membership (users with associated groups and roles)
+  - Templates
+- Logs
+- Charts
+- Reports
+- Organisations
+
+on dashboard (might have to make HTMX or separate aggregate table / materialised view / celery-updated task)
+- # ContactAttempts for everyone, with change over time
+- # Referrals and their statuses, with change over time
+- # Assessments for everyone, with change over time
+- # IAR-DSTs per person, with change over time
+- # ContactRequests this week, with change over time
+- ContactRequests - avg. time for returning the call
+- Currently available Contacts for ContactRequests (according to their availability)
+- Average IAR-DST score over time, per user
+- ContactNotes with severity status/alerts(?)
+- ReferralEvents / statuses
+- Latest Activity
+- Latest Messages
+
+Other charts / tables:
+- avg age of new Persons
+- Consent % for each Consent type
+- time spent on contacts over time
+- avg time of creation for various models?
+- referrals with most frequent updates?
+- Survey data
+
+
+some of these can be in expandable cards so we can HTMX it in via small templates
+
+Interesting - there's a kanban board. im sure that will be useful
+
+Possible that the Projects page could be useful - table with icons for actions
+
+Maybe for charts, so as to not clutter the dashboard, we can put them in a collapsible
+card and you can hit expand to see all charts - just display one on the dashboard, or
+two side by side
+
+Dashboard:
+First, raw numbers in cards in a row:
+  - # of incomplete referrals
+  - # of incomplete ContactRequests
+  - # of incomplete Contacts
+  - # of Referrals made this week
+
+Then, "currently available ContactRequests"
+  - class="card-body table-responsive p-0"
+  - <table class="table table-striped align-middle">...
+
+Then, two charts side by side:
+  - Contacts over time by user for the last month
+  - ContactRequests over time for the last month
+
+These should be class="apexcharts-canvas apexchartsexagjymm apexcharts-theme-light/dark"
+and in DOM divs:
+- card
+  - row -> col-md-12 -> card-mb-4 -> [card-header -> card-title] /
+    [card-body -> row -> col-md-6/col-md-6] -> [card-footer -> row]
+  - row -> [4x of:] -> col-md-3 col-6 -> info for footer cards
+
+Then, a list of currently available contacts who haven't been closed?
+
+------------------------
+
+probably allow the user to indicate the referral status manually
+  - probably in a different field (user_defined_status?)
+  - maybe referral statuses should be able to be definable by the user (admin)?
+
+possibly use the Timeline page (https://adminlte.io/themes/v4/UI/timeline.html) to
+show logs for each entity
+
+How to mark ContactRequests as complete? Which statuses make sense? Can reopen?
+
+Perhaps show originating pathway for records related to Referrals/Intake flow (we now
+have eReferral/Delta API, CollectAPI, external web form, HealthDirect GP software
+integrations which falls under eReferral, etc.)
+
+
+
+------------------------
+
+
+
+
 
 
 
