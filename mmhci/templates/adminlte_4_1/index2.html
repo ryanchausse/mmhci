@@ -97,6 +97,13 @@
       integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0="
       crossorigin="anonymous"
     />
+    {% comment %}
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/tabulator-tables@6.4.0/dist/css/tabulator_bootstrap5.min.css"
+        crossorigin="anonymous"
+      />
+    {% endcomment %}
   </head>
 
   <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
@@ -120,12 +127,14 @@
               </a>
             </li>
 
-            <li class="nav-item d-none d-md-block">
-              <a href="./index.html" class="nav-link">
-                <i class="bi bi-grid-1x2 me-1" aria-hidden="true"></i>
-                Live preview
-              </a>
-            </li>
+            {% comment %}
+              <li class="nav-item d-none d-md-block">
+                <a href="./index.html" class="nav-link">
+                  <i class="bi bi-grid-1x2 me-1" aria-hidden="true"></i>
+                  Live preview
+                </a>
+              </li>
+            {% endcomment %}
             <li class="nav-item d-none d-md-block">
               <a href="./docs/introduction.html" class="nav-link">
                 <i class="bi bi-book me-1" aria-hidden="true"></i>
@@ -343,42 +352,44 @@
             <li class="nav-item dropdown user-menu">
               <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
                 <img
-                  src="{% static 'adminlte_4_1/assets/img/user2-160x160.jpg' %}"
+                  src="{% static 'adminlte_4_1/assets/img/ryan_chausse_cropped_headshot_160px.png' %}"
                   class="user-image rounded-circle shadow"
-                  alt="Alexander Pierce"
+                  alt="Ryan Chausse"
                 />
-                <span class="d-none d-md-inline">Alexander Pierce</span>
+                <span class="d-none d-md-inline">Ryan Chausse</span>
               </a>
               <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                 <!--begin::User Image-->
                 <li class="user-header text-bg-primary">
                   <img
-                    src="{% static 'adminlte_4_1/assets/img/user2-160x160.jpg' %}"
+                    src="{% static 'adminlte_4_1/assets/img/ryan_chausse_cropped_headshot_160px.png' %}"
                     class="rounded-circle shadow"
-                    alt="Alexander Pierce"
+                    alt="Ryan Chausse"
                   />
                   <p>
-                    Alexander Pierce - Web Developer
-                    <small>Member since Nov. 2023</small>
+                    Ryan Chausse - Full Stack Developer
+                    <small>ryan.chausse@nwmphn.org.au</small>
                   </p>
                 </li>
                 <!--end::User Image-->
                 <!--begin::Menu Body-->
-                <li class="user-body">
-                  <!--begin::Row-->
-                  <div class="row">
-                    <div class="col-4 text-center">
-                      <a href="#">Followers</a>
+                {% comment %}
+                  <li class="user-body">
+                    <!--begin::Row-->
+                    <div class="row">
+                      <div class="col-4 text-center">
+                        <a href="#">Followers</a>
+                      </div>
+                      <div class="col-4 text-center">
+                        <a href="#">Sales</a>
+                      </div>
+                      <div class="col-4 text-center">
+                        <a href="#">Friends</a>
+                      </div>
                     </div>
-                    <div class="col-4 text-center">
-                      <a href="#">Sales</a>
-                    </div>
-                    <div class="col-4 text-center">
-                      <a href="#">Friends</a>
-                    </div>
-                  </div>
-                  <!--end::Row-->
-                </li>
+                    <!--end::Row-->
+                  </li>
+                {% endcomment %}
                 <!--end::Menu Body-->
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
@@ -402,14 +413,17 @@
           <!--begin::Brand Link-->
           <a href="./index.html" class="brand-link">
             <!--begin::Brand Image-->
-            <img
-              src="{% static 'adminlte_4_1/assets/img/AdminLTELogo.png' %}"
-              alt="AdminLTE Logo"
-              class="brand-image opacity-75 shadow"
-            />
+            <i class="bi bi-hospital"></i>
+            {% comment %}
+              <img
+                src="{% static 'adminlte_4_1/assets/img/AdminLTELogo.png' %}"
+                alt="MMHCI Logo"
+                class="brand-image opacity-75 shadow"
+              />
+            {% endcomment %}
             <!--end::Brand Image-->
             <!--begin::Brand Text-->
-            <span class="brand-text fw-light">AdminLTE 4</span>
+            <span class="brand-text fw-light">MMHCI</span>
             <!--end::Brand Text-->
           </a>
           <!--end::Brand Link-->
@@ -999,13 +1013,15 @@
             <!--begin::Row-->
             <div class="row">
               <div class="col-sm-6">
-                <h1 class="mb-0 fs-3">Dashboard v2</h1>
+                <h1 class="mb-0 fs-3">Dashboard</h1>
               </div>
               <div class="col-sm-6">
                 <nav aria-label="breadcrumb">
                   <ol class="breadcrumb float-sm-end">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Dashboard v2</li>
+                    {% comment %}
+                      <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    {% endcomment %}
                   </ol>
                 </nav>
               </div>
@@ -1022,14 +1038,16 @@
               <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box">
                   <span class="info-box-icon text-bg-primary shadow-sm">
-                    <i class="bi bi-gear-fill"></i>
+                    <i class="bi bi-file"></i>
                   </span>
 
                   <div class="info-box-content">
-                    <span class="info-box-text">CPU Traffic</span>
+                    <span class="info-box-text">Incomplete Referrals</span>
                     <span class="info-box-number">
                       10
-                      <small>%</small>
+                      {% comment %}
+                        <small>%</small>
+                      {% endcomment %}
                     </span>
                   </div>
                   <!-- /.info-box-content -->
@@ -1040,12 +1058,12 @@
               <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box">
                   <span class="info-box-icon text-bg-danger shadow-sm">
-                    <i class="bi bi-hand-thumbs-up-fill"></i>
+                    <i class="bi bi-chat-left"></i>
                   </span>
 
                   <div class="info-box-content">
-                    <span class="info-box-text">Likes</span>
-                    <span class="info-box-number">41,410</span>
+                    <span class="info-box-text">Incomplete Contact Requests</span>
+                    <span class="info-box-number">41</span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -1059,12 +1077,12 @@
               <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box">
                   <span class="info-box-icon text-bg-success shadow-sm">
-                    <i class="bi bi-cart-fill"></i>
+                    <i class="bi bi-file-check"></i>
                   </span>
 
                   <div class="info-box-content">
-                    <span class="info-box-text">Sales</span>
-                    <span class="info-box-number">760</span>
+                    <span class="info-box-text">Referrals Created</span>
+                    <span class="info-box-number">50</span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
@@ -1074,16 +1092,104 @@
               <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box">
                   <span class="info-box-icon text-bg-warning shadow-sm">
-                    <i class="bi bi-people-fill"></i>
+                    <i class="bi bi-chat-left-text"></i>
                   </span>
 
                   <div class="info-box-content">
-                    <span class="info-box-text">New Members</span>
-                    <span class="info-box-number">2,000</span>
+                    <span class="info-box-text">Contacts Completed</span>
+                    <span class="info-box-number">83</span>
                   </div>
                   <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="card mb-4">
+                  <div class="card-header">
+                    <h3 class="card-title">Contact Requests Available Now</h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body p-0">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          {% comment %}
+                            <th style="width: 10px">#</th>
+                          {% endcomment %}
+                          <th>Name</th>
+                          <th>Remaining Available Time</th>
+                          <th style="width: 40px">Tags</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr class="align-middle">
+                          {% comment %}
+                            <td>1.</td>
+                          {% endcomment %}
+                          <td>Joe Bloggs</td>
+                          <td>
+                            <div class="progress progress-xs">
+                              <div
+                                class="progress-bar progress-bar-danger"
+                                style="width: 55%"
+                              ></div>
+                            </div>
+                          </td>
+                          <td><span class="badge text-bg-danger">Suicide Risk</span></td>
+                        </tr>
+                        <tr class="align-middle">
+                          {% comment %}
+                            <td>2.</td>
+                          {% endcomment %}
+                          <td>Anthony Albanese</td>
+                          <td>
+                            <div class="progress progress-xs">
+                              <div class="progress-bar text-bg-warning" style="width: 70%"></div>
+                            </div>
+                          </td>
+                          <td>
+                            <span class="badge text-bg-warning">Aggressive</span>
+                          </td>
+                        </tr>
+                        <tr class="align-middle">
+                          {% comment %}
+                            <td>3.</td>
+                          {% endcomment %}
+                          <td>Jane Doe</td>
+                          <td>
+                            <div class="progress progress-xs progress-striped active">
+                              <div class="progress-bar text-bg-primary" style="width: 30%"></div>
+                            </div>
+                          </td>
+                          <td>
+                            <span class="badge text-bg-primary">Urgent</span>
+                          </td>
+                        </tr>
+                        <tr class="align-middle">
+                          {% comment %}
+                            <td>4.</td>
+                          {% endcomment %}
+                          <td>Judy Dench</td>
+                          <td>
+                            <div class="progress progress-xs progress-striped active">
+                              <div class="progress-bar text-bg-success" style="width: 90%"></div>
+                            </div>
+                          </td>
+                          <td>
+                            <span class="badge text-bg-success">Harm From Others</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
               </div>
               <!-- /.col -->
             </div>
