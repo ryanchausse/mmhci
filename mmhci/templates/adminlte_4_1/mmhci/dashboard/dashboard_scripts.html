@@ -1,91 +1,94 @@
 {% load static %}
-<script>
-  const contacts_chart_options = {
-    series: [
-      {
-        name: 'This week',
-        data: [22, 28, 15, 40, 15],
+<script type="text/javascript">
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('dashboard-nav-link').classList.add('active');
+    const contacts_chart_options = {
+      series: [
+        {
+          name: 'This week',
+          data: [22, 28, 15, 40, 15],
+        },
+        {
+          name: 'Last week',
+          data: [25, 33, 25, 13, 23],
+        },
+      ],
+      chart: {
+        height: 200,
+        type: 'line',
+        toolbar: {
+          show: false,
+        },
       },
-      {
-        name: 'Last week',
-        data: [25, 33, 25, 13, 23],
+      colors: ['#0d6efd', '#adb5bd'],
+      stroke: {
+        curve: 'smooth',
       },
-    ],
-    chart: {
-      height: 200,
-      type: 'line',
-      toolbar: {
+      grid: {
+        borderColor: '#e7e7e7',
+        row: {
+          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+          opacity: 0.5,
+        },
+      },
+      legend: {
         show: false,
       },
-    },
-    colors: ['#0d6efd', '#adb5bd'],
-    stroke: {
-      curve: 'smooth',
-    },
-    grid: {
-      borderColor: '#e7e7e7',
-      row: {
-        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-        opacity: 0.5,
+      markers: {
+        size: 1,
       },
-    },
-    legend: {
-      show: false,
-    },
-    markers: {
-      size: 1,
-    },
-    xaxis: {
-      categories: ['23/8', '24/8', '25/8', '26/8', '27/8'],
-    },
-  };
-  const contact_requests_chart_options = {
-    series: [
-      {
-        name: 'This week',
-        data: [18, 22, 55, 1, 14],
+      xaxis: {
+        categories: ['23/8', '24/8', '25/8', '26/8', '27/8'],
       },
-      {
-        name: 'Last week',
-        data: [15, 23, 30, 8, 3],
+    };
+    const contact_requests_chart_options = {
+      series: [
+        {
+          name: 'This week',
+          data: [18, 22, 55, 1, 14],
+        },
+        {
+          name: 'Last week',
+          data: [15, 23, 30, 8, 3],
+        },
+      ],
+      chart: {
+        height: 200,
+        type: 'line',
+        toolbar: {
+          show: false,
+        },
       },
-    ],
-    chart: {
-      height: 200,
-      type: 'line',
-      toolbar: {
+      colors: ['#0d6efd', '#adb5bd'],
+      stroke: {
+        curve: 'smooth',
+      },
+      grid: {
+        borderColor: '#e7e7e7',
+        row: {
+          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+          opacity: 0.5,
+        },
+      },
+      legend: {
         show: false,
       },
-    },
-    colors: ['#0d6efd', '#adb5bd'],
-    stroke: {
-      curve: 'smooth',
-    },
-    grid: {
-      borderColor: '#e7e7e7',
-      row: {
-        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-        opacity: 0.5,
+      markers: {
+        size: 1,
       },
-    },
-    legend: {
-      show: false,
-    },
-    markers: {
-      size: 1,
-    },
-    xaxis: {
-      categories: ['23/8', '24/8', '25/8', '26/8', '27/8'],
-    },
-  };
-  const contacts_chart = new ApexCharts(
-    document.querySelector('#contacts-chart'),
-    contacts_chart_options,
-  );
-  contacts_chart.render();
-  const contact_requests_chart = new ApexCharts(
-    document.querySelector('#contact-requests-chart'),
-    contact_requests_chart_options,
-  );
-  contact_requests_chart.render();
+      xaxis: {
+        categories: ['23/8', '24/8', '25/8', '26/8', '27/8'],
+      },
+    };
+    const contacts_chart = new ApexCharts(
+      document.querySelector('#contacts-chart'),
+      contacts_chart_options,
+    );
+    contacts_chart.render();
+    const contact_requests_chart = new ApexCharts(
+      document.querySelector('#contact-requests-chart'),
+      contact_requests_chart_options,
+    );
+    contact_requests_chart.render();
+  });
 </script>
