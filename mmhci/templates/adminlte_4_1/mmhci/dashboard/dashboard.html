@@ -114,9 +114,6 @@
               <table class="table table-striped">
                 <thead>
                   <tr>
-                    {% comment %}
-                      <th style="width: 10px">#</th>
-                    {% endcomment %}
                     <th>Name</th>
                     <th>Remaining Available Time</th>
                     <th style="width: 40px">Tags</th>
@@ -124,9 +121,6 @@
                 </thead>
                 <tbody>
                   <tr class="align-middle">
-                    {% comment %}
-                      <td>1.</td>
-                    {% endcomment %}
                     <td>Joe Bloggs</td>
                     <td>
                       <div class="progress progress-xs">
@@ -139,9 +133,6 @@
                     <td><span class="badge text-bg-danger">Suicide Risk</span></td>
                   </tr>
                   <tr class="align-middle">
-                    {% comment %}
-                      <td>2.</td>
-                    {% endcomment %}
                     <td>Anthony Albanese</td>
                     <td>
                       <div class="progress progress-xs">
@@ -153,9 +144,6 @@
                     </td>
                   </tr>
                   <tr class="align-middle">
-                    {% comment %}
-                      <td>3.</td>
-                    {% endcomment %}
                     <td>Jane Doe</td>
                     <td>
                       <div class="progress progress-xs progress-striped active">
@@ -167,9 +155,6 @@
                     </td>
                   </tr>
                   <tr class="align-middle">
-                    {% comment %}
-                      <td>4.</td>
-                    {% endcomment %}
                     <td>Judy Dench</td>
                     <td>
                       <div class="progress progress-xs progress-striped active">
@@ -294,5 +279,5 @@
   </div>
 {% endblock content %}
 {% block optional_page_scripts %}
-  {% include 'adminlte_4_1/mmhci/dashboard_scripts.html' %}
+  {% include 'adminlte_4_1/mmhci/dashboard/dashboard_scripts.html' %}
 {% endblock optional_page_scripts %}
