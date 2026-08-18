@@ -1,11 +1,14 @@
 {% extends 'adminlte_4_1/mmhci/main_wrapper.html' %}
 {% load static %}
+{% block optional_page_head_stylesheets %}
+    {# CSS specific to the page content #}
+{% endblock optional_page_head_stylesheets %}
 {% block body %}
     <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
         <!--begin::App Wrapper-->
         <div class="app-wrapper">
             {% block header_and_sidebar %}
-                {% include 'adminlte_4_1/mmhci/header.html' %}
+                {% include 'adminlte_4_1/mmhci/topbar.html' %}
                 {% block sidebar %}
                     {% include 'adminlte_4_1/mmhci/sidebar.html' %}
                 {% endblock sidebar %}
