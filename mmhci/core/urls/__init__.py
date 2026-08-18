@@ -2,74 +2,74 @@ from django.urls import path, include
 app_name = "core"
 urlpatterns = [
     path(
-        "assessment/",
+        "assessments/",
         include(
             ("mmhci.core.urls.assessment.assessment", "assessment"),
-            namespace="assessment"
+            namespace="assessments"
         ),
     ),
     path(
-        "consent/",
-        include(("mmhci.core.urls.consent.consent", "consent"), namespace="consent"),
+        "consents/",
+        include(("mmhci.core.urls.consent.consent", "consent"), namespace="consents"),
     ),
     path(
-        "contact/",
-        include(("mmhci.core.urls.contact.contact", "contact"), namespace="contact"),
+        "contacts/",
+        include(("mmhci.core.urls.contact.contact", "contact"), namespace="contacts"),
     ),
     path(
-        "form_template/",
+        "form_templates/",
         include(
             ("mmhci.core.urls.form_template.form_template", "form_template"),
-            namespace="form_template"
+            namespace="form_templates"
         ),
     ),
     path(
-        "log/",
-        include(("mmhci.core.urls.log.log", "log"), namespace="log"),
+        "logs/",
+        include(("mmhci.core.urls.log.log", "log"), namespace="logs"),
     ),
     path(
-        "note/",
-        include(("mmhci.core.urls.note.note", "note"), namespace="note"),
+        "notes/",
+        include(("mmhci.core.urls.note.note", "note"), namespace="notes"),
     ),
     path(
-        "organisation/",
+        "organisations/",
         include(
-            ("mmhci.core.urls.organisation.organisation", "organisation"),
+            ("mmhci.core.urls.organisation.organisation", "organisations"),
             namespace="organisation"
         ),
     ),
     path(
-        "person/",
-        include(("mmhci.core.urls.person.person", "person"), namespace="person"),
+        "people/",
+        include(("mmhci.core.urls.person.person", "person"), namespace="people"),
     ),
     path(
-        "practitioner/",
+        "practitioners/",
         include(
             ("mmhci.core.urls.practitioner.practitioner", "practitioner"),
-            namespace="practitioner"
+            namespace="practitioners"
         ),
     ),
     path(
-        "referral/",
+        "referrals/",
         include(
             ("mmhci.core.urls.referral.referral", "referral"),
-            namespace="referral"
+            namespace="referrals"
         ),
     ),
     path(
-        "sms/",
-        include(("mmhci.core.urls.sms.sms", "sms"), namespace="sms"),
+        "smses/",
+        include(("mmhci.core.urls.sms.sms", "sms"), namespace="smses"),
     ),
     path(
-        "survey/",
-        include(("mmhci.core.urls.survey.survey", "survey"), namespace="survey"),
+        "surveys/",
+        include(("mmhci.core.urls.survey.survey", "survey"), namespace="surveys"),
     ),
     path(
-        "tag/",
-        include(("mmhci.core.urls.tag.tag", "tag"), namespace="tag"),
+        "tags/",
+        include(("mmhci.core.urls.tag.tag", "tag"), namespace="tags"),
     ),
     path(
-        "upload/",
-        include(("mmhci.core.urls.upload.upload", "upload"), namespace="upload"),
+        "uploads/",
+        include(("mmhci.core.urls.upload.upload", "upload"), namespace="uploads"),
     )
 ]
