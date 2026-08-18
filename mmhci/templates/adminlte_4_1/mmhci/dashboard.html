@@ -1,0 +1,298 @@
+{% extends 'adminlte_4_1/mmhci/body.html' %} 
+{% load static %}
+{% block content_header %}
+  <div class="app-content-header">
+    <!--begin::Container-->
+    <div class="container-fluid">
+      <!--begin::Row-->
+      <div class="row">
+        <div class="col-sm-6">
+          <h1 class="mb-0 fs-3">Dashboard</h1>
+        </div>
+        <div class="col-sm-6">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb float-sm-end">
+              {% comment %}
+                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+              {% endcomment %}
+            </ol>
+          </nav>
+        </div>
+      </div>
+      <!--end::Row-->
+    </div>
+    <!--end::Container-->
+  </div>
+{% endblock content_header %}
+{% block content %}
+  <div class="app-content">
+    <!--begin::Container-->
+    <div class="container-fluid">
+      <!-- Info boxes -->
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box">
+            <span class="info-box-icon text-bg-primary shadow-sm">
+              <i class="bi bi-file"></i>
+            </span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Incomplete Referrals</span>
+              <span class="info-box-number">
+                10
+                {% comment %}
+                  <small>%</small>
+                {% endcomment %}
+              </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box">
+            <span class="info-box-icon text-bg-danger shadow-sm">
+              <i class="bi bi-chat-left"></i>
+            </span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Incomplete Contact Requests</span>
+              <span class="info-box-number">41</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <!-- fix for small devices only -->
+        <!-- <div class="clearfix hidden-md-up"></div> -->
+
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box">
+            <span class="info-box-icon text-bg-success shadow-sm">
+              <i class="bi bi-file-check"></i>
+            </span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Referrals Created</span>
+              <span class="info-box-number">50</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+          <div class="info-box">
+            <span class="info-box-icon text-bg-warning shadow-sm">
+              <i class="bi bi-chat-left-text"></i>
+            </span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Contacts Completed</span>
+              <span class="info-box-number">83</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h3 class="card-title">Contact Requests Available Now</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body p-0">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    {% comment %}
+                      <th style="width: 10px">#</th>
+                    {% endcomment %}
+                    <th>Name</th>
+                    <th>Remaining Available Time</th>
+                    <th style="width: 40px">Tags</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="align-middle">
+                    {% comment %}
+                      <td>1.</td>
+                    {% endcomment %}
+                    <td>Joe Bloggs</td>
+                    <td>
+                      <div class="progress progress-xs">
+                        <div
+                          class="progress-bar progress-bar-danger"
+                          style="width: 55%"
+                        ></div>
+                      </div>
+                    </td>
+                    <td><span class="badge text-bg-danger">Suicide Risk</span></td>
+                  </tr>
+                  <tr class="align-middle">
+                    {% comment %}
+                      <td>2.</td>
+                    {% endcomment %}
+                    <td>Anthony Albanese</td>
+                    <td>
+                      <div class="progress progress-xs">
+                        <div class="progress-bar text-bg-warning" style="width: 70%"></div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="badge text-bg-warning">Aggressive</span>
+                    </td>
+                  </tr>
+                  <tr class="align-middle">
+                    {% comment %}
+                      <td>3.</td>
+                    {% endcomment %}
+                    <td>Jane Doe</td>
+                    <td>
+                      <div class="progress progress-xs progress-striped active">
+                        <div class="progress-bar text-bg-primary" style="width: 30%"></div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="badge text-bg-primary">Urgent</span>
+                    </td>
+                  </tr>
+                  <tr class="align-middle">
+                    {% comment %}
+                      <td>4.</td>
+                    {% endcomment %}
+                    <td>Judy Dench</td>
+                    <td>
+                      <div class="progress progress-xs progress-striped active">
+                        <div class="progress-bar text-bg-success" style="width: 90%"></div>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="badge text-bg-success">Harm From Others</span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+      <!--begin::Row-->
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card mb-4">
+            <div class="card-header border-0">
+              <div class="d-flex justify-content-between">
+                <h3 class="card-title">Contacts Made</h3>
+                <button id="export-csv" type="button" class="btn btn-sm btn-outline-secondary">
+                  <i class="bi bi-filetype-csv me-1" aria-hidden="true"></i>
+                  Export CSV
+                </button>
+                {% comment %}
+                  <a
+                    href="javascript:void(0);"
+                    class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                    >View Report</a
+                  >
+                {% endcomment %}
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="d-flex">
+                <p class="d-flex flex-column">
+                  <span class="fw-bold fs-5">120</span>
+                  <span>Contacts This Week</span>
+                </p>
+                <p class="ms-auto d-flex flex-column text-end">
+                  <span class="text-success"> <i class="bi bi-arrow-up"></i> 12.5% </span>
+                  <span class="text-secondary">Since last week</span>
+                </p>
+              </div>
+              <!-- /.d-flex -->
+
+              <div class="position-relative mb-4">
+                <div id="contacts-chart"></div>
+              </div>
+
+              <div class="d-flex flex-row justify-content-end">
+                <span class="me-2">
+                  <i class="bi bi-square-fill text-primary"></i> This Week
+                </span>
+
+                <span> <i class="bi bi-square-fill text-secondary"></i> Last Week </span>
+              </div>
+            </div>
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col-lg-6 -->
+        <div class="col-lg-6">
+          <div class="card mb-4">
+            <div class="card-header border-0">
+              <div class="d-flex justify-content-between">
+                <h3 class="card-title">Contacts Requested</h3>
+                <button id="export-csv" type="button" class="btn btn-sm btn-outline-secondary">
+                  <i class="bi bi-filetype-csv me-1" aria-hidden="true"></i>
+                  Export CSV
+                </button>
+                {% comment %}
+                  <a
+                    href="javascript:void(0);"
+                    class="link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                    >View Report</a
+                  >
+                {% endcomment %}
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="d-flex">
+                <p class="d-flex flex-column">
+                  <span class="fw-bold fs-5">101</span>
+                  <span>Contact Requests Made</span>
+                </p>
+                <p class="ms-auto d-flex flex-column text-end">
+                  <span class="text-danger"> <i class="bi bi-arrow-down"></i> 9.8% </span>
+                  <span class="text-secondary">Since last week</span>
+                </p>
+              </div>
+              <!-- /.d-flex -->
+
+              <div class="position-relative mb-4">
+                <div id="contact-requests-chart"></div>
+              </div>
+
+              <div class="d-flex flex-row justify-content-end">
+                <span class="me-2">
+                  <i class="bi bi-square-fill text-primary"></i> This Week
+                </span>
+
+                <span> <i class="bi bi-square-fill text-secondary"></i> Last Week </span>
+              </div>
+            </div>
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col-lg-6 -->
+      </div>
+      <!--end::Row-->
+    </div>
+    <!--end::Container-->
+  </div>
+{% endblock content %}
+{% block optional_page_scripts %}
+  {% include 'adminlte_4_1/mmhci/dashboard_scripts.html' %}
+{% endblock optional_page_scripts %}
