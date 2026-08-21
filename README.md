@@ -1521,15 +1521,87 @@ integrations which falls under eReferral, etc.)
 
 ------------------------
 
+A note on People duplicates:
+
+- it seems impossible to avoid potential Person duplicates according to our business
+  logic. Part of this is because we have no guaranteed unique identifier, such as
+  Medicare card, especially as we don't have occasion to collect this, or make it a
+  necessary field. We also can't expose a Person belonging to one organisation to
+  another org unless the user has cross-org permissions to see that data, and/or the
+  Person has consented to it,
+- three proposed ways to identify potential duplicates (following normalisation like
+  to_lower())
+  - Levenshtein distance (minimum single character edits to match)
+  - Jaccard similarity (word token overlap based on matrices)
+  - hash comparison for a composite uniqueness (for speed in checking exact matches)
+
+Maybe this could be implemented in a Celery task that is manually checked periodically
+by an org admin of some kind?
+
+-----------------------
+
+Might need to have underlying permissions provisioning after all, or at least some
+default permission provisioning up front
+
+permissions should be at model, service, orchestration level, probably not view level
+
+Where to place logic for enforcement of invariants:
+- model
+  - field constraints, internal validation for state transitions, constraints like
+    uniqueness
+- single-model services
+  - transaction atomicity
+  - concurrency control
+  - probably de-duping for non-DB constraints, according to business logic?
+- orchestration
+  - distributed consistency
+  - rollback steps (also a kind of atomicity)
+  - event ordering
 
 
+-----------------------
 
+Notes on design by contract
+- parse dont validate
+- fail fast
+- assert result before returning
 
+... I need to move to a statically/strongly typed language
 
+Re: Python type hinting, probably good to have that as a rule
 
+-----------------------
 
+HTMX
 
+debating whether to use django-htmx. leaning against because
+- another dependency
+- not sure how well maintained
+- common usage is in the same views that render the main template, i want custom views
+- 
 
+pros of django-htmx:
+- no need to check HTMX headers manually, also CSRP
+- 
+
+-----------------------
+
+The next things to sort out:
+1. Forms / form data flows
+2. Needed fields in models
+3. Exposing permissions settings to Admins (via Forms)
+4. Write the first atomic, permission-specific model-scoped service
+5. Write the first orchestration
+6. Authentication layer
+7. Wire up charts
+8. Do HTMX
+9. Ninja
+10. Multi-tenancy
+  - org id on each record? or those records that need it, perhaps?
+11. Overlapping Persons (we hide people from search within each org, unless the user has cross-org permissions)
+  - This could be a service/orchestration level permission, pretty easy I hope
+
+-----------------------
 
 
 
