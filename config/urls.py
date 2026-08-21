@@ -13,7 +13,12 @@ urlpatterns = [
     path(
         "",
         TemplateView.as_view(template_name="adminlte_4_1/mmhci/dashboard/dashboard.html"),
-        name="dashboard",
+        name="dashboard"
+    ),
+    path(
+        "",
+        TemplateView.as_view(template_name="adminlte_4_1/mmhci/dashboard/dashboard.html"),
+        name="home"
     ),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),

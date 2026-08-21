@@ -1587,6 +1587,7 @@ pros of django-htmx:
 -----------------------
 
 The next things to sort out:
+
 1. Forms / form data flows
 2. Needed fields in models
 3. Exposing permissions settings to Admins (via Forms)
@@ -1598,16 +1599,123 @@ The next things to sort out:
 9. Ninja
 10. Multi-tenancy
   - org id on each record? or those records that need it, perhaps?
-11. Overlapping Persons (we hide people from search within each org, unless the user has cross-org permissions)
+11. Overlapping Persons (we hide people from search within each org, unless the user has
+    cross-org permissions)
   - This could be a service/orchestration level permission, pretty easy I hope
 
 -----------------------
 
+Rich domain model form handling by Gemini:
+
+# forms.py
+from django import forms
+
+
+class PromoteEmployeeForm(forms.Form):
+  new_title = forms.CharField(max_length=100)
+  effective_date = forms.DateField()
+
+
+# views.py
+from django.shortcuts import render
+from mydomain.exceptions import DomainError
+from mydomain.services import promote_employee_service
+
+
+def promote_view(request, employee_id):
+  if request.method == 'POST':
+    form = PromoteEmployeeForm(request.POST)
+    if form.is_dict() if form.is_valid():
+      try:
+        promote_employee_service(
+            employee_id=employee_id, **form.cleaned_data
+        )
+      except DomainError as e:
+        form.add_error(None, str(e))  # Attach domain error to non-field error
+      else:
+        # redirect on success
+        pass
+  else:
+    form = PromoteEmployeeForm()
+  return render(request, 'promote.html', {'form': form})
+
+
+or rather:
+
+# 1. The Form strictly sanitizes input types
+class TransferForm(forms.Form):
+    target_account_id = forms.IntegerField()
+    amount = forms.DecimalField()
+
+# 2. The View handles HTTP orchestration
+class TransferView(FormView):
+    def form_valid(self, form):
+        # 3. The Rich Domain Model handles the actual business logic
+        source_account = self.request.user.account
+
+        try:
+            # All business rules live inside this model method
+            source_account.transfer_funds(
+                target_id=form.cleaned_data['target_account_id'],
+                amount=form.cleaned_data['amount']
+            )
+        except InsufficientFundsError as e:
+            form.add_error(None, str(e))
+            return self.form_invalid(form)
+
+        return super().form_valid(form)
+
+
+# A conceptual simplified look at Django's internal FormView logic
+class FormView(BaseFormView, TemplateResponseMixin):
+
+    def post(self, request, *args, **kwargs):
+        # 1. Django fetches the form class you declared (form_class = TransferForm)
+        # 2. It injects request.POST and request.FILES into it automatically
+        form = self.get_form()
+
+        # 3. It checks validation
+        if form.is_valid():
+            # 4. It injects that instantiated form directly into your method!
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+
+class TransferView(FormView):
+    form_class = TransferForm  # You declare it here
+
+    # Django injects the instantiated, valid form right here
+    def form_valid(self, form):
+        # The form is already loaded with data here
+        amount = form.cleaned_data['amount']
+
+        # Your domain logic...
+        return super().form_valid(form)
+
+
+class TransferView(FormView):
+    form_class = TransferForm
+    template_name = 'transfer.html'
+    success_url = reverse_lazy('dashboard')
+
+    def get_form_kwargs(self):
+        # Get the default dict (which contains request.POST on a submit)
+        kwargs = super().get_form_kwargs()
+
+        # Inject the current user as an extra dependency into the form
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 
+class TransferForm(forms.Form):
+    amount = forms.DecimalField()
 
-
+    def __init__(self, *args, **kwargs):
+        # Pop the injected user out before passing the rest to Django
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
 
 
 
