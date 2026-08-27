@@ -1724,7 +1724,7 @@ class TransferForm(forms.Form):
 
 next steps:
 - set up user/pass auth, template, and routing DONE
-- csp package integration
+- csp package integration (WIP) DONE
 - sample htmx workflow
 - form page
   - leverage already-installed crispy forms - bootstrap 5
