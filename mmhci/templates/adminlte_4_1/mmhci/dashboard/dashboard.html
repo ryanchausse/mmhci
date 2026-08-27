@@ -2,6 +2,7 @@
 {% load static %}
 {% block optional_page_head_stylesheets %}
   <link
+    nonce="{{ csp_nonce }}"
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
     integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0="
@@ -124,7 +125,7 @@
                   <tr>
                     <th>Name</th>
                     <th>Remaining Available Time</th>
-                    <th style="width: 40px">Tags</th>
+                    <th>Tags</th>
                   </tr>
                 </thead>
                 <tbody>

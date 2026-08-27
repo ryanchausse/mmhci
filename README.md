@@ -17,6 +17,9 @@ The most important takeaways:
 Stand up local development server:
 `docker compose -f docker-compose.local.yml up`
 
+Rebuild with new packages/settings:
+`docker compose -f docker-compose.local.yml up --build --force-recreate --renew-anon-volumes django`
+
 ## Motivation
 
 We frequently confuse our data model / schema with our UI, and speak directly to our

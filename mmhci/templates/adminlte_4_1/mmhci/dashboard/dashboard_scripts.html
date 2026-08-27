@@ -1,5 +1,5 @@
 {% load static %}
-<script type="text/javascript">
+<script nonce="{{ csp_nonce }}" type="text/javascript">
   document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('dashboard-nav-link').classList.add('active');
     const contacts_chart_options = {
@@ -40,6 +40,7 @@
       xaxis: {
         categories: ['23/8', '24/8', '25/8', '26/8', '27/8'],
       },
+      nonce: "{{ csp_nonce }}",
     };
     const contact_requests_chart_options = {
       series: [
@@ -79,6 +80,7 @@
       xaxis: {
         categories: ['23/8', '24/8', '25/8', '26/8', '27/8'],
       },
+      nonce: "{{ csp_nonce }}",
     };
     const contacts_chart = new ApexCharts(
       document.querySelector('#contacts-chart'),

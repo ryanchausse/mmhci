@@ -5,7 +5,7 @@
   <!-- Favicons -->
   <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicons/cropped-nwmphn-favicon-1-180x180.png' %}">
   <!--begin::Theme Init (prevents flash of incorrect theme on load, #6043)-->
-  <script>
+  <script nonce="{{ csp_nonce }}">
     (() => {
       'use strict';
       const STORAGE_KEY = 'lte-theme';
@@ -54,6 +54,7 @@
   <!--end::Accessibility Features-->
   <!--begin::Fonts-->
   <link
+    nonce="{{ csp_nonce }}"
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
     integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
@@ -64,6 +65,7 @@
   <!--end::Fonts-->
   <!--begin::Third Party Plugin(OverlayScrollbars)-->
   <link
+    nonce="{{ csp_nonce }}"
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css"
     crossorigin="anonymous"
@@ -71,6 +73,7 @@
   <!--end::Third Party Plugin(OverlayScrollbars)-->
   <!--begin::Third Party Plugin(Bootstrap Icons)-->
   <link
+    nonce="{{ csp_nonce }}"
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
     crossorigin="anonymous"

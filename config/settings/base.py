@@ -6,6 +6,8 @@ from pathlib import Path
 
 import environ
 
+from django.utils.csp import CSP
+
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 # mmhci/
 APPS_DIR = BASE_DIR / "mmhci"
@@ -140,6 +142,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "django.middleware.csp.ContentSecurityPolicyMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.auth.middleware.LoginRequiredMiddleware",
@@ -183,6 +186,7 @@ TEMPLATES = [
         "OPTIONS": {
             # https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
             "context_processors": [
+                "django.template.context_processors.csp",
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
@@ -333,3 +337,18 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+# CSP Headers
+# ------------------------------------------------------------------------------
+# TODO: download and serve JSDelivr scripts/stylesheets from local
+# This will help prevent inline styling errors, I think.
+SECURE_CSP = {
+    "default-src": [CSP.SELF],
+    "script-src": [CSP.SELF, CSP.NONCE, "https://cdn.jsdelivr.net"],
+    "style-src": [CSP.SELF, CSP.NONCE, "https://cdn.jsdelivr.net"],
+    "font-src": [CSP.SELF, "https://cdn.jsdelivr.net"],
+    "img-src": [CSP.SELF, "data:", "https://cdn.jsdelivr.net"],
+    "connect-src": [CSP.SELF],
+    "frame-ancestors": [CSP.NONE],
+    "frame-src": [CSP.NONE],
+}

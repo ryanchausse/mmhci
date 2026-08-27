@@ -2,6 +2,7 @@
 {% load static %}
 {% block optional_page_head_stylesheets %}
   <link
+    nonce="{{ csp_nonce }}"
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/tabulator-tables@6.4.0/dist/css/tabulator_bootstrap5.min.css"
     crossorigin="anonymous"
