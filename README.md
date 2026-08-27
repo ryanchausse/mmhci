@@ -1717,6 +1717,18 @@ class TransferForm(forms.Form):
         self.user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
 
+---------------------
+
+next steps:
+- set up user/pass auth, template, and routing DONE
+- csp package integration
+- sample htmx workflow
+- form page
+  - leverage already-installed crispy forms - bootstrap 5
+
+---------------------
+
+
 
 
 

@@ -2,6 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+# TODO: review to determine if LoginRequiredMixin is necessary, since we have the
+# "django.contrib.auth.middleware.LoginRequiredMiddleware" in the settings in base.py.
+# Might be redundant, however, some routes are exempted, such as those required by
+# django-allauth.
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse
