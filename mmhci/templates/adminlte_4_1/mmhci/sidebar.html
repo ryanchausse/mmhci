@@ -38,10 +38,27 @@
           </a>
         </li>
         <li class="nav-item">
-          <a id="people-nav-link" href="{% url 'core:people:list' %}" class="nav-link">
+          <a id="people-menu-nav-link" href="#" class="nav-link">
             <i class="nav-icon bi bi-people"></i>
-            <p>People</p>
+            <p>
+              People
+              <i class="nav-arrow bi bi-chevron-right"></i>
+            </p>
           </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a id="people-nav-link" href="{% url 'core:people:list' %}" class="nav-link">
+                <i class="nav-icon bi bi-people"></i>
+                <p>List People</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a id="person-create-nav-link" href="{% url 'core:people:person_create' %}" class="nav-link">
+                <i class="nav-icon bi bi-people"></i>
+                <p>Add a Person</p>
+              </a>
+            </li>
+          </ul>
         </li>
         <li class="nav-item">
           <a id="contacts-nav-link" href="{% url 'core:contacts:list' %}" class="nav-link">

@@ -9,5 +9,9 @@ urlpatterns = [
         TemplateView.as_view(template_name="adminlte_4_1/mmhci/people/people.html"),
         name="list",
     ),
-    path("test", person.index, name="index"),
+    path(
+        "create",
+        person.PersonFormView.as_view(template_name="adminlte_4_1/mmhci/people/person_create.html"),
+        name="person_create",
+    ),
 ]
