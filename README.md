@@ -17,8 +17,10 @@ The most important takeaways:
 Stand up local development server:
 `docker compose -f docker-compose.local.yml up`
 
-Rebuild with new packages/settings:
-`docker compose -f docker-compose.local.yml up --build --force-recreate --renew-anon-volumes django`
+Rebuild with new pip packages:
+`uv lock` / `uv sync` for local
+`docker compose -f docker-compose.local.yml down`
+`docker compose -f docker-compose.local.yml up --build`
 
 ## Motivation
 
