@@ -22,7 +22,7 @@ class PersonFormView(FormView):
         if self.request.htmx:
             return render(
                 self.request,
-                'adminlte_4_1/mmhci/people/partial/person_create_form_container.html',
+                'adminlte_4_1/mmhci/people/partial/person_create_form.html',
                 {'form': form},
                 status=200
             )
