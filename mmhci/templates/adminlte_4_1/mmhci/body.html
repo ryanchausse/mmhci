@@ -4,7 +4,7 @@
     {# CSS specific to the page content #}
 {% endblock optional_page_head_stylesheets %}
 {% block body %}
-    <body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <body class="layout-fixed sidebar-expand-lg bg-body-tertiary" hx-headers:inherited>
         <!--begin::App Wrapper-->
         <div class="app-wrapper">
             {% block header_and_sidebar %}

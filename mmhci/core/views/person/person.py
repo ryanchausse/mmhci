@@ -7,19 +7,21 @@ from mmhci.core.forms.person.person import PersonForm
 
 class PersonFormView(FormView):
     form_class = PersonForm
-    template_name = ''
-
+    template_name = 'adminlte_4_1/mmhci/people/person_create.html'
+    # Probably insert a flash message or something instead of redirect to root
+    success_url = '/'
 
     def form_valid(self, form):
         print('Form data validated.')
         if self.request.htmx:
             return HttpResponse('<div>Form data is valid.</div>')
-        raise NotImplemented
+        return super().form_valid(form)
 
     def form_invalid(self, form):
+        print('Form data is not valid.')
         if self.request.htmx:
             return HttpResponse('Form data is not valid.</div>')
-        raise NotImplemented
+        return super().form_invalid(form)
 
 def index(request):
     return HttpResponse("Person view")
