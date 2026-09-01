@@ -4,7 +4,13 @@ from django import forms
 
 class PersonForm(forms.Form):
     # Forms are for custom display and validation of/on user-facing inputs
-    first_name = forms.CharField()
+    first_name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'autofocus': 'autofocus',
+            }
+        )
+    )
     last_name = forms.CharField(
         required=False,
     )

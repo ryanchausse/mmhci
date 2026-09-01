@@ -1,0 +1,84 @@
+{% load static %}
+<script
+  nonce="{{ csp_nonce }}"
+  type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/tabulator-tables@6.4.0/dist/js/tabulator.min.js"
+  crossorigin="anonymous"
+></script>
+<script nonce="{{ csp_nonce }}" type="text/javascript">
+  const statusBadge = (cell) => {
+    const value = cell.getValue();
+    const map = { Active: 'success', Invited: 'info', Suspended: 'secondary' };
+    const color = map[value] || 'secondary';
+    return `<span class="badge text-bg-${color}">${value}</span>`;
+  };
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('people-menu-nav-link').parentElement.classList.add('menu-open');
+    document.getElementById('people-nav-link').classList.add('active');
+    {% if people %}
+      let data = []
+      {% for person in people %}
+        data.push({
+          id: {{ person.id }},
+          name: "{{ person.first_name }} {{ person.last_name }}",
+          email: "{{ person.email }}",
+          role: "Person",
+          status: "Active",
+          joined: "{{ person.created_at }}"
+        });
+      {% endfor %}
+      const table = new Tabulator('#people-table', {
+        data: data,
+        layout: 'fitColumns',
+        pagination: true,
+        paginationSize: 10,
+        paginationSizeSelector: [10, 25, 50, 100],
+        movableColumns: true,
+        columns: [
+          { title: '#', field: 'id', width: 60, headerSort: true },
+          { title: 'Name', field: 'name', headerFilter: 'input' },
+          { title: 'Email', field: 'email', headerFilter: 'input' },
+          {
+            title: 'Role',
+            field: 'role',
+            headerFilter: 'list',
+            headerFilterParams: { values: ['', 'Admin', 'Editor', 'Viewer'] },
+            width: 120,
+          },
+          {
+            title: 'Status',
+            field: 'status',
+            formatter: statusBadge,
+            headerFilter: 'list',
+            headerFilterParams: { values: ['', 'Active', 'Invited', 'Suspended'] },
+            width: 130,
+            hozAlign: 'center',
+          },
+          { title: 'Joined', field: 'joined', sorter: 'date', width: 130 },
+        ],
+      });
+      document.getElementById('table-filter').addEventListener('input', (e) => {
+        const value = e.target.value;
+        if (value) {
+          table.setFilter([
+            [
+              { field: 'name', type: 'like', value: value },
+              { field: 'email', type: 'like', value: value },
+            ],
+          ]);
+        } else {
+          table.clearFilter();
+        }
+      });
+      document
+        .getElementById('export-csv')
+        .addEventListener('click', () => table.download('csv', 'people.csv'));
+      document
+        .getElementById('export-json')
+        .addEventListener('click', () => table.download('json', 'people.json'));
+      document
+        .getElementById('print-table')
+        .addEventListener('click', () => table.print(false, true));
+    {% endif %}
+  });
+</script>

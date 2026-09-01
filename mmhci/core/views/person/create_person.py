@@ -6,7 +6,7 @@ from mmhci.core.forms.person.person import PersonForm
 from mmhci.core.services.person.create_person import CreatePersonService
 
 
-class PersonFormView(FormView):
+class CreatePersonFormView(FormView):
     # Views are responsible for validation of input, invoking services, and page flow
     form_class = PersonForm
     template_name = 'adminlte_4_1/mmhci/people/person_create.html'

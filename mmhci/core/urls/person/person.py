@@ -1,19 +1,21 @@
 from django.urls import path
 from django.views.generic import TemplateView
 
-from mmhci.core.views.person import person
+from mmhci.core.views.person import create_person, list_people
 
 urlpatterns = [
     path(
         "",
-        TemplateView.as_view(template_name="adminlte_4_1/mmhci/people/people.html"),
+        list_people.ListPeopleView.as_view(
+            template_name="adminlte_4_1/mmhci/people/list_people.html"
+        ),
         name="list",
     ),
     path(
         "create",
-        person.PersonFormView.as_view(
+        create_person.CreatePersonFormView.as_view(
             template_name="adminlte_4_1/mmhci/people/person_create.html"
         ),
-        name="person_create",
+        name="create",
     ),
 ]

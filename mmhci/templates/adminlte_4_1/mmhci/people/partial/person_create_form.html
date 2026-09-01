@@ -1,9 +1,9 @@
 {% load crispy_forms_tags %}
 <form
   method="post"
-  action="{% url 'core:people:person_create' %}"
+  action="{% url 'core:people:create' %}"
   autocomplete="off"
-  hx-post="{% url 'core:people:person_create' %}"
+  hx-post="{% url 'core:people:create' %}"
   hx-target="#person-create-form-container"
   hx-swap="innerHTML">
   {% csrf_token %}
