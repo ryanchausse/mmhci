@@ -20,7 +20,12 @@ class PersonFormView(FormView):
     def form_invalid(self, form):
         print('Form data is not valid.')
         if self.request.htmx:
-            return HttpResponse('Form data is not valid.</div>')
+            return render(
+                self.request,
+                'adminlte_4_1/mmhci/people/partial/person_create_form_container.html',
+                {'form': form},
+                status=200
+            )
         return super().form_invalid(form)
 
 def index(request):

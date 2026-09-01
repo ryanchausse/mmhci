@@ -4,8 +4,35 @@ from django import forms
 
 class PersonForm(forms.Form):
     first_name = forms.CharField()
-    last_name = forms.CharField()
-    preferred_name = forms.CharField()
-    dob = forms.DateField()
-    phone = forms.CharField()
-    email = forms.EmailField()
+    last_name = forms.CharField(
+        required=False,
+    )
+    preferred_name = forms.CharField(
+        required=False,
+    )
+    dob = forms.DateField(
+        label='Date of birth',
+        required=False,
+        widget=forms.DateInput(
+            attrs={
+                'type': 'date',
+            }
+        )
+    )
+    phone = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'type': 'tel',
+                'placeholder': '0411 222 333'
+            }
+        )
+    )
+    email = forms.EmailField(
+        required=False,
+        widget=forms.EmailInput(
+            attrs={
+                'placeholder': 'sample@email.com'
+            }
+        )
+    )
