@@ -11,7 +11,9 @@ urlpatterns = [
     ),
     path(
         "create",
-        person.PersonFormView.as_view(template_name="adminlte_4_1/mmhci/people/person_create.html"),
+        person.PersonFormView.as_view(
+            template_name="adminlte_4_1/mmhci/people/person_create.html"
+        ),
         name="person_create",
     ),
 ]

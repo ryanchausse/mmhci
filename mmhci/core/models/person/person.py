@@ -9,6 +9,7 @@ from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBas
 
 
 class Person(CreatedAndUpdatedBase):
+    # Models enforce validation of data integrity-related invariants
     address = models.ForeignKey(
         "core.Address", on_delete=models.PROTECT, null=True, blank=True
     )

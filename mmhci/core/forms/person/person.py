@@ -3,6 +3,7 @@ from django import forms
 
 
 class PersonForm(forms.Form):
+    # Forms are for custom display and validation of/on user-facing inputs
     first_name = forms.CharField()
     last_name = forms.CharField(
         required=False,
