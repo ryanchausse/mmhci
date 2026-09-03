@@ -9,3 +9,7 @@ api = NinjaAPI(
 )
 
 api.add_router("/users/", "mmhci.users.api.views.router")
+
+@api.get("/ping")
+def ping(request):
+    return {"success": True}

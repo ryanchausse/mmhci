@@ -38,7 +38,7 @@ urlpatterns = [
 # API URLS
 urlpatterns += [
     # API base url
-    path("api/", api.urls),
+    path("api/v1/", api.urls),
 ]
 
 if settings.DEBUG:
