@@ -87,6 +87,21 @@
     crossorigin="anonymous"
   />
   <!--end::Third Party Plugin(Bootstrap Icons)-->
+  <!-- apexcharts (optional but included for all pages; minor cache hit)-->
+  <link
+    nonce="{{ csp_nonce }}"
+    rel="stylesheet"
+    href="{% static 'adminlte_4_1/mmhci/css/apexcharts.css' %}"
+    integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0="
+    crossorigin="anonymous"
+  />
+  <!-- tabulator bootstrap (optional but included for all pages; minor cache hit)-->
+  <link
+    nonce="{{ csp_nonce }}"
+    rel="stylesheet"
+    href="{% static 'adminlte_4_1/mmhci/css/tabulator_bootstrap5.min.css' %}"
+    crossorigin="anonymous"
+  />
   <!--begin::Required Plugin(AdminLTE)-->
   <link rel="stylesheet" href="{% static 'adminlte_4_1/css/adminlte.css' %}" />
   <!--end::Required Plugin(AdminLTE)-->

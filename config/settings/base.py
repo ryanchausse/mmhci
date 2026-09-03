@@ -341,16 +341,14 @@ STATICFILES_FINDERS += ["compressor.finders.CompressorFinder"]
 # Your stuff...
 # ------------------------------------------------------------------------------
 
-# CSP Headers
+# CSP Headers (many CSS/JS files are self-hosted, so no CDNs here)
 # ------------------------------------------------------------------------------
-# TODO: download and serve JSDelivr scripts/stylesheets from local
-# This will help prevent inline styling errors, I think.
 SECURE_CSP = {
     "default-src": [CSP.SELF],
-    "script-src": [CSP.SELF, CSP.NONCE, "https://cdn.jsdelivr.net"],
-    "style-src": [CSP.SELF, CSP.NONCE, "https://cdn.jsdelivr.net"],
-    "font-src": [CSP.SELF, "https://cdn.jsdelivr.net"],
-    "img-src": [CSP.SELF, "data:", "https://cdn.jsdelivr.net"],
+    "script-src": [CSP.SELF, CSP.NONCE],
+    "style-src": [CSP.SELF, CSP.NONCE],
+    "font-src": [CSP.SELF],
+    "img-src": [CSP.SELF, "data:"],
     "connect-src": [CSP.SELF],
     "frame-ancestors": [CSP.NONE],
     "frame-src": [CSP.NONE],
