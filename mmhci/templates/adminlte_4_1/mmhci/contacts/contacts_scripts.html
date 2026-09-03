@@ -1,10 +1,4 @@
 {% load static %}
-<script
-  nonce="{{ csp_nonce }}"
-  type="text/javascript"
-  src="https://cdn.jsdelivr.net/npm/tabulator-tables@6.4.0/dist/js/tabulator.min.js"
-  crossorigin="anonymous"
-></script>
 <script nonce="{{ csp_nonce }}" type="text/javascript">
   const statusBadge = (cell) => {
     const value = cell.getValue();

@@ -2,19 +2,20 @@
 <!--begin::Third Party Plugin(OverlayScrollbars)-->
 <script
   nonce="{{ csp_nonce }}"
-  src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js"
+  src="{% static 'adminlte_4_1/mmhci/js/overlayscrollbars.browser.es6.min.js' %}"
   crossorigin="anonymous"
-></script>
+>// NB: working despite CSP error</script>
+</script>
 <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Required Plugin(popperjs for Bootstrap 5)-->
 <script
   nonce="{{ csp_nonce }}"
-  src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+  src="{% static 'adminlte_4_1/mmhci/js/popper.min.js' %}"
   crossorigin="anonymous"
 ></script>
 <!--end::Required Plugin(popperjs for Bootstrap 5)--><!--begin::Required Plugin(Bootstrap 5)-->
 <script
   nonce="{{ csp_nonce }}"
-  src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"
+  src="{% static 'adminlte_4_1/mmhci/js/bootstrap.min.js' %}"
   crossorigin="anonymous"
 ></script>
 <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
@@ -59,7 +60,14 @@
 <!-- apexcharts (optional but included for all pages; minor cache hit)-->
 <script
   nonce="{{ csp_nonce }}"
-  src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
+  src="{% static 'adminlte_4_1/mmhci/js/apexcharts.min.js' %}"
   integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8="
+  crossorigin="anonymous"
+>// NB: This is still causing CSP errors; will replace</script>
+<!-- tabulator tables (optional but included for all pages; minor cache hit)-->
+<script
+  nonce="{{ csp_nonce }}"
+  type="text/javascript"
+  src="{% static 'adminlte_4_1/mmhci/js/tabulator.min.js' %}"
   crossorigin="anonymous"
 ></script>
