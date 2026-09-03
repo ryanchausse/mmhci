@@ -1,4 +1,5 @@
 from django.contrib.admin.views.decorators import staff_member_required
+from django.templatetags.static import static
 from ninja import NinjaAPI
 from ninja.security import SessionAuth
 

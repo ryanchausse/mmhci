@@ -56,20 +56,26 @@
   <!--end::Accessibility Features-->
   <!--begin::Fonts-->
   <link
-    nonce="{{ csp_nonce }}"
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
-    integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
+    rel="preload"
+    as="style"
+    href="{% static 'adminlte_4_1/mmhci/css/fontsource-sans-3.css' %}"
+    integrity="sha256-V8QPXlSlh/xqbwZO8TuUL/G4UhK2V1gJiSSGQCTDdWs="
     crossorigin="anonymous"
-    media="print"
-    onload="this.media = 'all'"
   />
+  <link
+    rel="stylesheet"
+    href="{% static 'adminlte_4_1/mmhci/css/fontsource-sans-3.css' %}"
+    integrity="sha256-V8QPXlSlh/xqbwZO8TuUL/G4UhK2V1gJiSSGQCTDdWs="
+    crossorigin="anonymous"
+    media="all"
+  />
+
   <!--end::Fonts-->
   <!--begin::Third Party Plugin(OverlayScrollbars)-->
   <link
     nonce="{{ csp_nonce }}"
     rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css"
+    href="{% static 'adminlte_4_1/mmhci/css/overlayscrollbars.min.css' %}"
     crossorigin="anonymous"
   />
   <!--end::Third Party Plugin(OverlayScrollbars)-->
@@ -77,11 +83,12 @@
   <link
     nonce="{{ csp_nonce }}"
     rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    href="{% static 'adminlte_4_1/mmhci/css/bootstrap-icons.min.css' %}"
     crossorigin="anonymous"
   />
   <!--end::Third Party Plugin(Bootstrap Icons)-->
   <!--begin::Required Plugin(AdminLTE)-->
   <link rel="stylesheet" href="{% static 'adminlte_4_1/css/adminlte.css' %}" />
   <!--end::Required Plugin(AdminLTE)-->
+  <meta name="htmx-config" content='{"inlineStyleNonce": "{{ csp_nonce }}"}'>
 </head>
