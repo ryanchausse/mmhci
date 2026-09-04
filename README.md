@@ -1735,7 +1735,18 @@ next steps:
 
 ---------------------
 
+Added django-ninja with JWT auth. Send the following JSON via POST:
 
+{
+    "email": "derp@derp.com",
+    "password": "passssword"
+}
+
+Endpoint:
+
+/api/v1/token/pair
+
+...then include Bearer token on each API request.
 
 
 
