@@ -1754,6 +1754,48 @@ Endpoint:
 ...then include Bearer token on each API request.
 
 
+Pre-flight auth script for Postman to get bearer token:
+
+First, define variables in environment:
+- host (127.0.0.1:8005)
+- email
+- password
+- access_token (blank)
+
+const getTokenAuth = {
+    url: pm.environment.get("host") + "/api/v1/token/pair",
+    method: 'POST',
+    header: {
+        'Content-Type': 'application/json'
+    },
+    body: {
+        mode: 'raw',
+        raw: JSON.stringify({
+            "email": pm.environment.get("email"),
+            "password": pm.environment.get("password")
+        }),
+        options: {
+            raw: {
+                language: 'json'
+            }
+        }
+    }
+};
+
+// Send the request
+pm.sendRequest(getTokenAuth, (err, res) => {
+    if (err) {
+        console.log("Auth error:", err);
+    } else {
+        console.log(res.json());
+        const responseJson = res.json();
+        const token = responseJson.access;
+        console.log(token)
+        pm.environment.set("access_token", token);
+        console.log(pm.environment.get("access_token"))
+        console.log("access_token obtained successfully");
+    }
+});
 
 
 
