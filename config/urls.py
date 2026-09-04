@@ -11,13 +11,11 @@ urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
-    path("users/", include("mmhci.users.urls", namespace="users")),
+    # path("users/", include("mmhci.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     # Core app URLs live at the root
+    # (see __init__.py in /mmhci/core/urls directory)
     path("", include("mmhci.core.urls", namespace="core")),
-    # Your stuff: custom urls includes go here
-    # (These have been moved from /mmhci/core/urls.py into the core app -
-    # see __init__.py in /mmhci/core/urls directory)
     # Media files
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]
