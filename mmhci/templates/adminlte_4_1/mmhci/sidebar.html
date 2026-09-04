@@ -3,7 +3,7 @@
   <!--begin::Sidebar Brand-->
   <div class="sidebar-brand">
     <!--begin::Brand Link-->
-    <a href="{% url 'dashboard' %}" class="brand-link">
+    <a href="{% url 'core:dashboard' %}" class="brand-link">
       <!--begin::Brand Image-->
       <i class="bi bi-hospital"></i>
       {% comment %}
@@ -32,7 +32,7 @@
         id="navigation"
       >
         <li class="nav-item">
-          <a id="dashboard-nav-link" href="{% url 'dashboard' %}" class="nav-link">
+          <a id="dashboard-nav-link" href="{% url 'core:dashboard' %}" class="nav-link">
             <i class="nav-icon bi bi-speedometer"></i>
             <p>Dashboard</p>
           </a>

@@ -111,7 +111,7 @@ AUTHENTICATION_BACKENDS = [
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
 # LOGIN_REDIRECT_URL = "users:redirect"
-LOGIN_REDIRECT_URL = "dashboard"
+LOGIN_REDIRECT_URL = "core:dashboard"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = "account_login"
 
@@ -150,6 +150,7 @@ MIDDLEWARE = [
     "django.middleware.csp.ContentSecurityPolicyMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "mmhci.core.utilities.middleware.core_login_required_middleware.CoreLoginRequiredMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",

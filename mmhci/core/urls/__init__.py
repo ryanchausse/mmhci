@@ -1,6 +1,13 @@
 from django.urls import path, include
+from django.views.generic import TemplateView
+
 app_name = "core"
 urlpatterns = [
+    path(
+        "",
+        TemplateView.as_view(template_name="adminlte_4_1/mmhci/dashboard/dashboard.html"),
+        name="dashboard"
+    ),
     path(
         "assessments/",
         include(

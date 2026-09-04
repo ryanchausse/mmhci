@@ -4,22 +4,10 @@ from django.contrib import admin
 from django.urls import include
 from django.urls import path
 from django.views import defaults as default_views
-from django.views.generic import TemplateView
 
 from .api import api
 
 urlpatterns = [
-    # Likely moving this path into the main core app. Leaving alone for now.
-    path(
-        "",
-        TemplateView.as_view(template_name="adminlte_4_1/mmhci/dashboard/dashboard.html"),
-        name="dashboard"
-    ),
-    path(
-        "",
-        TemplateView.as_view(template_name="adminlte_4_1/mmhci/dashboard/dashboard.html"),
-        name="home"
-    ),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management

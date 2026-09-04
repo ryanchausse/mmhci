@@ -4,7 +4,7 @@ from mmhci.core.apis.v1.schemas.person.person import PersonResponse
 
 person_router = Router()
 
-@person_router.get("/", response=list[PersonResponse])
+@person_router.get("", response=list[PersonResponse])
 def list_people(request):
     people = ListPeopleService(request).execute()
     return people
