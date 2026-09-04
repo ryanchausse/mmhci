@@ -1,7 +1,8 @@
 from django.contrib.auth.mixins import AccessMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 
-class OrgPermissionRequiredMixin(AccessMixin):
+class OrgPermissionRequiredMixin(LoginRequiredMixin, AccessMixin):
     """
     Checks if the user has the required permission code via their
     assigned role within the organization context.

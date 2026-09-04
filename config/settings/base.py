@@ -82,7 +82,10 @@ THIRD_PARTY_APPS = [
     "django_celery_beat",
     "django_htmx",
     "corsheaders",
-    "ninja"
+    "ninja",
+    "ninja_extra",
+    "ninja_jwt",
+    "ninja_jwt.token_blacklist"
 ]
 
 LOCAL_APPS = [
@@ -147,7 +150,6 @@ MIDDLEWARE = [
     "django.middleware.csp.ContentSecurityPolicyMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
-    "django.contrib.auth.middleware.LoginRequiredMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",

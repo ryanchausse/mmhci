@@ -1,16 +1,18 @@
 from django.contrib.admin.views.decorators import staff_member_required
-from django.templatetags.static import static
-from ninja import NinjaAPI
-from ninja.security import SessionAuth
+from ninja_jwt.controller import NinjaJWTDefaultController
+from ninja_extra import NinjaExtraAPI
+from ninja_jwt.authentication import JWTAuth
 
-api = NinjaAPI(
+api = NinjaExtraAPI(
     urls_namespace="api",
-    auth=SessionAuth(),
+    auth=JWTAuth(),
     docs_decorator=staff_member_required,
 )
 
+api.register_controllers(NinjaJWTDefaultController)
 api.add_router("/users/", "mmhci.users.api.views.router")
 
-@api.get("/ping")
+# Routes are protected by default, can override auth like so:
+@api.get("/ping", auth=None)
 def ping(request):
     return {"success": True}

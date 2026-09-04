@@ -19,8 +19,7 @@ Stand up local development server:
 
 Rebuild with new pip packages:
 `uv lock` / `uv sync` for local
-`docker compose -f docker-compose.local.yml down`
-`docker compose -f docker-compose.local.yml up --build`
+`docker compose -f docker-compose.local.yml up --build --force-recreate --renew-anon-volumes django`
 
 ## Motivation
 
@@ -75,6 +74,9 @@ Accessible (according to current config) at http://127.0.0.1:8005/
 
 ## Example to run other commands in docker container, e.g. 'manage.py makemigrations'
 Might have to run these after initial docker-compose up:
+
+`docker compose -f docker-compose.local.yml run --rm django uv lock`
+NB: rebuild after adding a package; might have to restart.
 
 `docker compose -f docker-compose.local.yml run --rm django python manage.py migrate`
 

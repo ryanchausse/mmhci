@@ -34,7 +34,6 @@ urlpatterns = [
     *static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
 ]
 
-
 # API URLS
 urlpatterns += [
     # API base url
