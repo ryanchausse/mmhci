@@ -155,6 +155,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "django_htmx.middleware.HtmxMiddleware",
     "allauth.account.middleware.AccountMiddleware",
+    'mmhci.core.utilities.middleware.core_no_cache_except_static.NoCacheMiddleware',
 ]
 
 # STATIC

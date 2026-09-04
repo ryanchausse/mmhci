@@ -22,7 +22,6 @@ urlpatterns = [
 
 # API URLS
 urlpatterns += [
-    # API base url
     path("api/v1/", api.urls),
 ]
 
