@@ -355,3 +355,13 @@ SECURE_CSP = {
     "frame-ancestors": [CSP.NONE],
     "frame-src": [CSP.NONE],
 }
+
+# django-ninja API throttling
+# ------------------------------------------------------------------------------
+NINJA_EXTRA = {
+    'THROTTLE_RATES': {
+        'user': '10000/day',
+        'anon': '5/min',
+    },
+    'NUM_PROXIES': None
+}

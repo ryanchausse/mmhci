@@ -17,9 +17,14 @@ The most important takeaways:
 Stand up local development server:
 `docker compose -f docker-compose.local.yml up`
 
+Pull the docker compose down before bringing it back up (Ctrl+C to stop local containers
+can fail to exit cleanly):
+`docker compose -f docker-compose.local.yml down`
+
 Rebuild with new pip packages:
 `uv lock` / `uv sync` for local
-`docker compose -f docker-compose.local.yml up --build --force-recreate --renew-anon-volumes django`
+`docker compose -f docker-compose.local.yml up --build --force-recreate`
+` --renew-anon-volumes django`
 
 ## Motivation
 
