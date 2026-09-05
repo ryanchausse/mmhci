@@ -23,8 +23,7 @@ can fail to exit cleanly):
 
 Rebuild with new pip packages:
 `uv lock` / `uv sync` for local
-`docker compose -f docker-compose.local.yml up --build --force-recreate`
-` --renew-anon-volumes django`
+`docker compose -f docker-compose.local.yml up --build --force-recreate --renew-anon-volumes django`
 
 ## Motivation
 
