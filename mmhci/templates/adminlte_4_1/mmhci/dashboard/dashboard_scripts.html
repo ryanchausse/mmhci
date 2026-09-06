@@ -20,15 +20,15 @@
           show: false,
         },
       },
-      colors: ['#0d6efd', '#adb5bd'],
+      // colors: ['#0d6efd', '#adb5bd'],
       stroke: {
         curve: 'smooth',
       },
       grid: {
-        borderColor: '#e7e7e7',
+        // borderColor: '#e7e7e7',
         row: {
-          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-          opacity: 0.5,
+          // colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+          // opacity: 0.5,
         },
       },
       legend: {
@@ -39,9 +39,6 @@
       },
       xaxis: {
         categories: ['23/8', '24/8', '25/8', '26/8', '27/8'],
-      },
-      theme: {
-        mode: document.documentElement.getAttribute('data-bs-theme')
       },
       nonce: "{{ csp_nonce }}",
     };
@@ -63,15 +60,15 @@
           show: false,
         },
       },
-      colors: ['#0d6efd', '#adb5bd'],
+      // colors: ['#0d6efd', '#adb5bd'],
       stroke: {
         curve: 'smooth',
       },
       grid: {
-        borderColor: '#e7e7e7',
+        // borderColor: '#e7e7e7',
         row: {
-          colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-          opacity: 0.5,
+          // colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+          // opacity: 0.5,
         },
       },
       legend: {
@@ -83,24 +80,34 @@
       xaxis: {
         categories: ['23/8', '24/8', '25/8', '26/8', '27/8'],
       },
-      theme: {
-        mode: document.documentElement.getAttribute('data-bs-theme')
-      },
       nonce: "{{ csp_nonce }}",
     };
     const contacts_chart = new ApexCharts(
       document.querySelector('#contacts-chart'),
       contacts_chart_options,
     );
-    contacts_chart.render();
     const contact_requests_chart = new ApexCharts(
       document.querySelector('#contact-requests-chart'),
       contact_requests_chart_options,
     );
+    contacts_chart.render();
     contact_requests_chart.render();
+    // TODO: fix. This is a kludgey reset for theme if the page is dark
+    if (document.documentElement.getAttribute('data-bs-theme') == "dark") {
+      contacts_chart.updateOptions({
+        theme: { mode: document.documentElement.getAttribute('data-bs-theme') }
+      });
+      contact_requests_chart.updateOptions({
+        theme: { mode: document.documentElement.getAttribute('data-bs-theme') }
+      });
+    }
     document.addEventListener("changed.lte.color-mode", (event) => {
-      contacts_chart.updateOptions({ theme: { mode: event.detail.resolved } });
-      contact_requests_chart.updateOptions({ theme: { mode: event.detail.resolved } });
+      contacts_chart.updateOptions({
+        theme: { mode: event.detail.resolved }
+      });
+      contact_requests_chart.updateOptions({
+        theme: { mode: event.detail.resolved }
+      });
     });
   });
 </script>

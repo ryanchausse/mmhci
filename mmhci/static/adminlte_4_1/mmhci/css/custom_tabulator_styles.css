@@ -30,11 +30,27 @@
     border-color: #343a40;
 }
 
+[data-bs-theme="dark"] .tabulator .tabulator-header .tabulator-col.tabulator-sortable.tabulator-col-sorter-element:hover {
+    background-color: #2c3136;
+}
+
+[data-bs-theme="dark"] .tabulator .tabulator-paginator > label {
+    color: #c0c0c0;
+}
+
+[data-bs-theme="dark"] .tabulator button.tabulator-page:disabled {
+    background-color: #2c3136;
+}
+
+[data-bs-theme="dark"] .tabulator .tabulator-footer .tabulator-page.active {
+    background-color: #2c3136;
+}
+
 [data-bs-theme="dark"] .tabulator-row.tabulator-row-even {
     background-color: #2b3035;
 }
 
-[data-bs-theme="dark"] .tabulator-row:hover {
+[data-bs-theme="dark"] .tabulator-row:hover .tabulator-col:hover {
     background-color: #32373c !important;
     color: #fff;
 }
@@ -44,7 +60,12 @@
 }
 
 [data-bs-theme="dark"] .tabulator-footer {
+    /* NB: Thinking about changing this to #f9f9f9 in the "light" style */
     background-color: #212529;
     color: #dee2e6;
     border-color: #495057;
+}
+
+[data-bs-theme="light"] .tabulator-footer {
+  background-color: #f9f9f9;
 }
