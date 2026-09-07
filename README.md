@@ -1796,6 +1796,44 @@ pm.sendRequest(getTokenAuth, (err, res) => {
     }
 });
 
+# Intake flow at present:
+intake flow
+- Person calls or callback request received
+- Info about Person (if any) is recorded
+- Info about the nature of the Service Contact event is recorded
+  - possibly outcome, possibly callback availability window
+- Info like IAR-DST / Risk assessment data is recorded (if any)
+- can convert to Referral if First/Last name, DOB, and pathway/contact type is recorded.
+  - NB: DOB can be 9/9/9999 if unknown...
+- Referral requires Gender, Postcode, and one of phone or email and contact preference
+  - NB: enter 9999 if Postcode is unknown, but "Unknown" if Country of Birth and Main language at home are unknown.
+  - some more demographic details here
+- Move to Referral page which shows:
+  - Referral origin
+  - Additional documentation
+  - Notes
+  - IAR-DST w/ calculated level of care and practitioner assessed Level of Care
+  - Risk Assessment
+  - Consent fields
+  - List additional service providers or whoever that can be contacted
+  - Referral outcome(s)
+    - Service type, notes, sent status
+  - Logs, metadata like UUIDs
+- Once certain demographic fields, contact details (e.g. phone number) and consent fields are filled in, can mark "sent" on referral outcome. This "locks" the referral
+- On the referral lock screen, the referral date, follow up date, notes, referral outcome including the toggle for "accepted", person's demographics, referrer info, IAR-DST/Risk assessment, and consents
+  - this is basically the Client and Referral data combined
+  - can mark each referral outcome accepted or not
+  - admins can "unlock"
+- can print from each page
+- print options include toggles for:
+  - suicide referral
+  - recommended LoC
+  - Practitioner Assessed LoC
+  - Show legal name (vs. preferred)
+- printing a referral has pretty much everything in it
+  - displays name according to the permissions (e.g. a clinician can print full name)
+  - printing a Contact has pretty much just the info on the Contact modal
+
 
 
 
