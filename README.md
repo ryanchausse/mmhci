@@ -1836,6 +1836,64 @@ intake flow
 
 
 
+My meeting with Steven to do the flowchart and ask a sample permissions issue
+
+v2 Flowchart for PMHCIS app / MMHCI
+
+"Consumer calls"
+- add MMHC walk ins
+- they can also fill in the form on medicarementalhealth.com.au to get a call back
+
+-> routed to PHN by catchment area based on postcode, shows up as pop up menu on the upper right of PMHCIS app with call back requests
+
+
+on staging:
+every morning, all intake clinician roles are removed
+
+
+"person just wanted information"
+- based on outcome, we make a decision about how to proceed
+- group diamond "does consumer want a call back or proceed?" into "staff gather information from Consumer"
+
+We make 3 call back attempts (across all PHNs) before abandoning the contact, if we can't do it, we record the "outcome" as uncontactable or something. It drops off of "incomplete contacts"
+
+rename "Intake" as "Convert"
+
+"Is intake admin a clinician?"
+- rename to "if the person managing the client/referral is a clinician"
+- no, actually delete this record
+
+- they review the contact, referral, attachment, and note records (CRAN)
+
+- IAR-DST and Risk Assessment both is always completed for the Referral to progress
+  - no, actually this depends on the org policy and it relies on the reason being given (the latter "relies on reason given" is ironclad for all PHNs)
+
+- Referral requires Outcome to be recorded before the Referral can be marked Complete
+
+"Should the referral be sent"
+- not a conditional, all referrals need action
+- they all go to sent or accepted
+
+- intake teams conduct warm handover for complete referrals, where they contact the service providers. this is between when a referral is "complete" and "sent"
+
+- if service provider does not accept, a new one must be found
+
+- "sent_datetime" for referral is the only flag that can prove that the referral was marked sent from the reporting perspective
+
+- service provider lets intake team know when they can take the referral, intake team or our system marks as Accepted
+
+- a referral is marked "locked" when it is sent.
+
+- sent and accepted are in the "Referral Outcome" part of the Referral page.
+
+
+Permissions issue previously encountered:
+- Intake clinician should have been able to accept only
+  - but then we figured out that intake admins receive the message that the referral could not be progressed
+- so intake clinican or system admin (Caroline's team) needed to be contacted to remove the service provider
+- we added a permission to handle this
+
+---------------------------------------------
 
 
 
