@@ -2005,11 +2005,61 @@ handling, possibly a rollback() function in each Task. Need to flesh this out.
 
 --------------------------
 
+Hmm, maybe not orchestrated rollback()s. Maybe dynamically compute the workflow stage every time the page is loaded. It might be too many queries... but simple ones. Simpler than an event-driven architecture, but still performant enough.
 
+So, keeping the workflow orchestration... on the main Intake workflow view:
+- re-run each Task to see whether changes were made. Check the Task instance for whether the dependent models were updated since the Task was run, which means comparing the saved Task info to the models referenced by the Task. This may be as simple as 1:M calls to a function that lives in the single-model service to compare the task updated_at with the model's updated_at.
+- or, for each Task, e.g. "referral_complete", run Task.is_valid() which queries all dependent models to see whether the Task.updated_at field is older than any of the model updated_at fields. If so, the Task is stale and needs to be reset from state = "completed" and back to "incomplete".
 
+Maybe it is better for the "stale detection" logic to live in the service? Or is it the service that interacts with the model that is better?
 
+Turns out this is a just-in-time (JIT) validity reconciliation model. So I can place an
+is_valid() function inside each Task from the BaseTask class, that calls 1:M services'
+is_stale() that takes as input a datetime and returns whether the underlying model
+instance or instances has (have) a newer datetime. If there are many models to query,
+the orchestration (multi-model) service can also implement this same function.
 
+So it looks like, in the IntakeOrchestrator object, as each workflow stage is being
+iterated through, the Task's is_valid() function is called, and if that returns False,
+the workflow stage is automatically set to the current Task, and the latter tasks are
+also state-invalidated? UPDATE: no, actually, because this is re-calculated and self-
+healing, state is not tracked. I think?
 
+So essentially, the Tasks have information on the stage of the Intake workflow such as
+metadata like "last_calculated" or "executed_by", but the Tasks don't explicitly persist
+a "state", because it is continuously re-calculated.
+
+The single-model services have a concept of state local to the single model, but not
+the workflow.
+
+Maybe each step can have a UI element that says something like "this step has enough
+data to proceed to the next step", i.e., the record has enough mandatory data, but is
+available for review and editing.
+
+This is a WIP.
+
+what's the simplest way to write this i wonder
+
+Literally:
+def detect_workflow_stage(intake_id):   ## Depends on person_id -> choose Intake?
+
+1. The user searches for the Person and finds the Person view.
+2. The user can select any Intake workflow instance (in our current app, this is essentially a Referral/Client record, or a Contact record depending on whether the Person has not ever progressed to that stage).
+  - Is the Intake selection based on IntakeContext? Via an IntakeOrchestration method?
+
+or
+
+1. The user doesn't find the Person and starts a new Intake
+
+At any time, the user can go into an individual Referral or whatever record and change it manually. Because the workflow is recalculated each time, don't need to worry about updates.
+
+I wonder, however, if we store something like last_calculated in Tasks, whether that becomes stale when we edit records manually? No, actually no problem there.
+
+Creating an Intake record is tricky.
+
+Could create an Intake at the first Service Contact with a new Person if the Person record is created? Is a Referral record being created a necessary thing? It seems a required field for the creation of an Intake record for reporting purposes. But the start date for an Intake is the time of first Service Contact.
+
+Must also independently support searching for Service Contacts basically by record created - user should be able to search for any previous contact record created by any field that they have access to.
 
 
 
