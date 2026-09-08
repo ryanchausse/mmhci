@@ -1895,9 +1895,95 @@ Permissions issue previously encountered:
 
 ---------------------------------------------
 
+# Orchestration / applying a services flowchart to track Referral state
+It makes sense to use the Orchestration Pattern to manage the preparation
+and state of a Referral, similar to a Finite State Machine. This is one way
+of writing tax preparation software.
 
+The Orchestration Pattern is a good idea because it manages a Directed Acyclic
+Graph (DAG) that only needs to calculate that portion of the workflow after
+the current stage, rather than recalculating the graph every time something
+changes. FSMs also tend to grow in complexity and need to be redefined in a
+much more clunky and side-effect causing way, IMO.
 
+It also can manage more complex state transitions, external dependencies, and
+background tasks more elegantly than a model-driven FSM can. It fits well
+with the Model -> Service -> Orchestration pattern I have implemented so far
+in this app.
 
+It would be nice for admins/clinicians to come back to any incomplete contact
+or referral and know exactly where in the stage things are, instead of having
+two tabs / no centralised mechanism. It would seem to me that the state and
+required fields before proceeding to the next step would be more intuitive
+in this way.
+
+I worry about team understanding of the workflow, but maybe this is easier in
+the long run vs. having a more atomised and hidden / emergent state.
+
+This would involve the following components:
+
+- A Context object - the class representing the data of the Intake
+  workflow (e.g. class "IntakeContext" with fields like
+  "PersonConsent.collect_data"). This might be implemented as an object which
+  contains many FK references to the Referral/Consent/etc. tables. The
+  IntakeOrchestrator task evaluates the Context object to find the current
+  workflow state (see below).
+- A BaseTask object for all Task objects, which contains base
+  implementations for task name and dependency list variables, and
+  a passthrough execute() method
+- Task objects that implement execute(), which call services to do whatever
+  is needed at that stage (e.g. validate all required information exists in
+  the Referral object before the Referral can be marked "Sent"). The Task
+  objects would save information back to the Context object. Each Task may
+  have a "state" like "in progress", "complete", "not started", etc.
+- An Orchestration object, say, IntakeOrchestrator, that defines a variable
+  "tasks" that is a list of individual Task classes with their task names
+  and their respective dependencies (dependencies are lists with the names of other tasks). This object would have a function that returns which tasks
+  have been completed and what the next task is.
+
+Calculating where the current state is, in IntakeOrchestrator:
+intake_context = IntakeContext(id)
+completed_tasks = task.name
+                  for task in intake_workflow.tasks
+                  if task.status = "complete"
+for task in tasks:
+  if task.name in completed_tasks:
+    continue
+  // (if all tasks are completed, send to final screen)
+  next_task = task  // or rather, a list of tasks as some can be parallel
+
+Database tables can be made for the IntakeContext, and IntakeEvents
+for storing state, the output of tasks, and for logging/traceability. The
+current state of the workflow is found by evaluation of IntakeContext variables within the IntakeOrchestrator class, not by persistence through DB variables in a Task DB table. This means that IntakeContext must have
+references to each Task and its state. Otherwise each Task should get its
+own DB table and an FK to the task can be saved in the IntakeContext object.
+
+UPDATE: ok, I have decided to create a Task DB table because storing variables
+corresponding to Task state within the IntakeContext is not a good idea,
+because it risks making a God object of IntakeContext, reduces data
+normalisation, and doesn't allow for complex querying. The IntakeContext
+model will have a M:M FK association with Tasks. The Task table will store
+the name of the task and its state, and possibly other metadata (e.g.
+"started_at" and "ended_at" so that "time spent in that state" can be queried).
+
+Need to allow a state option for "skipped" in each Task to allow for
+conditional task management. As we are iterating through Tasks in the
+workflow, we can skip any individual task dependency this way.
+
+In Django, I need to implement locking for these workflow tasks so as to
+prevent race conditions. This would occur during state transitions and any
+other needed insert/update/delete operations in the database. This would
+involve using .select_for_update() within @transaction.atomic or a context
+manager context like "with transaction.atomic():".
+
+IntakeContext is a coordination data structure for everything. Tasks store
+references to the records they create/modify in that object. It is a shared
+data bus, so if a future task depends on the data created by a prior task,
+it can read it from the IntakeContext object reference (e.g. a Referral
+might need to be created and do some sort of validation step which references
+the previously created PersonAddress).
+
+--------------------------
 
 
 
