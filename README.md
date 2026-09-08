@@ -1990,6 +1990,19 @@ it can read it from the IntakeContext object reference (e.g. a Referral
 might need to be created and do some sort of validation step which references
 the previously created PersonAddress).
 
+So, in terms of the UX, there will still be Views for things like "ContactRequest"
+and other domain objects, and even an "Incomplete ContactRequest" view etc., but the
+main screen will likely be "incomplete IntakeContexts" that are basically a view
+of the workflow instead of the records that have "missing" data.
+
+Also, the orchestration will basically be a service that allows the router or a view
+to determine the next view to present.
+
+And perhaps each of the workflow views will show which stage the workflow is in via
+something like chevrons, and allow editing previous data. Editing a previous record
+can maybe unset the "completed" flag on the IntakeContext? There needs to be rollback
+handling, possibly a rollback() function in each Task. Need to flesh this out.
+
 --------------------------
 
 
