@@ -1927,7 +1927,12 @@ This would involve the following components:
   "PersonConsent.collect_data"). This might be implemented as an object which
   contains many FK references to the Referral/Consent/etc. tables. The
   IntakeOrchestrator task evaluates the Context object to find the current
-  workflow state (see below).
+  workflow state (see below). The IntakeContext object can also have its
+  own state, e.g. "Completed", in case a Task knows that the Intake workflow
+  has reached a terminal state, such as when a Person's ContactRequest
+  can't be reached after three attempts. The Task would update the
+  IntakeContext status to "complete" or similar, so that the Orchestration
+  object can pick that up and prevent the calculation of the "next task".
 - A BaseTask object for all Task objects, which contains base
   implementations for task name and dependency list variables, and
   a passthrough execute() method
@@ -1943,6 +1948,8 @@ This would involve the following components:
 
 Calculating where the current state is, in IntakeOrchestrator:
 intake_context = IntakeContext(id)
+if intake_context.status = "complete"
+  return False   // or redirect or whatever.
 completed_tasks = task.name
                   for task in intake_workflow.tasks
                   if task.status = "complete"
