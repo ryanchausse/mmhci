@@ -2,9 +2,22 @@
 <div class="org-context-container col-md-12 bg-body">
   <div class="border-bottom px-3 py-2">
     <div class="container-fluid">
-      <div class="d-flex gap-4">
-        <div><i class="nav-icon bi bi-building"></i> NWMPHN</div>
-        <div><i class="nav-icon bi bi-person-square"></i> John Smith 15/06/1981</div>
+      <div class="d-flex gap-4 align-items-center">
+        <div class="d-flex gap-2 align-items-center">
+          <div>
+            <span><i class="nav-icon bi bi-building"></i></span>
+          </div>
+          <div>
+            <select id="org-select-dropdown-button" class="form-select form-select-sm">
+              <option selected>NWMPHN</option>
+              <option>SEMPHN</option>
+              <option>Western Victoria PHN</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <span><i class="nav-icon bi bi-person-square me-2"></i>John Smith 15/06/1981</span>
+        </div>
       </div>
     </div>
   </div>
