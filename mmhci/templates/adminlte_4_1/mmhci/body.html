@@ -16,6 +16,9 @@
             <!--begin::App Main-->
             <main class="app-main">
                 {% block main_content %}
+                    {% block context_bar %}
+                        {# Org/Patient bar that sticks to top on scroll #}
+                    {% endblock context_bar %}
                     {% block content_header %}
                         {# Page title/breadcrumbs #}
                     {% endblock content_header %}

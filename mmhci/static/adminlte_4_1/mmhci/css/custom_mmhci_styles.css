@@ -1,3 +1,4 @@
+/* Tabulator dark mode */
 [data-bs-theme="dark"] .tabulator {
     --bs-table-bg: #212529;
     --bs-table-color: #dee2e6;
@@ -68,4 +69,11 @@
 
 [data-bs-theme="light"] .tabulator-footer {
   background-color: #f9f9f9;
+}
+
+/* Org context sticky top bar */
+.org-context-container {
+    position:fixed;
+    top:0;
+    z-index:1030;
 }
