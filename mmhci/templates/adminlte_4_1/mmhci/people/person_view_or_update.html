@@ -1,0 +1,37 @@
+{% extends 'adminlte_4_1/mmhci/body.html' %} 
+{% load static %}
+{% load crispy_forms_tags %}
+{% block optional_page_head_stylesheets %}
+{% endblock optional_page_head_stylesheets %}
+{% block content_header %}
+  <div class="app-content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h1 class="mb-0 fs-3">View or Update a Person</h1>
+        </div>
+        <div class="col-sm-6">
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content_header %}
+{% block content %}
+  <div class="app-content">
+    <div class="container-fluid">
+      <div class="card col-lg-6">
+        <div class="card-header">
+          <h3 class="card-title">Person</h3>
+        </div>
+        <div class="card-body">
+          <div id="person-view-or-update-form-container">
+            {% include 'adminlte_4_1/mmhci/people/partial/person_view_or_update_form.html' %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+{% block optional_page_scripts %}
+  {% include 'adminlte_4_1/mmhci/people/person_view_or_update_scripts.html' %}
+{% endblock optional_page_scripts %}

@@ -1,12 +1,13 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
-from django.shortcuts import render  # noqa: F401
+from django.shortcuts import render
 from django.views.generic import FormView
 
 from mmhci.core.forms.person.person import PersonForm
 from mmhci.core.services.person.create_person import CreatePersonService
 
 
-class CreatePersonFormView(FormView):
+class CreatePersonFormView(LoginRequiredMixin, FormView):
     # Views are responsible for validation of input, invoking services, and page flow
     form_class = PersonForm
     template_name = 'adminlte_4_1/mmhci/people/person_create.html'
@@ -16,6 +17,8 @@ class CreatePersonFormView(FormView):
     def form_valid(self, form):
         print('Form data validated.')
         if self.request.htmx:
+            # NB: need to save fields manually because PersonForm inherits from
+            # forms.Form, not forms.ModelForm
             person = CreatePersonService(**form.cleaned_data).execute()
             create_person_success_message = f'Person ID = {person.id}'
             return render(
@@ -38,4 +41,4 @@ class CreatePersonFormView(FormView):
         return super().form_invalid(form)
 
 def index(request):
-    return HttpResponse("Person view")
+    return HttpResponse("Create Person view")

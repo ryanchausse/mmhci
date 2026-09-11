@@ -4,6 +4,9 @@ from mmhci.core.models.person import Person
 class CreatePersonService:
     # Business rule validation lives in single-domain (model) services. Multiple model/
     # multi-stage orchestrations can import multiple single-domain services.
+
+    # NB: need to save fields manually because PersonForm inherits from forms.Form,
+    # not forms.ModelForm
     def __init__(
         self,
         first_name,
