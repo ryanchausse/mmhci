@@ -13,7 +13,8 @@
       let data = []
       {% for person in people %}
         data.push({
-          id: {{ person.id }},
+          id: "{{ person.id }}",
+          link: "{% url 'core:people:view_or_update' pk=person.id %}",
           name: "{{ person.first_name }} {{ person.last_name }}",
           email: "{{ person.email }}",
           role: "Person",
@@ -29,7 +30,16 @@
         paginationSizeSelector: [10, 25, 50, 100],
         movableColumns: true,
         columns: [
-          { title: '#', field: 'id', width: 60, headerSort: true },
+          {
+            title: '#',
+            field: 'link',
+            formatter: 'link',
+            formatterParams: {
+              labelField: "id"
+            },
+            width: 60,
+            headerSort: true
+          },
           { title: 'Name', field: 'name', headerFilter: 'input' },
           { title: 'Email', field: 'email', headerFilter: 'input' },
           {

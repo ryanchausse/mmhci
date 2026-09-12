@@ -1,5 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 from django.forms import model_to_dict
+from django.shortcuts import redirect
 from django.shortcuts import render
 from django.views.generic import FormView
 
@@ -28,22 +30,26 @@ class ViewOrUpdatePersonView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         print('Form data validated.')
+        pk = self.kwargs.get('pk')
+        # NB: need to save fields manually because PersonForm inherits from
+        # forms.Form, not forms.ModelForm
+        person = ViewOrUpdatePersonService(
+            request=self.request,
+            pk=pk,
+            form=form,
+            update=True
+        ).execute()
+        messages.success(self.request, f'{person.first_name} {person.last_name} updated successfully')
         if self.request.htmx:
-            # NB: need to save fields manually because PersonForm inherits from
-            # forms.Form, not forms.ModelForm
-            person = ViewOrUpdatePersonService(
-                request=self.request,
-                pk = self.kwargs.get('pk'),
-                form=form,
-                update=True
-            ).execute()
-            update_person_success_message = f'Person ID = {person.id}'
-            return render(
-                self.request,
-                'adminlte_4_1/mmhci/people/partial/person_update_success.html',
-                {'update_person_success_message': update_person_success_message},
-                status=200
-            )
+            # Might want to render just the replacement template partial.
+            # return render(
+            #     self.request,
+            #     'adminlte_4_1/mmhci/people/partial/person_update_success.html',
+            #     {'update_person_success_message': update_person_success_message},
+            #     status=200
+            # )
+            pass
+        return redirect('core:people:view_or_update', pk=pk)
         return super().form_valid(form)
 
     def form_invalid(self, form):

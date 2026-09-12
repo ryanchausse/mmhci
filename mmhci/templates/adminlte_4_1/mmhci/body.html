@@ -16,6 +16,7 @@
             <!--begin::App Main-->
             <main class="app-main">
                 {% block main_content %}
+                    {% include 'adminlte_4_1/mmhci/general/flash_messages.html' %}
                     {% block context_bar %}
                         {# Org/Patient bar that sticks to top on scroll #}
                     {% endblock context_bar %}
