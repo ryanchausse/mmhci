@@ -33,6 +33,9 @@ class ViewOrUpdatePersonView(LoginRequiredMixin, FormView):
         pk = self.kwargs.get('pk')
         # NB: need to save fields manually because PersonForm inherits from
         # forms.Form, not forms.ModelForm
+        # TODO: probably separate view from update, but the htmx form partial has two
+        # if conditions - one to evaluate whether the var "pk" is present, and one to
+        # see if the form has returned a "form.initial.id".
         person = ViewOrUpdatePersonService(
             request=self.request,
             pk=pk,
@@ -42,14 +45,14 @@ class ViewOrUpdatePersonView(LoginRequiredMixin, FormView):
         messages.success(self.request, f'{person.first_name} {person.last_name} updated successfully')
         if self.request.htmx:
             # Might want to render just the replacement template partial.
-            # return render(
-            #     self.request,
-            #     'adminlte_4_1/mmhci/people/partial/person_update_success.html',
-            #     {'update_person_success_message': update_person_success_message},
-            #     status=200
-            # )
-            pass
-        return redirect('core:people:view_or_update', pk=pk)
+            return render(
+                self.request,
+                'adminlte_4_1/mmhci/people/partial/person_view_or_update_form_htmx.html',
+                {'pk': pk, 'form': form},
+                status=200
+            )
+            # pass
+        # return redirect('core:people:view_or_update', pk=pk)
         return super().form_valid(form)
 
     def form_invalid(self, form):

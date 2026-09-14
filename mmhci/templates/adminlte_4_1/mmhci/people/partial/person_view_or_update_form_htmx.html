@@ -1,9 +1,23 @@
 {% load crispy_forms_tags %}
+<!-- Include this messages partial again for out-of-band htmx updates -->
+{% include 'adminlte_4_1/mmhci/general/flash_messages.html' %}
 {% if form.initial.id %}
   <form
     method="post"
     action="{% url 'core:people:view_or_update' pk=form.initial.id %}"
     hx-post="{% url 'core:people:view_or_update' pk=form.initial.id %}"
+    autocomplete="off"
+    hx-target="#person-view-or-update-form-container"
+    hx-swap="innerHTML">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary mt-3">Save</button>
+  </form>
+{% elif pk %}
+  <form
+    method="post"
+    action="{% url 'core:people:view_or_update' pk=pk %}"
+    hx-post="{% url 'core:people:view_or_update' pk=pk %}"
     autocomplete="off"
     hx-target="#person-view-or-update-form-container"
     hx-swap="innerHTML">

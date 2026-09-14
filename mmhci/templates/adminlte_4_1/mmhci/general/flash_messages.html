@@ -1,11 +1,11 @@
 {% block flash_messages %}
-    {% if messages %}
-        <div class="messages">
+    <div id="flash-messages" class="messages" hx-swap-oob="innerHTML">
+        {% if messages %}
             {% for message in messages %}
                 <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
                     {{ message }}
                 </div>
             {% endfor %}
-        </div>
-    {% endif %}
+        {% endif %}
+    </div>
 {% endblock flash_messages %}
