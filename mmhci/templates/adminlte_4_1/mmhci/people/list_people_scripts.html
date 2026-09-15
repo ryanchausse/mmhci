@@ -24,7 +24,7 @@
       {% endfor %}
       const table = new Tabulator('#people-table', {
         data: data,
-        layout: 'fitColumns',
+        layout: 'fitData',
         pagination: true,
         paginationSize: 10,
         paginationSizeSelector: [10, 25, 50, 100],
@@ -33,11 +33,10 @@
           {
             title: '#',
             field: 'link',
-            formatter: 'link',
-            formatterParams: {
-              labelField: "id"
+            formatter: function(cell) {
+                var url = cell.getValue();
+                return `<a href="${url}" class="btn btn-primary">View</a>`;
             },
-            width: 60,
             headerSort: true
           },
           { title: 'Name', field: 'name', headerFilter: 'input' },
@@ -47,7 +46,6 @@
             field: 'role',
             headerFilter: 'list',
             headerFilterParams: { values: ['', 'Admin', 'Editor', 'Viewer'] },
-            width: 120,
           },
           {
             title: 'Status',
@@ -55,10 +53,9 @@
             formatter: statusBadge,
             headerFilter: 'list',
             headerFilterParams: { values: ['', 'Active', 'Invited', 'Suspended'] },
-            width: 130,
             hozAlign: 'center',
           },
-          { title: 'Joined', field: 'joined', sorter: 'date', width: 130 },
+          { title: 'Joined', field: 'joined', sorter: 'date' },
         ],
       });
       document.getElementById('table-filter').addEventListener('input', (e) => {

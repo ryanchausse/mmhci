@@ -77,3 +77,10 @@
     top:0;
     z-index:1030;
 }
+
+/* tabulator tables */
+.tabulator .tabulator-row .tabulator-cell {
+    display: inline-flex;
+    align-items: center;      /* Vertical alignment */
+    justify-content: center; /* Optional: forces flex to honor hozAlign */
+}
