@@ -12,7 +12,6 @@ class CreatePersonFormView(LoginRequiredMixin, FormView):
     # Views are responsible for validation of input, invoking services, and page flow
     form_class = PersonForm
     template_name = 'adminlte_4_1/mmhci/people/person_create.html'
-    # Probably insert a flash message or something instead of redirect to root
     success_url = reverse_lazy("core:people:create")
 
     def get_context_data(self, **kwargs):
