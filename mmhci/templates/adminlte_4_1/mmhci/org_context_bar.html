@@ -16,7 +16,12 @@
           </div>
         </div>
         <div>
-          <span><i class="nav-icon bi bi-person-square me-2"></i>John Smith 15/06/1981</span>
+          <span>
+            <i class="nav-icon bi bi-person-square me-2"></i>
+            {% if pk %}
+              {{ form.first_name.value }} {{ form.last_name.value }} {{ form.dob.value|date:'d-m-Y' }}
+            {% endif %}
+          </span>
         </div>
       </div>
     </div>
