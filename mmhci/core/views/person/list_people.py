@@ -8,6 +8,8 @@ class ListPeopleView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["people_menu"] = True
+        context["people_list"] = True
         context["people"] = ListPeopleService(request=self.request).execute()
 
         return context

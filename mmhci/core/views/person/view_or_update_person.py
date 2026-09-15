@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.forms import model_to_dict
 from django.shortcuts import redirect
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import FormView
 
 from mmhci.core.forms.person.person import PersonForm
@@ -12,9 +13,11 @@ from mmhci.core.services.person.view_or_update_person import ViewOrUpdatePersonS
 class ViewOrUpdatePersonView(LoginRequiredMixin, FormView):
     form_class = PersonForm
     template_name = "adminlte_4_1/mmhci/people/person_view_or_update.html"
+    success_url = reverse_lazy("core:people:list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["people_menu"] = True
         if self.kwargs.get('pk'):
             person = ViewOrUpdatePersonService(
                 request=self.request,

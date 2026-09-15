@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import FormView
 
 from mmhci.core.forms.person.person import PersonForm
@@ -12,7 +13,13 @@ class CreatePersonFormView(LoginRequiredMixin, FormView):
     form_class = PersonForm
     template_name = 'adminlte_4_1/mmhci/people/person_create.html'
     # Probably insert a flash message or something instead of redirect to root
-    success_url = '/'
+    success_url = reverse_lazy("core:people:create")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["people_menu"] = True
+        context["person_create"] = True
+        return context
 
     def form_valid(self, form):
         print('Form data validated.')

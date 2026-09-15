@@ -37,7 +37,7 @@
             <p>Dashboard</p>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item {% if people_menu %}menu-open{% endif %}">
           <a id="people-menu-nav-link" href="#" class="nav-link">
             <i class="nav-icon bi bi-people"></i>
             <p>
@@ -47,13 +47,13 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <a id="people-nav-link" href="{% url 'core:people:list' %}" class="nav-link">
+              <a id="people-nav-link" href="{% url 'core:people:list' %}" class="nav-link {% if people_list %}active{% endif %}">
                 <i class="nav-icon bi bi-people"></i>
                 <p>List People</p>
               </a>
             </li>
             <li class="nav-item">
-              <a id="person-create-nav-link" href="{% url 'core:people:create' %}" class="nav-link">
+              <a id="person-create-nav-link" href="{% url 'core:people:create' %}" class="nav-link {% if person_create %}active{% endif %}">
                 <i class="nav-icon bi bi-person-square"></i>
                 <p>Add Person</p>
               </a>
