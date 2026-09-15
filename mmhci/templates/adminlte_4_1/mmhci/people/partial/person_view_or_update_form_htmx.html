@@ -1,6 +1,7 @@
 {% load crispy_forms_tags %}
 <!-- Include this messages partial again for out-of-band htmx updates -->
 {% include 'adminlte_4_1/mmhci/general/flash_messages.html' %}
+<div class="form-container">
 {% if form.initial.id %}
   <form
     method="post"
@@ -8,6 +9,7 @@
     hx-post="{% url 'core:people:view_or_update' pk=form.initial.id %}"
     autocomplete="off"
     hx-target="#person-view-or-update-form-container"
+    hx-indicator="#person-view-or-update-form-container, .messages"
     hx-swap="innerHTML">
     {% csrf_token %}
     {{ form|crispy }}
@@ -20,6 +22,7 @@
     hx-post="{% url 'core:people:view_or_update' pk=pk %}"
     autocomplete="off"
     hx-target="#person-view-or-update-form-container"
+    hx-indicator="#person-view-or-update-form-container, .messages"
     hx-swap="innerHTML">
     {% csrf_token %}
     {{ form|crispy }}
@@ -28,3 +31,7 @@
 {% else %}
   <p>(Go to /people/view/(id) to see data for a person)</p>
 {% endif %}
+</div>
+<div class="loading-spinner spinner-border text-primary" role="status">
+  <span class="sr-only">Loading...</span>
+</div>

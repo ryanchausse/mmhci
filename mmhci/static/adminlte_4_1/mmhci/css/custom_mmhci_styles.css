@@ -84,3 +84,24 @@
     align-items: center;      /* Vertical alignment */
     justify-content: center; /* Optional: forces flex to honor hozAlign */
 }
+
+/* loading spinner during form submission */
+.htmx-request .form-container,
+.htmx-request.form-container {
+    display:none;
+}
+
+.htmx-request .messages,
+.htmx-request.messages {
+    display:none;
+}
+
+.loading-spinner {
+    display: none;
+}
+
+.htmx-request.loading-spinner,
+.htmx-request .loading-spinner {
+  display: block;
+  margin: 20px auto;
+}
