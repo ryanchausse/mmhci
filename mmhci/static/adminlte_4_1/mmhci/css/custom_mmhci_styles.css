@@ -71,11 +71,37 @@
   background-color: #f9f9f9;
 }
 
+/* Sample dashboard progress bar values (to be removed) */
+.joe-bloggs-bar {
+    width: 55%;
+}
+
+.anthony-albanese-bar {
+    width: 70%;
+}
+
+.jane-doe-bar {
+    width: 30%;
+}
+
+.judy-dench-bar {
+    width: 90%;
+}
+
+/* Dropdown menu end - topbar */
+.dropdown-menu-end {
+    --bs-dropdown-min-width: 8rem;
+}
+
 /* Org context sticky top bar */
 .org-context-container {
     position:fixed;
     top:0;
     z-index:1030;
+}
+
+.input-group-container-custom-width {
+    width: 16rem;
 }
 
 /* tabulator tables */
