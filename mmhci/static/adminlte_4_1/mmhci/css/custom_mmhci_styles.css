@@ -108,7 +108,7 @@
 .tabulator .tabulator-row .tabulator-cell {
     display: inline-flex;
     align-items: center;      /* Vertical alignment */
-    justify-content: center; /* Optional: forces flex to honor hozAlign */
+    justify-content: left; /* Optional: forces flex to honor hozAlign */
 }
 
 /* loading spinner during form submission */
