@@ -51,10 +51,11 @@ class ViewOrUpdatePersonView(LoginRequiredMixin, FormView):
     def form_invalid(self, form):
         print('Form data is not valid.')
         if self.request.htmx:
+            pk = self.kwargs.get('pk')
             return render(
                 self.request,
-                'adminlte_4_1/mmhci/people/partial/person_view_or_update_form.html',
-                {'form': form},
+                'adminlte_4_1/mmhci/people/partial/person_view_or_update_form_htmx.html',
+                {'pk': pk, 'form': form},
                 status=422
             )
         return super().form_invalid(form)

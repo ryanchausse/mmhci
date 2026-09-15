@@ -24,15 +24,16 @@
       {% endfor %}
       const table = new Tabulator('#people-table', {
         data: data,
-        layout: 'fitData',
+        layout: 'fitColumns',
         pagination: true,
         paginationSize: 10,
         paginationSizeSelector: [10, 25, 50, 100],
         movableColumns: true,
         columns: [
           {
-            title: '#',
+            title: 'View',
             field: 'link',
+            maxWidth: 100,
             formatter: function(cell) {
                 var url = cell.getValue();
                 return `<a href="${url}" class="btn btn-primary">View</a>`;

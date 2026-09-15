@@ -11,13 +11,6 @@ urlpatterns = [
         name="list",
     ),
     path(
-        "view/",
-        view_or_update_person.ViewOrUpdatePersonView.as_view(
-            template_name="adminlte_4_1/mmhci/people/person_view_or_update.html"
-        ),
-        name="view_or_update_no_pk",
-    ),
-    path(
         "view/<int:pk>/",
         view_or_update_person.ViewOrUpdatePersonView.as_view(
             template_name="adminlte_4_1/mmhci/people/person_view_or_update.html"
