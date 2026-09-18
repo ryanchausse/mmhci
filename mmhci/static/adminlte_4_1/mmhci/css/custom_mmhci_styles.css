@@ -134,6 +134,7 @@
 
 .loading-spinner {
     display: none;
+    animation: var(--bs-spinner-animation-speed) linear infinite var(--bs-spinner-animation-name) !important;
 }
 
 .htmx-request.loading-spinner,
