@@ -14,7 +14,7 @@ class CreatePersonFormView(LoginRequiredMixin, FormView):
     # Views are responsible for validation of input, invoking services, and page flow
     form_class = PersonForm
     template_name = 'adminlte_4_1/mmhci/people/person_create.html'
-    success_url = reverse_lazy("core:people:create")
+    success_url = reverse_lazy("core:people:list")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -26,8 +26,7 @@ class CreatePersonFormView(LoginRequiredMixin, FormView):
         person = CreatePersonService(**form.cleaned_data).execute()
         messages.success(
             self.request,
-            f'{person.first_name} {person.last_name} created successfully',
-            extra_tags='create_redirect'
+            f'{person.first_name} {person.last_name} created successfully'
         )
         url = reverse_lazy(
             'core:people:view_or_update',

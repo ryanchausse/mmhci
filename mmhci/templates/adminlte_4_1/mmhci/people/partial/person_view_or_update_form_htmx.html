@@ -1,6 +1,10 @@
 {% load crispy_forms_tags %}
-<!-- Include this messages partial again for out-of-band htmx updates -->
-{% include 'adminlte_4_1/mmhci/general/flash_messages_no_create.html' %}
+<!-- Include these partials for out-of-band htmx updates -->
+{% if request.htmx %}
+  {% include 'adminlte_4_1/mmhci/general/flash_messages.html' %}
+  {% include 'adminlte_4_1/mmhci/people/partial/person_view_or_update_remaining_fields.html' %}
+  {% include 'adminlte_4_1/mmhci/people/partial/person_view_or_update_log.html' %}
+{% endif %}
 <div class="form-container">
   {% if pk %}
     <form
