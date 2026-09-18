@@ -2,6 +2,7 @@
 <!-- Include these partials for out-of-band htmx updates -->
 {% if request.htmx %}
   {% include 'adminlte_4_1/mmhci/general/flash_messages.html' %}
+  {% include 'adminlte_4_1/mmhci/org_context_bar.html' %}
   {% include 'adminlte_4_1/mmhci/people/partial/person_view_or_update_remaining_fields.html' %}
   {% include 'adminlte_4_1/mmhci/people/partial/person_view_or_update_log.html' %}
 {% endif %}
@@ -13,7 +14,11 @@
       hx-post="{% url 'core:people:view_or_update' pk=pk %}"
       autocomplete="off"
       hx-target="#person-view-or-update-form-container"
-      hx-indicator="#person-view-or-update-form-container, #person-view-or-update-log-container, #person-view-or-update-remaining-fields-container, .messages"
+      hx-indicator="#person-view-or-update-form-container,
+                    #person-view-or-update-log-container,
+                    #person-view-or-update-remaining-fields-container,
+                    #org-context-bar,
+                    .messages"
       hx-swap="innerHTML">
       {% csrf_token %}
       {{ form|crispy }}
