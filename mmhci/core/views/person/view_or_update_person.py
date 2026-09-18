@@ -1,3 +1,5 @@
+# import time
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.forms import model_to_dict
@@ -41,6 +43,7 @@ class ViewOrUpdatePersonView(LoginRequiredMixin, FormView):
             form=form,
             update=True
         ).execute()
+        # time.sleep(2)
         messages.success(self.request, f'{person.first_name} {person.last_name} updated successfully')
         if self.request.htmx:
             return render(
