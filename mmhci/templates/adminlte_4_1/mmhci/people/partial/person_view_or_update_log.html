@@ -1,9 +1,18 @@
 {% load crispy_forms_tags %}
 <div class="missing-fields-container">
   {% if pk %}
-    <div class="row">
-      <p>2026-09-18 17:59 - Beverly changed first name from "TestFirstName" to "TestFirstNamed"</p>
-    </div>
+    <table class="table-sm" role="table">
+      <tbody>
+        <tr class="align-left">
+          <td class="text-secondary">2026-09-19 19:20</td>
+          <td>John <span class="text-secondary">updated First name from </span>TestFirstNameNew <span class="text-secondary">to</span> TestFirstName</td>
+        </tr>
+        <tr class="align-left">
+          <td class="text-secondary">2026-09-19 19:30</td>
+          <td>Beverly <span class="text-secondary">updated First name from </span>TestFirstNameNew <span class="text-secondary">to</span> TestFirstName</td>
+        </tr>
+      </tbody>
+    </table>
   {% endif %}
 </div>
 <div class="loading-spinner spinner-border text-primary" role="status">
