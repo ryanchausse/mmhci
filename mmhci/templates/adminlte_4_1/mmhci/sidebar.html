@@ -45,20 +45,22 @@
               <i class="nav-arrow bi bi-chevron-right"></i>
             </p>
           </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a id="people-nav-link" href="{% url 'core:people:list' %}" class="nav-link {% if people_list %}active{% endif %}">
-                <i class="nav-icon bi bi-people"></i>
-                <p>List People</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a id="person-create-nav-link" href="{% url 'core:people:create' %}" class="nav-link {% if person_create %}active{% endif %}">
-                <i class="nav-icon bi bi-person-square"></i>
-                <p>Add Person</p>
-              </a>
-            </li>
-          </ul>
+          <div class="ms-3">
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a id="people-nav-link" href="{% url 'core:people:list' %}" class="nav-link {% if people_list %}active{% endif %}">
+                  <i class="nav-icon bi bi-people"></i>
+                  <p>List People</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a id="person-create-nav-link" href="{% url 'core:people:create' %}" class="nav-link {% if person_create %}active{% endif %}">
+                  <i class="nav-icon bi bi-person-square"></i>
+                  <p>Add Person</p>
+                </a>
+              </li>
+            </ul>
+          </div>
         </li>
         <li class="nav-item">
           <a id="contacts-nav-link" href="{% url 'core:contacts:list' %}" class="nav-link">
