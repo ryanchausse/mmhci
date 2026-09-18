@@ -117,6 +117,16 @@
     display:none;
 }
 
+.htmx-request .log-container,
+.htmx-request.log-container {
+    display:none;
+}
+
+.htmx-request .missing-fields-container,
+.htmx-request.missing-fields-container {
+    display:none;
+}
+
 .htmx-request .messages,
 .htmx-request.messages {
     display:none;

@@ -9,7 +9,7 @@
       hx-post="{% url 'core:people:view_or_update' pk=pk %}"
       autocomplete="off"
       hx-target="#person-view-or-update-form-container"
-      hx-indicator="#person-view-or-update-form-container, .messages"
+      hx-indicator="#person-view-or-update-form-container, #person-view-or-update-log-container, #person-view-or-update-remaining-fields-container, .messages"
       hx-swap="innerHTML">
       {% csrf_token %}
       {{ form|crispy }}
