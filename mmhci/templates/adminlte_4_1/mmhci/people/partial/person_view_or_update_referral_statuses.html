@@ -1,0 +1,36 @@
+{% load crispy_forms_tags %}
+<div id="person-view-or-update-referral-statuses-container" hx-swap-oob="innerHTML">
+  <div class="referral-statuses-container">
+    {% if pk %}
+      <div class="row">
+        <a class="text-decoration-none" href="#">
+          <div class="info-box">
+            <span class="info-box-icon text-bg-success">
+              <i class="bi bi-arrow-right-circle"></i>
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text">NWMPHN</span>
+              <span class="info-box-number">Accepted</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="row">
+        <a class="text-decoration-none" href="#">
+          <div class="info-box">
+            <span class="info-box-icon text-bg-info">
+              <i class="bi bi-arrow-right-circle"></i>
+            </span>
+            <div class="info-box-content">
+              <span class="info-box-text">SEMPHN</span>
+              <span class="info-box-number">Sent</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    {% endif %}
+  </div>
+  <div class="loading-spinner spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
