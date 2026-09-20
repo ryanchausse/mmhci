@@ -4,6 +4,21 @@ from django.shortcuts import get_object_or_404
 from mmhci.core.models.person import Person
 
 
+# This needs to change. This service layer should have no knowledge of the form
+# object. Need to unpack variables and send to this layer instead of sending
+# the whole form object. This will make the service re-usable by e.g. the API
+# layer, and also more testable. The correct usage is like:
+# From view layer, instantiate service with a call passing no vars:
+# view_person_service = ViewOrUpdatePersonService()
+# Then,
+# view_person_result = view_person_service.execute(**form.cleaned_data)
+# Then, this service's execute() method can extract all necessary dict data.
+# execute(self, first_name: str, last_name: str, etc.) -> Person
+# If there are a lot of values, I could maybe use a Pydantic class to parse the
+# incoming data instead of manually maintaining a big argument list here. Make
+# similar changes to the new CreatePersonService.
+# The __init__() method in these services should be used mainly for
+# infrastructure items like dependency injection.
 class ViewOrUpdatePersonService:
     def __init__(self, request, pk=None, form=None, update=False):
         self.request = request
@@ -14,10 +29,6 @@ class ViewOrUpdatePersonService:
     @transaction.atomic
     def execute(self):
         # TODO: enforce permissions (set permission name as a string)
-        # Possibly need to place permission logic here instead of in the Views/API
-        # routers so permissions are enforced no matter where the call comes from.
-        # Maybe create a service base class that does this? In the current plan, we
-        # would need the user and the org_id (org context)
         person = get_object_or_404(Person, pk=self.pk)
         if not self.form or not self.update:
             return person

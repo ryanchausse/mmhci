@@ -30,7 +30,6 @@ class ViewOrUpdatePersonView(LoginRequiredMixin, FormView):
         return context
 
     def form_valid(self, form):
-        print('Form data validated.')
         pk = self.kwargs.get('pk')
         # NB: need to save fields manually because PersonForm inherits from
         # forms.Form, not forms.ModelForm.
@@ -41,7 +40,10 @@ class ViewOrUpdatePersonView(LoginRequiredMixin, FormView):
             form=form,
             update=True
         ).execute()
-        messages.success(self.request, f'{person.first_name} {person.last_name} updated successfully')
+        messages.success(
+            self.request,
+            f'{person.first_name} {person.last_name} updated successfully'
+        )
         if self.request.htmx:
             return render(
                 self.request,

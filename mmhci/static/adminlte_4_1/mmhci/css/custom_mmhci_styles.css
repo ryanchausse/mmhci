@@ -134,6 +134,10 @@
 
 .loading-spinner {
     display: none;
+    /*
+        NB: Needed this override as the animation wasn't working. Need to sort
+        out the override needed for accessibility settings.
+    */
     animation: var(--bs-spinner-animation-speed) linear infinite var(--bs-spinner-animation-name) !important;
 }
 
