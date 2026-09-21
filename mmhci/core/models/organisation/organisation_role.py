@@ -20,6 +20,10 @@ class OrganisationRole(CreatedAndUpdatedBase):
     name = models.TextField()  # "Doctor", "Counselor", "Intake Administrator"
     # Connects to Django default Permissions object, which gets permissions from models
     # This is where specific permissions are assigned to roles in an organisation
+    # Permissions should be defined in models wherever possible, if not, a "core"
+    # permissions model, where complex service orchestration permissions can live, could
+    # be defined. This plays nicely with things like migrations and Django's native
+    # Permissions object. Will probably remove the OrgPermissionRequired mixin.
     permissions = models.ManyToManyField(
         Permission, blank=True, related_name="organisation_roles"
     )

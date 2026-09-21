@@ -39,7 +39,7 @@ class User(AbstractUser):
 
     def has_org_permission(self, organisation_id, permission_codename):
         """
-        Checks if the user belongs to any group inside the organization
+        Checks if the user belongs to any group inside the organisation
         that grants them the required permission via their assigned role.
         """
         # Query the OrganisationMembership table
