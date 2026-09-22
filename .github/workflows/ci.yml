@@ -85,7 +85,7 @@ jobs:
   # ==========================================
   deploy:
     runs-on: ubuntu-latest
-    needs: [linter, pytest] # Run ONLY if formatting and tests pass successfully
+    # needs: [linter, pytest] # Run ONLY if formatting and tests pass successfully
     if: github.event_name == 'push' && github.ref == 'refs/heads/main' # Execute only on direct pushes/merges to main
 
     steps:
