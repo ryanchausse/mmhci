@@ -336,6 +336,8 @@ ACCOUNT_FORMS = {"signup": "mmhci.users.forms.UserSignupForm"}
 SOCIALACCOUNT_ADAPTER = "mmhci.users.adapters.SocialAccountAdapter"
 # https://docs.allauth.org/en/latest/socialaccount/configuration.html
 SOCIALACCOUNT_FORMS = {"signup": "mmhci.users.forms.UserSocialSignupForm"}
+# Require MFA (https://docs.allauth.org/en/latest/account/configuration.html)
+ACCOUNT_LOGIN_BY_CODE_REQUIRED = True
 # django-compressor
 # ------------------------------------------------------------------------------
 # https://django-compressor.readthedocs.io/en/latest/quickstart/#installation

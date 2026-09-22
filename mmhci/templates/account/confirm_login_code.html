@@ -1,0 +1,72 @@
+{% extends 'adminlte_4_1/mmhci/base.html' %}
+{% load allauth %}
+{% load static %}
+{% block main_wrapper %}
+    {% block head %}
+        {% include 'adminlte_4_1/mmhci/head.html' %}
+    {% endblock head %}
+    {% block body %}
+        <body class="login-page bg-body-secondary">
+            <main class="login-box">
+                <h1 class="login-logo">
+                    <a href="#">MMHCI</a>
+                </h1>
+                <!-- /.login-logo -->
+                <div class="card">
+                    <div class="card-body login-card-body">
+                        {% if messages %}
+                            <div class="messages">
+                                {% for message in messages %}
+                                    <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                                        {{ message }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    <p class="login-box-msg">Enter Confirmation Code</p>
+                    <form action="{% url 'account_confirm_login_code' %}" method="post">
+                        {% csrf_token %}
+                        {{ redirect_field }}
+                        <label class="visually-hidden" for="{{ form.code.id_for_label }}">Code</label>
+                        <div class="input-group mb-3">
+                            <input id="{{ form.code.id_for_label }}" name="code" type="text" class="form-control" placeholder="Code" />
+                            <div class="input-group-text">
+                                <span class="bi bi-shield-lock"></span>
+                            </div>
+                        </div>
+                        <div>{{ form.code.errors }}</div>
+                        <!--begin::Row-->
+                        <div class="row">
+                            <div class="col-8">
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-4">
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary">Confirm</button>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!--end::Row-->
+                    </form>
+                    {% comment %}
+                        <div class="row mt-2">
+                            <div class="col-8">
+                            </div>
+                            <div class="col-4">
+                                <form action="{% url 'account_logout' %}" method="post">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="next" value="{% url 'account_login' %}">
+                                    <button type="submit" class="btn btn-secondary float-end">Cancel</button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endcomment %}
+                    <!-- /.login-card-body -->
+                </div>
+            </main>
+            <!-- /.login-box -->
+        </body>
+    {% endblock body %}
+{% endblock main_wrapper %}
+</html>
