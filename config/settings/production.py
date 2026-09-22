@@ -140,7 +140,11 @@ INSTALLED_APPS += ["anymail"]
 # https://anymail.readthedocs.io/en/stable/installation/#anymail-settings-reference
 # https://anymail.readthedocs.io/en/stable/esps/amazon_ses/
 EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
-ANYMAIL = {}
+ANYMAIL = {
+    "AMAZON_SES_CLIENT_PARAMS": {
+        "region_name": env("DJANGO_AWS_SES_REGION_NAME", default="us-east-1"),
+    },
+}
 
 # django-compressor
 # ------------------------------------------------------------------------------
