@@ -196,9 +196,15 @@ LOGGING = {
         },
         # Errors logged by the SDK itself
         # "sentry_sdk": {"level": "ERROR", "handlers": ["console"], "propagate": False},
-        "django.request": {
-            "level": "ERROR",
+        # TODO: remove after configuring/turning on Sentry
+        "django": {
             "handlers": ["console"],
+            "level": "ERROR",  # Captures 500 errors explicitly
+            "propagate": True,
+        },
+        "django.request": {
+            "handlers": ["console"],
+            "level": "ERROR",
             "propagate": False,
         },
         "django.security.DisallowedHost": {
