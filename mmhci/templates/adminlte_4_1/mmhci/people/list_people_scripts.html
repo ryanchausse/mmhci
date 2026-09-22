@@ -17,7 +17,7 @@
           email: "{{ person.email }}",
           role: "Person",
           status: "Active",
-          joined: "{{ person.created_at }}"
+          added: "{{ person.created_at }}"
         });
       {% endfor %}
       const table = new Tabulator('#people-table', {
@@ -27,16 +27,18 @@
         paginationSize: 10,
         paginationSizeSelector: [10, 25, 50, 100],
         movableColumns: true,
+        columnDefaults: {
+          minWidth: 150,
+        },
         columns: [
           {
-            title: 'View',
+            title: '',
             field: 'link',
-            maxWidth: 100,
             formatter: function(cell) {
                 var url = cell.getValue();
                 return `<a href="${url}" class="btn btn-primary">View</a>`;
             },
-            headerSort: true
+            headerSort: false
           },
           { title: 'Name', field: 'name', headerFilter: 'input' },
           { title: 'Email', field: 'email', headerFilter: 'input' },
@@ -54,7 +56,7 @@
             headerFilterParams: { values: ['', 'Active', 'Invited', 'Suspended'] },
             hozAlign: 'center',
           },
-          { title: 'Joined', field: 'joined', sorter: 'date' },
+          { title: 'Added', field: 'added', sorter: 'date' },
         ],
       });
       document.getElementById('table-filter').addEventListener('input', (e) => {
