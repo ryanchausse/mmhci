@@ -143,6 +143,8 @@ EMAIL_BACKEND = "anymail.backends.amazon_ses.EmailBackend"
 DJANGO_AWS_SES_REGION_NAME = env("DJANGO_AWS_SES_REGION_NAME", default="us-east-1")
 ANYMAIL = {
     "AMAZON_SES_CLIENT_PARAMS": {
+        "aws_access_key_id": AWS_ACCESS_KEY_ID,
+        "aws_secret_access_key": AWS_SECRET_ACCESS_KEY,
         "region_name": DJANGO_AWS_SES_REGION_NAME,
     },
 }
