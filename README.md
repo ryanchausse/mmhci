@@ -2061,6 +2061,17 @@ Could create an Intake at the first Service Contact with a new Person if the Per
 
 Must also independently support searching for Service Contacts basically by record created - user should be able to search for any previous contact record created by any field that they have access to.
 
+## Possibly useful prod commands (in mmhci dir)
+
+git pull origin main
+docker compose -f docker-compose.production.yml build
+docker compose -f docker-compose.production.yml up -d postgres redis
+docker compose -f docker-compose.production.yml run --rm django python manage.py migrate
+docker compose -f docker-compose.production.yml up -d
+docker compose -f docker-compose.production.yml run --rm django   python manage.py shell -c   "from django.core.mail import send_mail; print(send_mail('test', 'test', None, ['noreply@githeri.com']))"
+docker logs mmhci-traefik-1
+docker logs mmhci-django-1
+docker compose -f docker-compose.production.yml logs
 
 
 
