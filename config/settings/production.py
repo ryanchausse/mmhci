@@ -172,12 +172,55 @@ COMPRESS_FILTERS = {
 # See https://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
 
+# LOGGING = {
+#     "version": 1,
+#     "disable_existing_loggers": True,
+#     "formatters": {
+#         "verbose": {
+#             "format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s",
+#         },
+#     },
+#     "handlers": {
+#         "console": {
+#             "level": "DEBUG",
+#             "class": "logging.StreamHandler",
+#             "formatter": "verbose",
+#         },
+#     },
+#     "root": {"level": "INFO", "handlers": ["console"]},
+#     "loggers": {
+#         "django.db.backends": {
+#             "level": "ERROR",
+#             "handlers": ["console"],
+#             "propagate": False,
+#         },
+#         # Errors logged by the SDK itself
+#         # "sentry_sdk": {"level": "ERROR", "handlers": ["console"], "propagate": False},
+#         # TODO: remove after configuring/turning on Sentry
+#         "django": {
+#             "handlers": ["console"],
+#             "level": "ERROR",  # Captures 500 errors explicitly
+#             "propagate": True,
+#         },
+#         "django.request": {
+#             "handlers": ["console"],
+#             "level": "ERROR",
+#             "propagate": False,
+#         },
+#         "django.security.DisallowedHost": {
+#             "level": "ERROR",
+#             "handlers": ["console"],
+#             "propagate": False,
+#         },
+#     },
+# }
+
 LOGGING = {
     "version": 1,
-    "disable_existing_loggers": True,
+    "disable_existing_loggers": False,
     "formatters": {
         "verbose": {
-            "format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s",
+            "format": "%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s"
         },
     },
     "handlers": {
@@ -185,18 +228,13 @@ LOGGING = {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
             "formatter": "verbose",
-        },
+        }
     },
-    "root": {"level": "INFO", "handlers": ["console"]},
+    "root": {
+        "level": "INFO",
+        "handlers": ["console"],
+    },
     "loggers": {
-        "django.db.backends": {
-            "level": "ERROR",
-            "handlers": ["console"],
-            "propagate": False,
-        },
-        # Errors logged by the SDK itself
-        # "sentry_sdk": {"level": "ERROR", "handlers": ["console"], "propagate": False},
-        # TODO: remove after configuring/turning on Sentry
         "django": {
             "handlers": ["console"],
             "level": "ERROR",  # Captures 500 errors explicitly
@@ -207,13 +245,9 @@ LOGGING = {
             "level": "ERROR",
             "propagate": False,
         },
-        "django.security.DisallowedHost": {
-            "level": "ERROR",
-            "handlers": ["console"],
-            "propagate": False,
-        },
     },
 }
+
 
 # Sentry
 # ------------------------------------------------------------------------------
