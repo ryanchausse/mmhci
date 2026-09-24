@@ -2,6 +2,7 @@ from django.db import transaction
 from django.shortcuts import get_object_or_404
 
 from mmhci.core.models.person import Person
+from mmhci.core.services.core.auditlog_base import AuditLogBaseService
 
 
 # This needs to change. This service layer should have no knowledge of the form
@@ -19,9 +20,9 @@ from mmhci.core.models.person import Person
 # similar changes to the new CreatePersonService.
 # The __init__() method in these services should be used mainly for
 # infrastructure items like dependency injection.
-class ViewOrUpdatePersonService:
+class ViewOrUpdatePersonService(AuditLogBaseService):
     def __init__(self, request, pk=None, form=None, update=False):
-        self.request = request
+        super().__init__(request)
         self.pk = pk
         self.form = form
         self.update = update
@@ -31,6 +32,7 @@ class ViewOrUpdatePersonService:
         # TODO: enforce permissions (set permission name as a string)
         person = get_object_or_404(Person, pk=self.pk)
         if not self.form or not self.update:
+            self.log_access(person)
             return person
         person.first_name=self.form.cleaned_data["first_name"]
         person.last_name=self.form.cleaned_data["last_name"]
@@ -38,6 +40,7 @@ class ViewOrUpdatePersonService:
         person.dob=self.form.cleaned_data["dob"]
         person.phone=self.form.cleaned_data["phone"]
         person.email=self.form.cleaned_data["email"]
-        person.save()
+        with self.audit_write():
+            person.save()
 
         return person

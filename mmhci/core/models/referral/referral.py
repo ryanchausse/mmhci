@@ -1,6 +1,8 @@
 """
 Model
   - Referral
+
+NB: Do we need to have a ReferralPerson model? A ReferralPersonConsent model?
 """
 
 from django.db import models

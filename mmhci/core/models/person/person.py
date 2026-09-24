@@ -5,9 +5,15 @@ Model
 
 from django.db import models
 
+from auditlog.registry import auditlog
 from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
 
+AUDIT_EXCLUSIONS = [
+    "last_name",
+    "email"
+]
 
+@auditlog.register(exclude_fields=AUDIT_EXCLUSIONS)
 class Person(CreatedAndUpdatedBase):
     # Models enforce validation of data integrity-related invariants
     address = models.ForeignKey(
