@@ -2073,6 +2073,154 @@ docker logs mmhci-traefik-1
 docker logs mmhci-django-1
 docker compose -f docker-compose.production.yml logs
 
+# django-auditlog for reads/writes in services layer
+
+base service class for auditing
+
+from contextlib import contextmanager
+from auditlog.context import set_actor
+from auditlog.signals import accessed
+
+class BaseService:
+    def __init__(self, request):
+        """
+        Instantiate the service with the incoming HTTP request.
+        This provides clean, persistent access to request.user and request.META.
+        """
+        self.request = request
+        self.user = request.user
+
+    @contextmanager
+    def audit_write(self):
+        """
+        Context manager to safely wrap database write operations.
+        Ensures django-auditlog background signals grab the correct user.
+        """
+        # Checks if user is logged in (handles Django & DRF auth states)
+        actor = self.user if self.user and self.user.is_authenticated else None
+
+        with set_actor(actor=actor):
+            yield
+
+    def log_access(self, instance):
+        """
+        Explicitly triggers an access/read log entry for a specific model instance.
+        Passing the request automatically fills the actor and remote IP address fields.
+        """
+        accessed.send(
+            sender=instance.__class__,
+            instance=instance,
+            request=self.request
+        )
+
+then, in services:
+
+# myapp/services/document_service.py
+from .base import BaseService
+from myapp.models import Document
+
+class DocumentService(BaseService):
+
+    def get_document_details(self, document_id):
+        """Fetches a document and tracks the read event."""
+        document = Document.objects.get(id=document_id)
+        
+        # Logs the read access to SQL database
+        self.log_access(document)
+
+        return document
+
+    def update_document_title(self, document_id, new_title):
+        """Updates a document and tracks the modification event."""
+        document = Document.objects.get(id=document_id)
+
+        # Automatically ensures user is captured during model updates
+        with self.audit_write():
+            document.title = new_title
+            document.save()
+
+        return document
+
+better safety for audit_write in service base class:
+
+    @contextmanager
+    def audit_write(self):
+        actor = self.user if self.user and self.user.is_authenticated else None
+
+        # Open the inner layer
+        with set_actor(actor=actor):
+            try:
+                yield  # Hand over control to your database updates
+            finally:
+                # This block is GUARANTEED to run, even if the database code crashes.
+                # It ensures the inner context manager closes cleanly no matter what.
+                pass
+
+-----------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
