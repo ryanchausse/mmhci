@@ -151,6 +151,9 @@ MIDDLEWARE = [
     "django.middleware.csp.ContentSecurityPolicyMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    # Turn on after adding models/wiring things up for org perms
+    # Still need to handle the superuser case
+    # "mmhci.core.utilities.middleware.get_all_cross_org_permissions.OrgPermissionsCacheMiddleware",
     "mmhci.core.utilities.middleware.core_login_required_middleware.CoreLoginRequiredMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
