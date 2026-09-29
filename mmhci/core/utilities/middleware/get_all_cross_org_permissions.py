@@ -1,5 +1,6 @@
 # Create an org_perms dict that has all permissions in all orgs for the user.
 # This is basically a cache of permissions for a user per HTTP request.
+# Accessible in views/api views with self.request.org_perms
 
 
 class OrgPermissionsCacheMiddleware:
@@ -9,22 +10,27 @@ class OrgPermissionsCacheMiddleware:
     def __call__(self, request):
         if not request.user.is_authenticated:
             request.org_perms = {}
-        else:
-            # Gets all permissions in all orgs
-            memberships = request.user.group_memberships.select_related('organisation').prefetch_related(
-                'roles__permissions__content_type'
-            )
+            return self.get_response(request)
 
-            org_perms = {}
-            for membership in memberships:
-                org_id = membership.organisation_id
-                if org_id not in org_perms:
-                    org_perms[org_id] = set()
+        memberships = (
+            request.user.org_group_memberships
+            .select_related("organisation_group__organisation")
+            .prefetch_related("organisation_group__role__permissions__content_type")
+        )
 
-                for role in membership.roles.all():
-                    for perm in role.permissions.all():
-                        org_perms[org_id].add(f"{perm.content_type.app_label}.{perm.codename}")
+        org_perms = {}
 
-            request.org_perms = org_perms
+        for membership in memberships:
+            group = membership.organisation_group
+            org_id = group.organisation_id
 
+            org_perms.setdefault(org_id, set())
+
+            for role in group.role.all():
+                for perm in role.permissions.all():
+                    org_perms[org_id].add(
+                        f"{perm.content_type.app_label}.{perm.codename}"
+                    )
+
+        request.org_perms = org_perms
         return self.get_response(request)

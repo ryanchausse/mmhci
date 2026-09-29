@@ -11,6 +11,7 @@ class ListPeopleView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         org_perms = getattr(self.request, "org_perms", {})
         try:
+            # TODO: this is the correct usage, but switch it out
             list_people_service = ListPeopleService(org_perms=org_perms)
             context["people"] = list_people_service.execute()
         except PermissionDenied:
