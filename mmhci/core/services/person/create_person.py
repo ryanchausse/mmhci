@@ -1,10 +1,13 @@
 from django.db import transaction
 from mmhci.core.models.person import Person
+from mmhci.core.services.core.org_permissions_required_base import OrgPermissionsRequiredBaseService
 
-class CreatePersonService:
+class CreatePersonService(OrgPermissionsRequiredBaseService):
     # Business rule validation lives in single-domain (model) services.
     # Multiple model/multi-stage orchestrations can import multiple
     # single-domain services.
+
+    required_permissions = frozenset({'core.create_person'})
 
     # NB: need to save fields manually because PersonForm inherits from
     # forms.Form, not forms.ModelForm
@@ -26,6 +29,7 @@ class CreatePersonService:
 
     @transaction.atomic
     def execute(self):
+        # Still need to gate by org ids given by base service class here
         person = Person.objects.create(
             first_name=self.first_name,
             last_name=self.last_name,

@@ -3,6 +3,7 @@ from django.shortcuts import get_object_or_404
 
 from mmhci.core.models.person import Person
 from mmhci.core.services.core.auditlog_base import AuditLogBaseService
+from mmhci.core.services.core.org_permissions_required_base import OrgPermissionsRequiredBaseService
 
 
 # This needs to change. This service layer should have no knowledge of the form
@@ -20,7 +21,9 @@ from mmhci.core.services.core.auditlog_base import AuditLogBaseService
 # similar changes to the new CreatePersonService.
 # The __init__() method in these services should be used mainly for
 # infrastructure items like dependency injection.
-class ViewOrUpdatePersonService(AuditLogBaseService):
+class ViewOrUpdatePersonService(AuditLogBaseService, OrgPermissionsRequiredBaseService):
+    required_permissions = frozenset({'core.view_person'})
+
     def __init__(self, request, pk=None, form=None, update=False):
         super().__init__(request)
         self.pk = pk
@@ -29,7 +32,7 @@ class ViewOrUpdatePersonService(AuditLogBaseService):
 
     @transaction.atomic
     def execute(self):
-        # TODO: enforce permissions (set permission name as a string)
+        # Still need to filter on owner_org by base permission service class
         person = get_object_or_404(Person, pk=self.pk)
         if not self.form or not self.update:
             self.log_access(person)

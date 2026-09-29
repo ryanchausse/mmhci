@@ -16,9 +16,8 @@ class OrganisationGroup(CreatedAndUpdatedBase):
         on_delete=models.PROTECT,
         related_name="org_groups"
     )
-    role = models.ForeignKey(
+    roles = models.ManyToManyField(
         "core.OrganisationRole",
-        on_delete=models.PROTECT,
         related_name="org_groups"
     )
     name = models.TextField()  # "Clinicians", "PHN Admins"
@@ -30,8 +29,9 @@ class OrganisationGroup(CreatedAndUpdatedBase):
         verbose_name_plural = "OrganisationGroups"
 
     def __str__(self):
+        roles = ", ".join(str(role) for role in self.roles.all()) or "No roles"
         return (
             f"Name: {self.name} "
             f"Organisation: {self.organisation} - "
-            f"OrganisationRole: {self.role}"
+            f"OrganisationRoles: {roles}"
         )
