@@ -2,8 +2,6 @@
 Model
   - Organisation
 
-Possibly either add a self relation (field "owner_org" for PHN), or introduce a
-new relational table with metadata (owner_org? phn?)
 """
 
 from django.db import models

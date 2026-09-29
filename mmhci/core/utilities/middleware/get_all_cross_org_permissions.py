@@ -1,6 +1,7 @@
 # Create an org_perms dict that has all permissions in all orgs for the user.
 # This is basically a cache of permissions for a user per HTTP request.
 
+
 class OrgPermissionsCacheMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response

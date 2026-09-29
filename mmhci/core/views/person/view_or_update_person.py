@@ -8,7 +8,6 @@ from django.views.generic import FormView
 
 from mmhci.core.forms.person.person import PersonForm
 from mmhci.core.services.person.view_or_update_person import ViewOrUpdatePersonService
-#from mmhci.core.utilities.mixins.org_permission_required import OrgPermissionRequiredMixin
 
 class ViewOrUpdatePersonView(LoginRequiredMixin, FormView):
     form_class = PersonForm

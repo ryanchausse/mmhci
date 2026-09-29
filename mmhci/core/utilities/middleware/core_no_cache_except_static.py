@@ -2,6 +2,8 @@
 from django.conf import settings
 from django.utils.cache import patch_cache_control
 
+
+# This is a privacy measure - add "no cache" headers unless serving static files
 class NoCacheMiddleware:
     def __init__(self, get_response):
         self.get_response = get_response

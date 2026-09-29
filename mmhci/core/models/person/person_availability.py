@@ -2,7 +2,7 @@
 Model
   - PersonAvailability
 
-This may change in terms of implementation - possibly an Availability model?
+This may change in terms of implementation - possibly a new Availability model
 Might also add "exception to availability on a certain date(s)"
 """
 
