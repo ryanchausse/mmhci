@@ -13,6 +13,7 @@ from django.db import models
 class CreatedAndUpdatedBase(models.Model):
     # This will be present and lightly used on tables. Might refactor to move to
     # specific models only once a more complete list of use cases emerge
+    is_deleted = models.BooleanField(default=False)
     owning_organisation = models.ForeignKey(
         "core.Organisation",
         on_delete=models.PROTECT,
