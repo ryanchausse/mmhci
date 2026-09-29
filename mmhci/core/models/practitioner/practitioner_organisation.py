@@ -15,8 +15,8 @@ class PractitionerOrganisation(CreatedAndUpdatedBase):
     organisation = models.ForeignKey(
         "core.Organisation", on_delete=models.PROTECT
     )
-    name = models.TextField()
-    description = models.TextField()
+    name = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
 
     class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]

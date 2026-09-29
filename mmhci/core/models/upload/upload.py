@@ -11,8 +11,8 @@ from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBas
 class Upload(CreatedAndUpdatedBase):
     name = models.TextField()
     type = models.TextField()
-    description = models.TextField()
-    content = models.TextField()
+    description = models.TextField(null=True, blank=True)
+    content = models.TextField(null=True, blank=True)
     file_location = models.TextField()
 
     class Meta(CreatedAndUpdatedBase.Meta):

@@ -11,12 +11,12 @@ from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBas
 
 class Practitioner(CreatedAndUpdatedBase):
     name = models.TextField()
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     # Practitioner possibly has a user
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True
     )
-    phone = models.TextField()
+    phone = models.TextField(null=True, blank=True)
 
     class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]

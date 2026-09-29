@@ -22,7 +22,7 @@ class OrganisationGroupMembership(CreatedAndUpdatedBase):
         on_delete=models.PROTECT,
         related_name="org_group_memberships"
     )
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
 
     class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]

@@ -13,7 +13,7 @@ from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBas
 # generalisable for Likert / numerical scores, some qualitative
 class Measurement(CreatedAndUpdatedBase):
     name = models.TextField()
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     type = models.ForeignKey(
         "core.MeasurementType", on_delete=models.PROTECT, null=True, blank=True
     )

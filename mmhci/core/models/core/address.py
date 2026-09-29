@@ -5,8 +5,8 @@ class Address(CreatedAndUpdatedBase):
     address_line1 = models.TextField()
     address_line2 = models.TextField(blank=True)
     address_line3 = models.TextField(blank=True)
-    city = models.TextField()
-    state = models.TextField()
+    city = models.TextField(null=True, blank=True)
+    state = models.TextField(null=True, blank=True)
     country = models.TextField(default="AU", max_length=2)
 
     class Meta(CreatedAndUpdatedBase.Meta):

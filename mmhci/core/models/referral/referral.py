@@ -62,8 +62,8 @@ class Referral(CreatedAndUpdatedBase):
         blank=True,
         related_name="referrals_owned",
     )
-    name = models.TextField()
-    description = models.TextField()
+    name = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     # Intentionally duplicated vs. querying ReferralEvent which can return latest status
     status = models.IntegerField(choices=Statuses, null=True, blank=True)
 

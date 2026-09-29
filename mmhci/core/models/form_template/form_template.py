@@ -13,7 +13,7 @@ from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBas
 
 class FormTemplate(CreatedAndUpdatedBase):
     name = models.TextField()
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     # Allow storage of text or to make use of JSON optimisation/structure
     content_text = models.TextField()
     content_json = models.JSONField(default=dict, null=True, blank=True)

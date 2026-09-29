@@ -11,7 +11,7 @@ from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBas
 class ContactUpload(CreatedAndUpdatedBase):
     name = models.TextField()
     contact = models.ForeignKey("core.Contact", on_delete=models.PROTECT)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     upload = models.ForeignKey("core.Upload", on_delete=models.PROTECT)
 
     class Meta(CreatedAndUpdatedBase.Meta):

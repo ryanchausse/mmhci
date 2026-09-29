@@ -9,9 +9,9 @@ from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBas
 
 
 class Note(CreatedAndUpdatedBase):
-    name = models.TextField()
-    description = models.TextField()
-    type = models.TextField()
+    name = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    type = models.TextField(null=True, blank=True)
     content = models.TextField()
 
     class Meta(CreatedAndUpdatedBase.Meta):

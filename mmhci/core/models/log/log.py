@@ -2,7 +2,8 @@
 Model
   - Log
 
-Probably needs more metadata. We have relational tables like "Model"Log we can utilise
+This may now be redundant to or made partially obsolete by the django-auditlog
+package - see class AuditLogBaseService
 """
 
 from django.conf import settings
@@ -13,9 +14,9 @@ from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBas
 
 class Log(CreatedAndUpdatedBase):
     name = models.TextField()
-    description = models.TextField()
-    type = models.TextField()
-    content = models.TextField()
+    description = models.TextField(null=True, blank=True)
+    type = models.TextField(null=True, blank=True)
+    content = models.TextField(null=True, blank=True)
     # For targeting a user other than the one creating the Log
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.PROTECT, null=True, blank=True

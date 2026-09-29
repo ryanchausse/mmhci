@@ -12,8 +12,8 @@ class ContactAttempt(CreatedAndUpdatedBase):
     contact = models.ForeignKey(
         "core.Contact", on_delete=models.PROTECT, null=True, blank=True
     )
-    description = models.TextField()
-    method = models.TextField()
+    description = models.TextField(null=True, blank=True)
+    method = models.TextField(null=True, blank=True)
 
     class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]

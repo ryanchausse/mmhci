@@ -15,8 +15,8 @@ class PractitionerAddress(CreatedAndUpdatedBase):
     )
     primary_address = models.ForeignKey("core.Address", on_delete=models.PROTECT, null=True, blank=True, related_name="practitioner_primary_addresses")
     mailing_address = models.ForeignKey("core.Address", on_delete=models.PROTECT, null=True, blank=True, related_name="practitioner_mailing_addresses")
-    name = models.TextField()
-    description = models.TextField()
+    name = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
 
     class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["-created_at"]

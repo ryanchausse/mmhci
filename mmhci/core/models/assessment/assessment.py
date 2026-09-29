@@ -12,7 +12,7 @@ from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBas
 # This directory is for assessment models (IAR-DST, K10+, Surveys)
 class Assessment(CreatedAndUpdatedBase):
     name = models.TextField()
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     type = models.ForeignKey(
         "core.AssessmentType", on_delete=models.PROTECT, null=True, blank=True
     )
