@@ -27,7 +27,8 @@ class OrganisationRole(CreatedAndUpdatedBase):
         verbose_name_plural = "OrganisationRoles"
 
     def __str__(self):
+        permissions = ", ".join(str(permission) for permission in self.permissions.all()) or "No permissions"
         return (
             f"Name: {self.name} - "
-            f"Permissions: {self.permissions}"
+            f"Permissions: {permissions}"
         )
