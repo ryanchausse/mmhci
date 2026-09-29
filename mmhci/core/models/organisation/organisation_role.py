@@ -29,6 +29,5 @@ class OrganisationRole(CreatedAndUpdatedBase):
     def __str__(self):
         return (
             f"Name: {self.name} - "
-            f"Organisation: {self.organisation} - "
             f"Permissions: {self.permissions}"
         )
