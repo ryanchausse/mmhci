@@ -15,7 +15,7 @@ class OrgPermissionsCacheMiddleware:
         memberships = (
             request.user.org_group_memberships
             .select_related("organisation_group__organisation")
-            .prefetch_related("organisation_group__role__permissions__content_type")
+            .prefetch_related("organisation_group__roles__permissions__content_type")
         )
 
         org_perms = {}
@@ -26,7 +26,7 @@ class OrgPermissionsCacheMiddleware:
 
             org_perms.setdefault(org_id, set())
 
-            for role in group.role.all():
+            for role in group.roles.all():
                 for perm in role.permissions.all():
                     org_perms[org_id].add(
                         f"{perm.content_type.app_label}.{perm.codename}"
