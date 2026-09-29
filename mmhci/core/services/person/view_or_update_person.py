@@ -1,3 +1,4 @@
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 
@@ -25,15 +26,20 @@ class ViewOrUpdatePersonService(AuditLogBaseService, OrgPermissionsRequiredBaseS
     required_permissions = frozenset({'core.view_person'})
 
     def __init__(self, request, pk=None, form=None, update=False):
-        super().__init__(request)
+        AuditLogBaseService.__init__(self, request)
+        OrgPermissionsRequiredBaseService.__init__(self, request.org_perms)
         self.pk = pk
         self.form = form
         self.update = update
 
     @transaction.atomic
     def execute(self):
-        # Still need to filter on owner_org by base permission service class
-        person = get_object_or_404(Person, pk=self.pk)
+        person = get_object_or_404(
+            Person,
+            pk=self.pk
+        )
+        if person.owning_organisation_id not in self.authorized_org_ids:
+            raise PermissionDenied("You do not have permission to access this Person")
         if not self.form or not self.update:
             self.log_access(person)
             return person
