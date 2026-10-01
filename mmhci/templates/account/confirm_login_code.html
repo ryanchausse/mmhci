@@ -23,45 +23,46 @@
                                 {% endfor %}
                             </div>
                         {% endif %}
-                    <p class="login-box-msg">Enter Confirmation Code</p>
-                    <form action="{% url 'account_confirm_login_code' %}" method="post">
-                        {% csrf_token %}
-                        {{ redirect_field }}
-                        <label class="visually-hidden" for="{{ form.code.id_for_label }}">Code</label>
-                        <div class="input-group mb-3">
-                            <input id="{{ form.code.id_for_label }}" name="code" type="text" class="form-control" placeholder="Code" />
-                            <div class="input-group-text">
-                                <span class="bi bi-shield-lock"></span>
-                            </div>
-                        </div>
-                        <div>{{ form.code.errors }}</div>
-                        <!--begin::Row-->
-                        <div class="row">
-                            <div class="col-8">
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-4">
-                                <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-primary">Confirm</button>
+                        <p class="login-box-msg">Enter Confirmation Code</p>
+                        <form action="{% url 'account_confirm_login_code' %}" method="post">
+                            {% csrf_token %}
+                            {{ redirect_field }}
+                            <label class="visually-hidden" for="{{ form.code.id_for_label }}">Code</label>
+                            <div class="input-group mb-3">
+                                <input id="{{ form.code.id_for_label }}" name="code" type="text" class="form-control" placeholder="Code" />
+                                <div class="input-group-text">
+                                    <span class="bi bi-shield-lock"></span>
                                 </div>
                             </div>
-                            <!-- /.col -->
-                        </div>
-                        <!--end::Row-->
-                    </form>
-                    {% comment %}
-                        <div class="row mt-2">
-                            <div class="col-8">
+                            <div>{{ form.code.errors }}</div>
+                            <!--begin::Row-->
+                            <div class="row">
+                                <div class="col-8">
+                                </div>
+                                <!-- /.col -->
+                                <div class="col-4">
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn btn-primary">Confirm</button>
+                                    </div>
+                                </div>
+                                <!-- /.col -->
                             </div>
-                            <div class="col-4">
-                                <form action="{% url 'account_logout' %}" method="post">
-                                    {% csrf_token %}
-                                    <input type="hidden" name="next" value="{% url 'account_login' %}">
-                                    <button type="submit" class="btn btn-secondary float-end">Cancel</button>
-                                </form>
+                            <!--end::Row-->
+                        </form>
+                        {% comment %}
+                            <div class="row mt-2">
+                                <div class="col-8">
+                                </div>
+                                <div class="col-4">
+                                    <form action="{% url 'account_logout' %}" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="next" value="{% url 'account_login' %}">
+                                        <button type="submit" class="btn btn-secondary float-end">Cancel</button>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                    {% endcomment %}
+                        {% endcomment %}
+                    </div>
                     <!-- /.login-card-body -->
                 </div>
             </main>
