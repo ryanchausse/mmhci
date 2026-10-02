@@ -1,12 +1,6 @@
-# Sets or persists the current org context for a user session. Provides
-# a header param "X-Current-Org-ID" for API requests if needed. Runs with
-# a context var because it needs to be persisted to the DB-backed session
-
-from contextvars import copy_context, ContextVar
-
-current_org_id: ContextVar[str | None] = ContextVar(
-    "current_org_id", default=None
-)
+# Create a current org context variable that uses DB session persistence.
+# Assignable in web views with request.session["current_org_id"] = x
+# Still need to handle the API session case and the superuser case
 
 
 class CurrentOrgMiddleware:
@@ -14,17 +8,14 @@ class CurrentOrgMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        current_org = request.session.get("current_org_id")
-        if not current_org:
-            current_org = request.headers.get("X-Current-Org-ID")
-            if current_org:
-                request.session["current_org_id"] = current_org
-
-        # This is thread safe and gets destroyed on crash
-        # (similar to a "with:" context manager)
-        ctx = copy_context()
-        def execute_isolated():
-            current_org_id.set(current_org)
+        if not request.user.is_authenticated:
+            request.session["current_org_id"] = None
             return self.get_response(request)
 
-        return ctx.run(execute_isolated)
+        # Might want to handle receipt of X-Current-Org-Id if request
+        # is coming from API and there is no default user org
+        if not request.session["current_org_id"]:
+            # TODO: get default org for user for initialisation here
+            request.session["current_org_id"] = 1
+
+        return self.get_response(request)

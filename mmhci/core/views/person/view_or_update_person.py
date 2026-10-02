@@ -21,14 +21,10 @@ class ViewOrUpdatePersonView(LoginRequiredMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Get the current org id (DB-backed session)
-        self.logger.info(f"current_org_id: {self.request.session.get('current_org_id')}")
-        # Set the current org id
-        self.request.session["current_org_id"] = 1
-        self.logger.info(f"new current_org_id: {self.request.session.get('current_org_id')}")
-
-        # Get permissions for request.user (refreshed on every request)
+        # Get permissions for request.user (refreshed on every request, unchanging)
         self.logger.info("Org permission data: %s", self.request.org_perms)
+        # Get the current org id for request.user. Can also set the session variable.
+        self.logger.info("Current org: %s", self.request.session["current_org_id"])
 
         context["people_menu"] = True
         if self.kwargs.get('pk'):
