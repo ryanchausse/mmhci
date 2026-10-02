@@ -18,7 +18,7 @@
         <div>
           <span>
             <i class="nav-icon bi bi-person-square me-2"></i>
-            {% if pk %}
+            {% if uuid %}
               {{ form.first_name.value }} {{ form.last_name.value }} {{ form.dob.value|date:'d-m-Y' }}
             {% endif %}
           </span>

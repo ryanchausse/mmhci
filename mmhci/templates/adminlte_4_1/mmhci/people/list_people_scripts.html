@@ -11,8 +11,7 @@
       let data = []
       {% for person in people %}
         data.push({
-          id: "{{ person.id }}",
-          link: "{% url 'core:people:view_or_update' pk=person.id %}",
+          link: "{% url 'core:people:view_or_update' uuid=person.uuid %}",
           name: "{{ person.first_name }} {{ person.last_name }}",
           email: "{{ person.email }}",
           role: "Person",
@@ -32,7 +31,7 @@
         },
         columns: [
           {
-            title: '',
+            title: 'Actions',
             field: 'link',
             formatter: function(cell) {
                 var url = cell.getValue();

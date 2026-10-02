@@ -25,19 +25,25 @@ from mmhci.core.services.core.org_permissions_required_base import OrgPermission
 class ViewOrUpdatePersonService(AuditLogBaseService, OrgPermissionsRequiredBaseService):
     required_permissions = frozenset({'core.view_person'})
 
-    def __init__(self, request, pk=None, data=None, update=False):
+    def __init__(self, request, pk=None, uuid=None, data=None, update=False):
         AuditLogBaseService.__init__(self, request)
         OrgPermissionsRequiredBaseService.__init__(self, request.org_perms)
         self.pk = pk
+        self.uuid = uuid
         self.data = data
         self.update = update
 
     @transaction.atomic
     def execute(self):
-        person = get_object_or_404(
-            Person,
-            pk=self.pk
-        )
+        if self.pk:
+            person = get_object_or_404(
+                Person,
+                pk=self.pk
+            )
+        else:
+            person = get_object_or_404(
+                Person.objects.filter(uuid=self.uuid)
+            )
         if person.owning_organisation_id not in self.authorized_org_ids:
             raise PermissionDenied("You do not have permission to access this Person.")
         if not self.update:

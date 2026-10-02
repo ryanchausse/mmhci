@@ -11,7 +11,7 @@ urlpatterns = [
         name="list",
     ),
     path(
-        "view/<int:pk>/",
+        "<uuid:uuid>/",
         view_or_update_person.ViewOrUpdatePersonView.as_view(
             template_name="adminlte_4_1/mmhci/people/person_view_or_update.html"
         ),

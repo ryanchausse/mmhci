@@ -29,7 +29,7 @@ class CreatePersonService(OrgPermissionsRequiredBaseService):
 
     @transaction.atomic
     def execute(self):
-        # Still need to gate by org ids given by base service class here
+        # TODO: Still need to gate by org ids given by base service class here
         person = Person.objects.create(
             first_name=self.first_name,
             last_name=self.last_name,

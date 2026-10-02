@@ -5,9 +5,6 @@ class ListPeopleService:
         self.request = request
 
     def execute(self):
-        # TODO: enforce permissions (set permission name as a string)
-        # Need to place permission logic here instead of in the
-        # Views/API routers so permissions are enforced no matter where the
-        # call comes from.
+        # TODO: enforce permissions
         people = Person.objects.all()
         return people

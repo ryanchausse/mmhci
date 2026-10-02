@@ -23,8 +23,6 @@ class CreatePersonFormView(LoginRequiredMixin, FormView):
         return context
 
     def form_valid(self, form):
-        # TODO: send self.request.org_perms as a dict to the service
-        # once the service is updated with the permissions service base class
         person = CreatePersonService(**form.cleaned_data).execute()
         messages.success(
             self.request,
@@ -33,7 +31,7 @@ class CreatePersonFormView(LoginRequiredMixin, FormView):
         url = reverse_lazy(
             'core:people:view_or_update',
             kwargs={
-                'pk': person.id
+                'uuid': person.uuid
             }
         )
         return redirect(url)

@@ -9,8 +9,7 @@ class ListPeopleView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context["people_menu"] = True
         context["people_list"] = True
-        # TODO: send self.request.org_perms as a dict to the service
-        # once the service is updated with the permissions service base class
+        # TODO: do permissions
         context["people"] = ListPeopleService(request=self.request).execute()
 
         return context

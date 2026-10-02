@@ -4,7 +4,7 @@ Model
 
 Possibly needs a relational table to Organisation to represent "assigned org"
 """
-
+import uuid
 from django.db import models
 
 from auditlog.registry import auditlog
@@ -18,6 +18,11 @@ AUDIT_EXCLUSIONS = [
 @auditlog.register(exclude_fields=AUDIT_EXCLUSIONS)
 class Person(CreatedAndUpdatedBase):
     # Models enforce validation of data integrity-related invariants
+    uuid = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        unique=True
+    )
     address = models.ForeignKey(
         "core.Address", on_delete=models.PROTECT, null=True, blank=True
     )

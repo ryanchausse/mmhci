@@ -7,11 +7,11 @@
   {% include 'adminlte_4_1/mmhci/people/partial/person_view_or_update_log.html' %}
 {% endif %}
 <div class="form-container">
-  {% if pk %}
+  {% if uuid %}
     <form
       method="post"
-      action="{% url 'core:people:view_or_update' pk=pk %}"
-      hx-post="{% url 'core:people:view_or_update' pk=pk %}"
+      action="{% url 'core:people:view_or_update' uuid=uuid %}"
+      hx-post="{% url 'core:people:view_or_update' uuid=uuid %}"
       autocomplete="off"
       hx-target="#person-view-or-update-form-container"
       hx-indicator="#person-view-or-update-form-container,
@@ -25,7 +25,7 @@
       <button type="submit" class="btn btn-primary mt-3">Save</button>
     </form>
   {% else %}
-    <p>(Go to /people/view/(id) to see data for a person)</p>
+    <p>Go to /people/(uuid)/ to see data for a person</p>
   {% endif %}
 </div>
 <div class="loading-spinner spinner-border text-primary" role="status">

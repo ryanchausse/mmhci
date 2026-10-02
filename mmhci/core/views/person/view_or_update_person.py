@@ -20,30 +20,29 @@ class ViewOrUpdatePersonView(LoginRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         # Get permissions for request.user (refreshed on every request, unchanging)
         self.logger.info("Org permission data: %s", self.request.org_perms)
         # Get the current org id for request.user. Can also set the session variable.
         self.logger.info("Current org: %s", self.request.session["current_org_id"])
 
         context["people_menu"] = True
-        if self.kwargs.get('pk'):
+        if self.kwargs.get('uuid'):
             person = ViewOrUpdatePersonService(
                 request=self.request,
-                pk=self.kwargs.get('pk')
+                uuid=self.kwargs.get('uuid')
             ).execute()
             person_dict = model_to_dict(person)
             form = PersonForm(initial=person_dict)
             context["form"] = form
-            context["pk"] = person_dict.get('id')
+            context["uuid"] = person.uuid
         return context
 
     def form_valid(self, form):
-        pk = self.kwargs.get('pk')
+        uuid = self.kwargs.get('uuid')
         # TODO: separate view from update
         person = ViewOrUpdatePersonService(
             request=self.request,
-            pk=pk,
+            uuid=uuid,
             data=dict(form.cleaned_data),
             update=True
         ).execute()
@@ -55,18 +54,18 @@ class ViewOrUpdatePersonView(LoginRequiredMixin, FormView):
             return render(
                 self.request,
                 'adminlte_4_1/mmhci/people/partial/person_view_or_update_form_htmx.html',
-                {'pk': pk, 'form': form},
+                {'uuid': uuid, 'form': form},
                 status=200
             )
         return super().form_valid(form)
 
     def form_invalid(self, form):
         if self.request.htmx:
-            pk = self.kwargs.get('pk')
+            uuid = self.kwargs.get('uuid')
             return render(
                 self.request,
                 'adminlte_4_1/mmhci/people/partial/person_view_or_update_form_htmx.html',
-                {'pk': pk, 'form': form},
+                {'uuid': uuid, 'form': form},
                 status=422
             )
         return super().form_invalid(form)

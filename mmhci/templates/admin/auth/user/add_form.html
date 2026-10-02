@@ -1,0 +1,20 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_modify %}
+
+{% block content %}
+  {% if not change %}
+    <div class="custom-admin-helper">
+      <h2>
+        <strong>Note:</strong> Passwords you enter here will not be saved.
+      </h2>
+      <h2>
+        The new user is emailed a link to log in, where they will create a new password.
+      </h2>
+      <h2>
+        This is a little hacky. Creating a new user will be moved to the main UI soon.
+      </h2>
+    </div>
+  {% endif %}
+
+  {{ block.super }}
+{% endblock %}
