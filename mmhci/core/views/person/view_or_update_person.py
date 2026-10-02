@@ -20,11 +20,18 @@ class ViewOrUpdatePersonView(LoginRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # Get the current org id (DB-backed session)
+        self.logger.info(f"current_org_id: {self.request.session.get('current_org_id')}")
+        # Set the current org id
+        self.request.session["current_org_id"] = 1
+        self.logger.info(f"new current_org_id: {self.request.session.get('current_org_id')}")
+
+        # Get permissions for request.user (refreshed on every request)
         self.logger.info("Org permission data: %s", self.request.org_perms)
+
         context["people_menu"] = True
         if self.kwargs.get('pk'):
-            # TODO: send self.request.org_perms as a dict to the service
-            # once the service is updated with the permissions service base class
             person = ViewOrUpdatePersonService(
                 request=self.request,
                 pk=self.kwargs.get('pk')
@@ -37,13 +44,11 @@ class ViewOrUpdatePersonView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         pk = self.kwargs.get('pk')
-        # NB: need to save fields manually because PersonForm inherits from
-        # forms.Form, not forms.ModelForm.
-        # TODO: separate view from update?
+        # TODO: separate view from update
         person = ViewOrUpdatePersonService(
             request=self.request,
             pk=pk,
-            form=form,
+            data=dict(form.cleaned_data),
             update=True
         ).execute()
         messages.success(

@@ -1,6 +1,7 @@
 # Create an org_perms dict that has all permissions in all orgs for the user.
-# This is basically a cache of permissions for a user per HTTP request.
+# This is basically a cache of permissions for a user refreshed on every HTTP request.
 # Accessible in views/api views with self.request.org_perms
+# Still need to handle the superuser case
 
 
 class OrgPermissionsCacheMiddleware:

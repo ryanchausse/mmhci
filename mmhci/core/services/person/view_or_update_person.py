@@ -25,11 +25,11 @@ from mmhci.core.services.core.org_permissions_required_base import OrgPermission
 class ViewOrUpdatePersonService(AuditLogBaseService, OrgPermissionsRequiredBaseService):
     required_permissions = frozenset({'core.view_person'})
 
-    def __init__(self, request, pk=None, form=None, update=False):
+    def __init__(self, request, pk=None, data=None, update=False):
         AuditLogBaseService.__init__(self, request)
         OrgPermissionsRequiredBaseService.__init__(self, request.org_perms)
         self.pk = pk
-        self.form = form
+        self.data = data
         self.update = update
 
     @transaction.atomic
@@ -40,15 +40,15 @@ class ViewOrUpdatePersonService(AuditLogBaseService, OrgPermissionsRequiredBaseS
         )
         if person.owning_organisation_id not in self.authorized_org_ids:
             raise PermissionDenied("You do not have permission to access this Person.")
-        if not self.form or not self.update:
+        if not self.update:
             self.log_access(person)
             return person
-        person.first_name=self.form.cleaned_data["first_name"]
-        person.last_name=self.form.cleaned_data["last_name"]
-        person.preferred_name=self.form.cleaned_data["preferred_name"]
-        person.dob=self.form.cleaned_data["dob"]
-        person.phone=self.form.cleaned_data["phone"]
-        person.email=self.form.cleaned_data["email"]
+        person.first_name=self.data["first_name"]
+        person.last_name=self.data["last_name"]
+        person.preferred_name=self.data["preferred_name"]
+        person.dob=self.data["dob"]
+        person.phone=self.data["phone"]
+        person.email=self.data["email"]
         with self.audit_write():
             person.save()
 
