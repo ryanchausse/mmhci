@@ -39,7 +39,7 @@ class ViewOrUpdatePersonService(AuditLogBaseService, OrgPermissionsRequiredBaseS
             pk=self.pk
         )
         if person.owning_organisation_id not in self.authorized_org_ids:
-            raise PermissionDenied("You do not have permission to access this Person")
+            raise PermissionDenied("You do not have permission to access this Person.")
         if not self.form or not self.update:
             self.log_access(person)
             return person
