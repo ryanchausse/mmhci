@@ -14,7 +14,7 @@ class CurrentOrgMiddleware:
 
         # Might want to handle receipt of X-Current-Org-Id if request
         # is coming from API and there is no default user org
-        if not request.session["current_org_id"]:
+        if not request.session.get("current_org_id"):
             # TODO: get default org for user for initialisation here
             request.session["current_org_id"] = 1
 
