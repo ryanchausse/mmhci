@@ -3,6 +3,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 
 # Note that Celery and tests would only need to pass an org_perms dict
+# In web session and API usage, request.org_perms is where this is located
 class OrgPermissionsRequiredBaseService:
     required_permissions: frozenset[str] = None
 
@@ -10,7 +11,8 @@ class OrgPermissionsRequiredBaseService:
         super().__init_subclass__(**kwargs)
         if cls.required_permissions is None:
             raise ImproperlyConfigured(
-                f"Service class '{cls.__name__}' must define a 'required_permissions' frozenset."
+                f"Service class '{cls.__name__}' must define a "
+                f"'required_permissions' frozenset."
             )
 
     def __init__(self, org_perms: Dict[int, Set[str]]):

@@ -23,13 +23,16 @@ class CreatePersonFormView(LoginRequiredMixin, FormView):
         return context
 
     def form_valid(self, form):
-        person = CreatePersonService(**form.cleaned_data).execute()
+        person = CreatePersonService(
+            request=self.request,
+            data=form.cleaned_data
+        ).execute()
         messages.success(
             self.request,
             f'{person.first_name} {person.last_name} created successfully'
         )
         url = reverse_lazy(
-            'core:people:view_or_update',
+            'core:people:view',
             kwargs={
                 'uuid': person.uuid
             }

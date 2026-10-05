@@ -1,6 +1,9 @@
 from django.urls import path
 
-from mmhci.core.views.person import create_person, list_people, view_or_update_person
+from mmhci.core.views.person import create_person
+from mmhci.core.views.person import list_people
+from mmhci.core.views.person import view_person
+from mmhci.core.views.person import update_person
 
 urlpatterns = [
     path(
@@ -12,10 +15,17 @@ urlpatterns = [
     ),
     path(
         "<uuid:uuid>/",
-        view_or_update_person.ViewOrUpdatePersonView.as_view(
+        view_person.ViewPersonView.as_view(
             template_name="adminlte_4_1/mmhci/people/person_view_or_update.html"
         ),
-        name="view_or_update",
+        name="view",
+    ),
+    path(
+        "<uuid:uuid>/update",
+        update_person.UpdatePersonView.as_view(
+            template_name="adminlte_4_1/mmhci/people/person_view_or_update.html"
+        ),
+        name="update",
     ),
     path(
         "create",

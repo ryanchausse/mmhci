@@ -10,8 +10,8 @@
   {% if uuid %}
     <form
       method="post"
-      action="{% url 'core:people:view_or_update' uuid=uuid %}"
-      hx-post="{% url 'core:people:view_or_update' uuid=uuid %}"
+      action="{% url 'core:people:update' uuid=uuid %}"
+      hx-post="{% url 'core:people:update' uuid=uuid %}"
       autocomplete="off"
       hx-target="#person-view-or-update-form-container"
       hx-indicator="#person-view-or-update-form-container,

@@ -11,7 +11,7 @@
       let data = []
       {% for person in people %}
         data.push({
-          link: "{% url 'core:people:view_or_update' uuid=person.uuid %}",
+          link: "{% url 'core:people:view' uuid=person.uuid %}",
           name: "{{ person.first_name }} {{ person.last_name }}",
           email: "{{ person.email }}",
           role: "Person",
