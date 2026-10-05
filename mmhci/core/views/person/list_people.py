@@ -9,7 +9,6 @@ class ListPeopleView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context["people_menu"] = True
         context["people_list"] = True
-        # TODO: do permissions
         context["people"] = ListPeopleService(request=self.request).execute()
 
         return context

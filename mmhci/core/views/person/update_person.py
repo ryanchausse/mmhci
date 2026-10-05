@@ -1,5 +1,4 @@
-import logging
-
+# import logging
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.forms import model_to_dict
@@ -13,7 +12,7 @@ from mmhci.core.services.person.update_person import UpdatePersonService
 
 
 class UpdatePersonView(LoginRequiredMixin, FormView):
-    logger = logging.getLogger(__name__)
+    # logger = logging.getLogger(__name__)
     form_class = PersonForm
     template_name = "adminlte_4_1/mmhci/people/person_view_or_update_form_htmx.html"
     success_url = reverse_lazy("core:people:list")

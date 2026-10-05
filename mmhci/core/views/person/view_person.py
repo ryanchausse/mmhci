@@ -1,5 +1,3 @@
-import logging
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.forms import model_to_dict
@@ -19,10 +17,6 @@ class ViewPersonView(LoginRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # # Get permissions for request.user (refreshed on every request, unchanging)
-        # self.logger.info("Org permission data: %s", self.request.org_perms)
-        # # Get the current org id for request.user. Can also set the session variable.
-        # self.logger.info("Current org: %s", self.request.session["current_org_id"])
         context["people_menu"] = True
 
         if self.kwargs.get('uuid'):

@@ -2,6 +2,7 @@ from contextlib import contextmanager
 from auditlog.context import set_actor
 from auditlog.signals import accessed
 
+
 class AuditLogBaseService:
     def __init__(self, request):
         self.request = request
