@@ -15,9 +15,7 @@ if typing.TYPE_CHECKING:
 
 class AccountAdapter(DefaultAccountAdapter):
     def is_open_for_signup(self, request: HttpRequest) -> bool:
-        # Commented out but left here in case we cant to allow registration in future
-        # return getattr(settings, "ACCOUNT_ALLOW_REGISTRATION", True)
-        return False
+        return getattr(settings, "ACCOUNT_ALLOW_REGISTRATION", True)
 
 
 class SocialAccountAdapter(DefaultSocialAccountAdapter):

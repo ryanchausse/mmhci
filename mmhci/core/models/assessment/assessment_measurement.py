@@ -17,8 +17,6 @@ class AssessmentMeasurement(CreatedAndUpdatedBase):
     measurement = models.ForeignKey("core.Measurement", on_delete=models.PROTECT)
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "AssessmentMeasurement"
         verbose_name_plural = "AssessmentMeasurements"
 

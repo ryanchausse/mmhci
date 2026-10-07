@@ -13,8 +13,6 @@ class ReferralConsent(CreatedAndUpdatedBase):
     consent = models.ForeignKey("core.Consent", on_delete=models.PROTECT)
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "ReferralConsent"
         verbose_name_plural = "ReferralConsent"
 

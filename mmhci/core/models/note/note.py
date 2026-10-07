@@ -15,8 +15,6 @@ class Note(CreatedAndUpdatedBase):
     content = models.TextField()
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "Note"
         verbose_name_plural = "Notes"
 

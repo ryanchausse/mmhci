@@ -17,8 +17,6 @@ class AssessmentReferral(CreatedAndUpdatedBase):
     referral = models.ForeignKey("core.Referral", on_delete=models.PROTECT)
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "AssessmentReferral"
         verbose_name_plural = "AssessmentReferrals"
 

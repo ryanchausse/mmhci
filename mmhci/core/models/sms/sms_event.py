@@ -25,8 +25,6 @@ class SmsEvent(CreatedAndUpdatedBase):
     sent_at = models.DateTimeField()
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "SmsEvent"
         verbose_name_plural = "SmsEvents"
 

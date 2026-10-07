@@ -23,8 +23,6 @@ class Log(CreatedAndUpdatedBase):
     )
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "Log"
         verbose_name_plural = "Logs"
 

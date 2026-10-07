@@ -65,4 +65,6 @@ class CreatedAndUpdatedBase(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
+        ordering = ["-created_at"]
+        get_latest_by = ["created_at"]
         abstract = True

@@ -15,8 +15,6 @@ class ContactNote(CreatedAndUpdatedBase):
     note = models.ForeignKey("core.Note", on_delete=models.PROTECT)
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "ContactNote"
         verbose_name_plural = "ContactNotes"
 

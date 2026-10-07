@@ -14,8 +14,6 @@ class ContactPerson(CreatedAndUpdatedBase):
     person = models.ForeignKey("core.Person", on_delete=models.PROTECT)
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "ContactPerson"
         verbose_name_plural = "ContactPeople"
 

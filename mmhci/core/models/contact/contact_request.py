@@ -21,8 +21,6 @@ class ContactRequest(CreatedAndUpdatedBase):
     # - possibly a date_overrides table for exceptions to availability
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "ContactRequest"
         verbose_name_plural = "ContactRequests"
 

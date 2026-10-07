@@ -68,8 +68,6 @@ class Referral(CreatedAndUpdatedBase):
     status = models.IntegerField(choices=Statuses, null=True, blank=True)
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "Referral"
         verbose_name_plural = "Referrals"
 

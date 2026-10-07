@@ -11,8 +11,6 @@ class Announcement(CreatedAndUpdatedBase):
     expiry = models.DateTimeField(null=True)
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "Announcement"
         verbose_name_plural = "Announcements"
 

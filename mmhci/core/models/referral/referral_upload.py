@@ -13,8 +13,6 @@ class ReferralUpload(CreatedAndUpdatedBase):
     upload = models.ForeignKey("core.Upload", on_delete=models.PROTECT)
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "ReferralUpload"
         verbose_name_plural = "ReferralUpload"
 

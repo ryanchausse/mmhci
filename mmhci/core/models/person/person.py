@@ -35,8 +35,6 @@ class Person(CreatedAndUpdatedBase):
     email = models.EmailField(blank=True)
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "Person"
         verbose_name_plural = "People"
 

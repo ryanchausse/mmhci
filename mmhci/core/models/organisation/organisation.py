@@ -14,8 +14,6 @@ class Organisation(CreatedAndUpdatedBase):
     description = models.TextField(null=True, blank=True)
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "Organisation"
         verbose_name_plural = "Organisations"
 

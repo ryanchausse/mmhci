@@ -16,8 +16,6 @@ class Tag(CreatedAndUpdatedBase):
     content = models.TextField(null=True, blank=True)
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "Tag"
         verbose_name_plural = "Tags"
 

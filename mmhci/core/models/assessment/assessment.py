@@ -18,8 +18,6 @@ class Assessment(CreatedAndUpdatedBase):
     )
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "Assessment"
         verbose_name_plural = "Assessments"
 

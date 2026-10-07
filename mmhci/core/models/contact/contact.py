@@ -16,8 +16,6 @@ class Contact(CreatedAndUpdatedBase):
     type = models.TextField(null=True, blank=True)
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "Contact"
         verbose_name_plural = "Contacts"
 

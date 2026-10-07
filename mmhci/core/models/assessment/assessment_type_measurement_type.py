@@ -22,8 +22,6 @@ class AssessmentTypeMeasurementType(CreatedAndUpdatedBase):
     )
 
     class Meta(CreatedAndUpdatedBase.Meta):
-        ordering = ["-created_at"]
-        get_latest_by = ["created_at"]
         verbose_name = "MeasurementTypeAssessmentType"
         verbose_name_plural = "MeasurementTypeAssessmentTypes"
 
