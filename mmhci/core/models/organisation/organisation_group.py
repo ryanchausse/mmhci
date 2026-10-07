@@ -23,6 +23,7 @@ class OrganisationGroup(CreatedAndUpdatedBase):
     name = models.TextField()  # "Clinicians", "PHN Admins"
 
     class Meta(CreatedAndUpdatedBase.Meta):
+        ordering = ["name"]
         verbose_name = "OrganisationGroup"
         verbose_name_plural = "OrganisationGroups"
 

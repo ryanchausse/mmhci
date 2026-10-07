@@ -49,6 +49,17 @@
         },
       });
     }
+    const orgSelects = document.querySelectorAll('.org-select-dropdown');
+    if (orgSelects.length > 0) {
+      orgSelects.forEach(orgSelect => {
+        orgSelect.addEventListener('change', () => {
+          const orgForm = orgSelect.closest('.org-select-form');
+          if (orgForm && orgSelect.value !== "") {
+            orgForm.submit();
+          }
+        });
+      });
+    }
   });
 </script>
 <!--end::OverlayScrollbars Configure-->

@@ -9,6 +9,13 @@ urlpatterns = [
         name="dashboard"
     ),
     path(
+        "core/",
+        include(
+            ("mmhci.core.urls.core.core", "core"),
+            namespace="core"
+        ),
+    ),
+    path(
         "assessments/",
         include(
             ("mmhci.core.urls.assessment.assessment", "assessment"),

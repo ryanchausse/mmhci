@@ -14,6 +14,7 @@ class Organisation(CreatedAndUpdatedBase):
     description = models.TextField(null=True, blank=True)
 
     class Meta(CreatedAndUpdatedBase.Meta):
+        ordering = ["name"]
         verbose_name = "Organisation"
         verbose_name_plural = "Organisations"
 

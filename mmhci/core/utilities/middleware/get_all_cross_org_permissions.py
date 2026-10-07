@@ -20,18 +20,39 @@ class OrgPermissionsCacheMiddleware:
         )
 
         org_perms = {}
+        """
+        NB: keys are org ids and "permissions" is a set
+        org_perms = {
+            1: {
+                "name": "NWMPHN",
+                "permissions": {
+                    "core.change_person",
+                    "core.view_person",
+                    "core.add_person"
+                }
+            },
+            ...
+        }
+        ...
+        """
 
         for membership in memberships:
             group = membership.organisation_group
             org_id = group.organisation_id
+            org_name = group.organisation.name
 
-            org_perms.setdefault(org_id, set())
+            org_perms.setdefault(
+                org_id, {
+                    "name": org_name,
+                    "permissions": set()
+                }
+            )
 
             for role in group.roles.all():
                 for perm in role.permissions.all():
-                    org_perms[org_id].add(
+                    org_perms[org_id]["permissions"].add(
                         f"{perm.content_type.app_label}.{perm.codename}"
                     )
-
-        request.org_perms = org_perms
+        sorted_org_perms = dict(sorted(org_perms.items(), key=lambda x: x[1]["name"]))
+        request.org_perms = sorted_org_perms
         return self.get_response(request)

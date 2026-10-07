@@ -20,11 +20,28 @@
           <span><i class="nav-icon bi bi-building"></i></span>
         </div>
         <div>
-          <select id="org-select-dropdown-button" class="form-select form-select-sm">
-            <option selected>NWMPHN</option>
-            <option>SEMPHN</option>
-            <option>Western Victoria PHN</option>
-          </select>
+          <form class="org-select-form" action="{% url 'core:core:change_current_org' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            <select class="org-select-dropdown" name="new_current_org_id" class="form-select form-select-sm">
+              {% if request.org_perms %}
+                {% if not request.session.current_org_id %}
+                  <option value="">---</option>
+                {% endif %}
+                {% for org_id, org_data in request.org_perms.items %}
+                  <option value="{{ org_id }}"{% if org_id == request.session.current_org_id %} selected{% endif %}>
+                    {{ org_data.name }}
+                  </option>
+                {% endfor %}
+              {% else %}
+                <option selected>(No Org Permissions)</option>
+              {% endif %}
+            </select>
+            <!-- In case user needs accessibility button -->
+            <noscript>
+              <button type="submit">Submit</button>
+            </noscript>
+          </form>
         </div>
       </div>
       <li class="nav-item d-none d-md-block">

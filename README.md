@@ -86,6 +86,19 @@ NB: rebuild after adding a package; might have to restart.
 
 `docker compose -f docker-compose.local.yml run --rm django python manage.py createsuperuser`
 
+## Logging
+`import logging`
+### Configure logger
+`self.logger = logging.getLogger(__name__)`
+### Get permissions for request.user (refreshed on every request, unchanging)
+`self.logger.info("Org permission data: %s", self.request.org_perms)`
+### Get the current org id for request.user. Can also set the session variable.
+`self.logger.info("Current org: %s", self.request.session["current_org_id"])`
+
+## Print statements
+To flush to the console/stdout:
+`print('test', flush=True)`
+
 
 ## Architecture Explained
 

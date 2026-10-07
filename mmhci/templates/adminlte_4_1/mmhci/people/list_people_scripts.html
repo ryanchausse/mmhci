@@ -7,6 +7,7 @@
     return `<span class="badge text-bg-${color}">${value}</span>`;
   };
   document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('dashboard-nav-link').classList.add('active');
     {% if people %}
       let data = []
       {% for person in people %}

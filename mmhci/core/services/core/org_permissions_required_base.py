@@ -22,6 +22,6 @@ class OrgPermissionsRequiredBaseService:
     def _permitted_organisation_ids(self) -> Set[int]:
         return {
             org_id
-            for org_id, granted_permissions in self.org_perms.items()
-            if self.required_permissions <= granted_permissions
+            for org_id, org_name_and_perms in self.org_perms.items()
+            if self.required_permissions <= org_name_and_perms["permissions"]
         }
