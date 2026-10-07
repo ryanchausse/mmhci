@@ -18,6 +18,8 @@ class CurrentOrgMiddleware:
             user_preferred_org = request.user.preferred_org
             if user_preferred_org and request.org_perms.get(user_preferred_org.id):
                 request.session["current_org_id"] = user_preferred_org.id
+            elif len(request.org_perms) == 1:
+                request.session["current_org_id"] = next(iter(request.org_perms), None)
             else:
                 request.session["current_org_id"] = None
 
