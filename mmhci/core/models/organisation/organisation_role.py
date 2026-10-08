@@ -14,8 +14,17 @@ from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBas
 
 
 class OrganisationRole(CreatedAndUpdatedBase):
+    # purposefully redundant for isolation and easy filtering
+    # TODO: think about whether this should be nullable or not
+    organisation = models.ForeignKey(
+        "core.Organisation",
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        related_name="org_roles"
+    )
     permissions = models.ManyToManyField(
-        Permission, blank=True, related_name="org_roles"
+        Permission, null=True, blank=True, related_name="org_roles"
     )
     name = models.TextField()  # "Clinician", "Intake Administrator"
     description = models.TextField(null=True, blank=True)

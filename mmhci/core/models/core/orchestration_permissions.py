@@ -24,6 +24,11 @@ class OrchestrationPermissions(CreatedAndUpdatedBase):
                 'Can run the orchestration that changes the assigned referral '
                 'owner org and emails the relevant person at the new org'
             ),
+            (
+                'can_provision_new_org',
+                'Can run the orchestration that provisions a new org with a newly '
+                'created/associated admin org group and org role'
+            ),
         ]
 
     def __str__(self):

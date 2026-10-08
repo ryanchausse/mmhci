@@ -18,6 +18,8 @@ class OrganisationGroup(CreatedAndUpdatedBase):
     )
     roles = models.ManyToManyField(
         "core.OrganisationRole",
+        null=True,
+        blank=True,
         related_name="org_groups"
     )
     name = models.TextField()  # "Clinicians", "PHN Admins"
