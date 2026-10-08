@@ -2171,9 +2171,51 @@ better safety for audit_write in service base class:
 
 -----------
 
+# Permissions and Assignment thereof in OrgRole form:
 
+for mmhci/core/orchestrations/config/default_admin_permissions.py
+var default_admin_role_permissions:
 
+This data structure is used for provisioning a new org. Defines
+models with an associated permission exclusion list. Used to define
+permissions for a new Admin role associated with the new org. All
+permissions are intended to be gated by the current org id and user
+permissions. This could also be used to give a default permission set
+for the "Add Org Role" page. Will restrict "Add Org Role" to org admins
+or Admins Org Group members only.
 
+## Add OrgRole form template:
+
+from django import forms
+from django.contrib.auth.models import Permission
+from .models import OrgUser
+
+class OrgUserForm(forms.ModelForm):
+    def __init__():
+        # This is where I would constrict to current org and admin user I think?
+        pass
+
+    # Overriding the field at the form level to pass a custom queryset
+    permissions = forms.ModelMultipleChoiceField(
+        queryset=Permission.objects.filter(content_type__app_label='your_app_name'),
+        widget=forms.CheckboxSelectMultiple,
+        required=False,
+        label="Organization Permissions"
+    )
+
+    class Meta:
+        model = OrgUser
+        fields = ('user', 'organization', 'permissions')
+
+## Practical implementation plan
+
+- create url/view/sidebar menu and html template stuff for add org role
+- create form (see example above)
+- create service, compare user's assigned org_roles to org context to see if they're in "Admins" org group.
+  - might need to freeze that org group / org role?
+  - essentially, I can exclude those from editing via:
+    - filter of queryset objects populating the org role/org group UI/views
+    - filter of queryset for update/create services for org role/group
 
 
 
