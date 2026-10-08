@@ -2212,12 +2212,14 @@ class OrgUserForm(forms.ModelForm):
 - create url/view/sidebar menu and html template stuff for add org role
 - create form (see example above)
 - create service, compare user's assigned org_roles to org context to see if they're in "Admins" org group.
-  - might need to freeze that org group / org role?
+  - might need to freeze that org group / org role except for adding / removing membership associations?
   - essentially, I can exclude those from editing via:
     - filter of queryset objects populating the org role/org group UI/views
     - filter of queryset for update/create services for org role/group
 
-
+In the admin user group/role assignment screen, how to filter available users? Maybe:
+  - get all users with an owning_organisation_id of the current org, or that have a membership assignment to a group corresponding to the current org
+  - currently we filter on matching email as the collision point, and display the org to which that user belongs. maybe we just show all users and their orgs by default, just as in PMHCIS
 
 
 
