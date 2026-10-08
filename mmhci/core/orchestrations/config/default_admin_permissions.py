@@ -1,6 +1,10 @@
 # This data structure is used for provisioning a new org. Defines
 # models with an associated permission exclusion list. Used to define
-# permissions for a new Admin role associated with the new org
+# permissions for a new Admin role associated with the new org. All
+# permissions are intended to be gated by the current org id and user
+# permissions. This could also be used to give a default permission set
+# for the "Add Org Role" page. Will restrict "Add Org Role" to org admins
+# or Admins Org Group members only.
 
 default_admin_role_permissions = {
     "auditlog.logentry": ["create_logentry, change_logentry, delete_logentry"],
