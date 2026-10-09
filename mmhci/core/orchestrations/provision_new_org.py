@@ -5,6 +5,7 @@
 
 from django.db import transaction
 from django.contrib.auth.models import Permission
+# from mmhci.core.services.organisation.create_organisation import CreateOrganisationService
 from mmhci.core.models.organisation import Organisation
 from mmhci.core.models.organisation import OrganisationGroup
 from mmhci.core.models.organisation import OrganisationRole
@@ -19,27 +20,33 @@ class ProvisionNewOrg(AuditLogBaseService, OrgPermissionsRequiredBaseService):
     # single-domain services.
     required_permissions = frozenset({'core.can_provision_new_org'})
 
-    def __init__(self, request, org_name):
+    def __init__(self, request, org_name, org_description):
         AuditLogBaseService.__init__(self, request)
         OrgPermissionsRequiredBaseService.__init__(self, request.org_perms)
         self.request = request
         self.org_name = org_name
+        self.org_description = org_description
 
     @transaction.atomic
     def execute(self):
         with self.audit_write():
-            # TODO: change these to use individual model services
-            organisation = Organisation.objects.get_or_create(
-                name=self.org_name
+            # TODO: change these to use individual services instead of models, which
+            # should never be imported by orchestrations. This will involve routing the
+            # CreateOrganisation view/api route to this orchestration, or perhaps 
+            # function within the CreateOrganisation service that calls this
+            # orchestration
+            organisation, _ = Organisation.objects.get_or_create(
+                name=self.org_name,
+                description=self.org_description
             )
-            organisation_role = OrganisationRole.objects.get_or_create(
+            organisation_role, _ = OrganisationRole.objects.get_or_create(
                 organisation=organisation,
-                permissions=None,
+                # permissions=None,  # Errors because of M:M. Fine to omit.
                 name="Admin"
             )
-            organisation_group = OrganisationGroup.objects.get_or_create(
+            organisation_group, _ = OrganisationGroup.objects.get_or_create(
                 organisation=organisation,
-                roles=None,
+                # roles=None,  # Errors because of M:M. Fine to omit.
                 name="Admins"
             )
             organisation_group.roles.add(organisation_role)

@@ -7,7 +7,7 @@
 # or Admins Org Group members only.
 
 default_admin_role_permissions = {
-    "auditlog.logentry": ["create_logentry, change_logentry, delete_logentry"],
+    "auditlog.logentry": ["create_logentry", "change_logentry", "delete_logentry"],
     "core.address": None,
     "core.announcement": None,
     "core.assessmentmeasurement": None,

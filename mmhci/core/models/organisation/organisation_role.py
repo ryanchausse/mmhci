@@ -37,5 +37,5 @@ class OrganisationRole(CreatedAndUpdatedBase):
         permissions = ", ".join(str(permission) for permission in self.permissions.all()) or "No permissions"
         return (
             f"Name: {self.name} - "
-            f"Permissions: {permissions}"
+            f"Organisation: {self.organisation}"
         )
