@@ -12,6 +12,7 @@ from mmhci.core.services.core.auditlog_base import AuditLogBaseService
 from mmhci.core.services.core.org_permissions_required_base import OrgPermissionsRequiredBaseService
 from mmhci.core.orchestrations.config.default_admin_permissions import default_admin_role_permissions
 
+
 class ProvisionNewOrg(AuditLogBaseService, OrgPermissionsRequiredBaseService):
     # Business rule validation lives in single-domain (model) services.
     # Multiple model/multi-stage orchestrations can import multiple

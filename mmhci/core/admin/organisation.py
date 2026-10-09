@@ -7,4 +7,7 @@ admin.site.register(OrganisationFormTemplate)
 admin.site.register(OrganisationGroup)
 admin.site.register(OrganisationRole)
 admin.site.register(OrganisationGroupMembership)
-admin.site.register(Organisation)
+
+@admin.register(Organisation)
+class OrganisationAdmin(admin.ModelAdmin):
+    readonly_fields = ('uuid',)

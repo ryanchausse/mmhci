@@ -1,0 +1,31 @@
+{% load crispy_forms_tags %}
+<!-- Include these partials for out-of-band htmx updates -->
+{% if request.htmx %}
+  {% include 'adminlte_4_1/mmhci/general/flash_messages.html' %}
+  {% include 'adminlte_4_1/mmhci/org_context_bar.html' %}
+  {% include 'adminlte_4_1/mmhci/organisations/partial/organisation_view_or_update_log.html' %}
+{% endif %}
+<div class="form-container">
+  {% if uuid %}
+    <form
+      method="post"
+      action="{% url 'core:organisations:update' uuid=uuid %}"
+      hx-post="{% url 'core:organisations:update' uuid=uuid %}"
+      autocomplete="off"
+      hx-target="#organisation-view-or-update-form-container"
+      hx-indicator="#organisation-view-or-update-form-container,
+                    #organisation-view-or-update-log-container,
+                    #org-context-bar,
+                    .messages"
+      hx-swap="innerHTML">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="btn btn-primary mt-3">Save</button>
+    </form>
+  {% else %}
+    <p>Go to /organisations/(uuid)/ to see data for an organisation</p>
+  {% endif %}
+</div>
+<div class="loading-spinner spinner-border text-primary" role="status">
+  <span class="sr-only">Loading...</span>
+</div>

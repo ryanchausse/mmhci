@@ -31,7 +31,7 @@
         data-accordion="false"
         id="navigation"
       >
-        <li class="nav-item">
+        <li class="nav-item {% if dashboard_menu %}active{% endif %}">
           <a id="dashboard-nav-link" href="{% url 'core:dashboard' %}" class="nav-link">
             <i class="nav-icon bi bi-speedometer"></i>
             <p>Dashboard</p>
@@ -148,11 +148,30 @@
             <p>Charts</p>
           </a>
         </li>
-        <li class="nav-item">
-          <a id="organisations-nav-link" href="#" class="nav-link">
+        <li class="nav-item {% if organisations_menu %}menu-open{% endif %}">
+          <a id="organisations-menu-nav-link" href="#" class="nav-link">
             <i class="nav-icon bi bi-text-indent-left"></i>
-            <p>Organisations</p>
+            <p>
+              Organisations
+              <i class="nav-arrow bi bi-chevron-right"></i>
+            </p>
           </a>
+          <div class="ms-3">
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a id="organisation-nav-link" href="{% url 'core:organisation:list' %}" class="nav-link {% if organisations_list %}active{% endif %}">
+                  <i class="nav-icon bi bi-text-indent-left"></i>
+                  <p>List Organisations</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a id="organisation-create-nav-link" href="{% url 'core:organisation:create' %}" class="nav-link {% if organisation_create %}active{% endif %}">
+                  <i class="nav-icon bi bi-text-indent-left"></i>
+                  <p>Add Organisation</p>
+                </a>
+              </li>
+            </ul>
+          </div>
         </li>
         <li class="nav-item">
           <a id="reports-nav-link" href="#" class="nav-link">
