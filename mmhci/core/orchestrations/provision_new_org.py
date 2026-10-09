@@ -5,8 +5,7 @@
 
 from django.db import transaction
 from django.contrib.auth.models import Permission
-# from mmhci.core.services.organisation.create_organisation import CreateOrganisationService
-from mmhci.core.models.organisation import Organisation
+from mmhci.core.services.organisation.create_organisation import CreateOrganisationService
 from mmhci.core.models.organisation import OrganisationGroup
 from mmhci.core.models.organisation import OrganisationRole
 from mmhci.core.services.core.auditlog_base import AuditLogBaseService
@@ -15,30 +14,25 @@ from mmhci.core.orchestrations.config.default_admin_permissions import default_a
 
 
 class ProvisionNewOrg(AuditLogBaseService, OrgPermissionsRequiredBaseService):
-    # Business rule validation lives in single-domain (model) services.
-    # Multiple model/multi-stage orchestrations can import multiple
-    # single-domain services.
+    # Creates new org and admin org group and org role. After it runs, need to assign
+    # users to the "Admins" org group associated with the newly created org.
     required_permissions = frozenset({'core.can_provision_new_org'})
 
-    def __init__(self, request, org_name, org_description):
+    def __init__(self, request, data):
         AuditLogBaseService.__init__(self, request)
         OrgPermissionsRequiredBaseService.__init__(self, request.org_perms)
         self.request = request
-        self.org_name = org_name
-        self.org_description = org_description
+        self.data = data
 
     @transaction.atomic
     def execute(self):
         with self.audit_write():
-            # TODO: change these to use individual services instead of models, which
-            # should never be imported by orchestrations. This will involve routing the
-            # CreateOrganisation view/api route to this orchestration, or perhaps 
-            # function within the CreateOrganisation service that calls this
-            # orchestration
-            organisation, _ = Organisation.objects.get_or_create(
-                name=self.org_name,
-                description=self.org_description
-            )
+            organisation = CreateOrganisationService(
+                request=self.request,
+                data=self.data
+            ).execute()
+            # TODO: change the remaining two to use individual services instead of
+            # models, which should never be imported by orchestrations.
             organisation_role, _ = OrganisationRole.objects.get_or_create(
                 organisation=organisation,
                 # permissions=None,  # Errors because of M:M. Fine to omit.

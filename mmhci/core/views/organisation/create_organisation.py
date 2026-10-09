@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView
 
 from mmhci.core.forms.organisation.organisation import OrganisationForm
-from mmhci.core.services.organisation.create_organisation import CreateOrganisationService
+from mmhci.core.orchestrations.provision_new_org import ProvisionNewOrg
 
 
 class CreateOrganisationFormView(LoginRequiredMixin, FormView):
@@ -23,7 +23,7 @@ class CreateOrganisationFormView(LoginRequiredMixin, FormView):
         return context
 
     def form_valid(self, form):
-        organisation = CreateOrganisationService(
+        organisation = ProvisionNewOrg(
             request=self.request,
             data=form.cleaned_data
         ).execute()

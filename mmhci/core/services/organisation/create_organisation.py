@@ -1,6 +1,5 @@
 from django.db import transaction
-from mmhci.core.orchestrations.provision_new_org import ProvisionNewOrg
-# from mmhci.core.models.organisation import Organisation
+from mmhci.core.models.organisation import Organisation
 from mmhci.core.services.core.auditlog_base import AuditLogBaseService
 from mmhci.core.services.core.org_permissions_required_base import OrgPermissionsRequiredBaseService
 
@@ -19,11 +18,10 @@ class CreateOrganisationService(AuditLogBaseService, OrgPermissionsRequiredBaseS
     @transaction.atomic
     def execute(self):
         with self.audit_write():
-            # TODO: Gate by permissions
-            organisation = ProvisionNewOrg(
-                request=self.request,
-                org_name=self.data["name"],
-                org_description=self.data["description"]
-            ).execute()
+            # TODO: Gate by permissions.
+            organisation, _ = Organisation.objects.get_or_create(
+                name=self.data["name"],
+                description=self.data["description"]
+            )
 
         return organisation
