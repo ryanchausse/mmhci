@@ -12,7 +12,7 @@
       {% for organisation in organisations %}
         data.push({
           link: "{% url 'core:organisations:view' uuid=organisation.uuid %}",
-          name: "{{ organisation.name }}",
+          name: "{{ organisation.name|escapejs|safe }}",
           description: "{{ organisation.description }}",
           added: "{{ organisation.created_at }}"
         });

@@ -9,6 +9,9 @@ class ListOrganisationsView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context["organisations_menu"] = True
         context["organisations_list"] = True
-        context["organisations"] = ListOrganisationsService(request=self.request).execute()
+        # Can add a .values("name", "description", ...) to restrict fields
+        context["organisations"] = ListOrganisationsService(
+            request=self.request
+        ).execute()
 
         return context
