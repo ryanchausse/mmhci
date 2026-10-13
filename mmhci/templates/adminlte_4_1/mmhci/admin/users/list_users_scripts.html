@@ -1,0 +1,66 @@
+{% load static %}
+<script nonce="{{ csp_nonce }}" type="text/javascript">
+  const statusBadge = (cell) => {
+    const value = cell.getValue();
+    const map = { Active: 'success', Invited: 'info', Suspended: 'secondary' };
+    const color = map[value] || 'secondary';
+    return `<span class="badge text-bg-${color}">${value}</span>`;
+  };
+  document.addEventListener('DOMContentLoaded', () => {
+    {% if users %}
+      let data = []
+      {% for user in users %}
+        data.push({
+          link: "{% url 'core:users:view' uuid=user.uuid %}",
+          email: "{{ user.email }}",
+          added: "{{ user.created_at }}"
+        });
+      {% endfor %}
+      const table = new Tabulator('#users-table', {
+        data: data,
+        layout: 'fitDataStretch',
+        pagination: true,
+        paginationSize: 10,
+        paginationSizeSelector: [10, 25, 100],
+        movableColumns: true,
+        columnDefaults: {
+          minWidth: 150,
+        },
+        columns: [
+          {
+            title: 'Actions',
+            field: 'link',
+            formatter: function(cell) {
+                var url = cell.getValue();
+                return `<a href="${url}" class="btn btn-primary">View</a>`;
+            },
+            headerSort: false
+          },
+          { title: 'Email', field: 'email', headerFilter: 'input' },
+          { title: 'Added', field: 'added', sorter: 'date' },
+        ],
+      });
+      document.getElementById('table-filter').addEventListener('input', (e) => {
+        const value = e.target.value;
+        if (value) {
+          table.setFilter([
+            [
+              { field: 'email', type: 'like', value: value },
+            ],
+          ]);
+        } else {
+          table.clearFilter();
+        }
+      });
+      document
+        .getElementById('export-csv')
+        .addEventListener('click', () => table.download('csv', 'users.csv'));
+      document
+        .getElementById('export-json')
+        .addEventListener('click', () => table.download('json', 'users.json'));
+      document
+        .getElementById('print-table')
+        .addEventListener('click', () => table.print(false, true));
+    {% endif %}
+  });
+</script>

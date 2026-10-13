@@ -93,7 +93,7 @@
           </a>
         </li>
         <li class="nav-header">Admin</li>
-        <li class="nav-item">
+        <li class="nav-item {% if config_menu %}menu-open{% endif %}">
           <a id="config-nav-link" href="#" class="nav-link">
             <i class="nav-icon bi bi-list-columns"></i>
             <p>
@@ -103,11 +103,30 @@
           </a>
           <div class="ms-3">
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a id="users-nav-link" href="#" class="nav-link">
-                  <i class="nav-icon bi bi-person-check"></i>
-                  <p>Users</p>
+              <li class="nav-item {% if users_menu %}menu-open{% endif %}">
+                <a id="users-menu-nav-link" href="#" class="nav-link">
+                  <i class="nav-icon bi bi-people"></i>
+                  <p>
+                    Users
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
                 </a>
+                <div class="ms-3">
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a id="users-nav-link" href="{% url 'core:users:list' %}" class="nav-link {% if users_list %}active{% endif %}">
+                        <i class="nav-icon bi bi-people"></i>
+                        <p>List Users</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="user-create-nav-link" href="{% url 'core:users:create' %}" class="nav-link {% if user_create %}active{% endif %}">
+                        <i class="nav-icon bi bi-person-square"></i>
+                        <p>Add User</p>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </li>
               <li class="nav-item">
                 <a id="groups-nav-link" href="#" class="nav-link">

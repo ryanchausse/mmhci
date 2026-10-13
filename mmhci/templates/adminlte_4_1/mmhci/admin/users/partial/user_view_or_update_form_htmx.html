@@ -1,0 +1,31 @@
+{% load crispy_forms_tags %}
+<!-- Include these partials for out-of-band htmx updates -->
+{% if request.htmx %}
+  {% include 'adminlte_4_1/mmhci/general/flash_messages.html' %}
+  {% include 'adminlte_4_1/mmhci/org_context_bar.html' %}
+  {% include 'adminlte_4_1/mmhci/admin/users/partial/users_view_or_update_log.html' %}
+{% endif %}
+<div class="form-container">
+  {% if uuid %}
+    <form
+      method="post"
+      action="{% url 'core:users:update' uuid=uuid %}"
+      hx-post="{% url 'core:users:update' uuid=uuid %}"
+      autocomplete="off"
+      hx-target="#user-view-or-update-form-container"
+      hx-indicator="#user-view-or-update-form-container,
+                    #user-view-or-update-log-container,
+                    #org-context-bar,
+                    .messages"
+      hx-swap="innerHTML">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="btn btn-primary mt-3" disabled>Save</button>
+    </form>
+  {% else %}
+    <p>Go to /user/(uuid)/ to see data for a user</p>
+  {% endif %}
+</div>
+<div class="loading-spinner spinner-border text-primary" role="status">
+  <span class="sr-only">Loading...</span>
+</div>

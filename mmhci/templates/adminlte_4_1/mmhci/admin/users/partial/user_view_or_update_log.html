@@ -1,0 +1,18 @@
+{% load crispy_forms_tags %}
+<div id="user-view-or-update-log-container" hx-swap-oob="innerHTML">
+  <div class="log-container">
+    {% if uuid %}
+      <table class="table-sm" role="table">
+        <tbody>
+          <tr class="align-left">
+            <td class="text-secondary">2026-09-21 19:20</td>
+            <td>Steven <span class="text-secondary">created user with email</span> john.smith@test.com</td>
+          </tr>
+        </tbody>
+      </table>
+    {% endif %}
+  </div>
+  <div class="loading-spinner spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>

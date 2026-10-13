@@ -85,5 +85,9 @@ urlpatterns = [
     path(
         "uploads/",
         include(("mmhci.core.urls.upload.upload", "upload"), namespace="uploads"),
-    )
+    ),
+    path(
+        "users/",
+        include(("mmhci.core.urls.user.user", "user"), namespace="users"),
+    ),
 ]

@@ -1,9 +1,14 @@
+import uuid
 from typing import ClassVar
 
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
+from django.db.models import BooleanField
 from django.db.models import CharField
+from django.db.models import DateTimeField
 from django.db.models import EmailField
 from django.db.models import ForeignKey
+from django.db.models import UUIDField
 from django.db.models import PROTECT
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
@@ -18,6 +23,11 @@ class User(AbstractUser):
     check forms.SignupForm and forms.SocialSignupForms accordingly.
     """
 
+    uuid = UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        unique=True
+    )
     # First and last name do not cover name patterns around the globe
     name = CharField(_("Name of User"), blank=True, max_length=255)
     first_name = None  # type: ignore[assignment]
@@ -27,6 +37,29 @@ class User(AbstractUser):
     preferred_org = ForeignKey(
         "core.Organisation", on_delete=PROTECT, null=True, blank=True
     )
+    owning_organisation = ForeignKey(
+        "core.Organisation",
+        on_delete=PROTECT,
+        null=True,
+        blank=True,
+        related_name="%(app_label)s_%(class)s_owning_org"
+    )
+    created_by = ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=PROTECT,
+        null=True,
+        blank=True,
+        related_name="%(app_label)s_%(class)s_created_by",
+    )
+    updated_by = ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=PROTECT,
+        null=True,
+        blank=True,
+        related_name="%(app_label)s_%(class)s_updated_by",
+    )
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField(auto_now=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []

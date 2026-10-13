@@ -36,12 +36,16 @@ class UserAdmin(auth_admin.UserAdmin):
                     "is_superuser",
                     "groups",
                     "user_permissions",
-                    "preferred_org"
+                    "preferred_org",
+                    "owning_organisation",
+                    "created_by",
+                    "updated_by",
                 ),
             },
         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
+    readonly_fields = ("uuid", "created_at", "updated_at")
     list_display = ["email", "name", "is_superuser"]
     search_fields = ["name"]
     ordering = ["id"]

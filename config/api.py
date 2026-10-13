@@ -17,6 +17,7 @@ from mmhci.core.apis.v1.routers.sms.sms import sms_router
 from mmhci.core.apis.v1.routers.survey.survey import survey_router
 from mmhci.core.apis.v1.routers.tag.tag import tag_router
 from mmhci.core.apis.v1.routers.upload.upload import upload_router
+from mmhci.core.apis.v1.routers.user.user import user_router
 
 
 api = NinjaExtraAPI(
@@ -44,6 +45,7 @@ api.add_router("/referrals/", referral_router)
 api.add_router("/smses/", sms_router)
 api.add_router("/tags/", tag_router)
 api.add_router("/uploads/", upload_router)
+api.add_router("/users/", user_router)
 
 # Routes are protected by default, can override auth like so:
 @api.get("/ping", auth=None)
