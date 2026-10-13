@@ -18,4 +18,4 @@ class AssessmentType(CreatedAndUpdatedBase):
         verbose_name_plural = "AssessmentTypes"
 
     def __str__(self):
-        return f"AssessmentType Name: {self.name}"
+        return self.name

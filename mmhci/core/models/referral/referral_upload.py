@@ -17,4 +17,4 @@ class ReferralUpload(CreatedAndUpdatedBase):
         verbose_name_plural = "ReferralUpload"
 
     def __str__(self):
-        return f"ReferralUpload Referral: {self.referral} -  Upload: {self.upload}"
+        return f"{self.referral} - {self.upload}"

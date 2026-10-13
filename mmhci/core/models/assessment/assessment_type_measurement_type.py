@@ -27,6 +27,5 @@ class AssessmentTypeMeasurementType(CreatedAndUpdatedBase):
 
     def __str__(self):
         return (
-            f"AssessmentTypeMeasurementType: Assessment Type: {self.assessment_type} - "
-            f"Measurement Type: {self.measurement_type}"
+            f"{self.assessment_type} - {self.measurement_type}"
         )

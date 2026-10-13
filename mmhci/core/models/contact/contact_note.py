@@ -19,4 +19,4 @@ class ContactNote(CreatedAndUpdatedBase):
         verbose_name_plural = "ContactNotes"
 
     def __str__(self):
-        return f"Contact: {self.contact}, Note: {self.note}"
+        return f"{self.contact} - {self.note}"

@@ -25,4 +25,4 @@ class ContactRequest(CreatedAndUpdatedBase):
         verbose_name_plural = "ContactRequests"
 
     def __str__(self):
-        return f"ContactRequest Contact: {self.contact}, Method: {self.method}"
+        return f"{self.contact} - {self.method}"

@@ -22,6 +22,5 @@ class AssessmentReferral(CreatedAndUpdatedBase):
 
     def __str__(self):
         return (
-            f"AssessmentReferral assessment: {self.assessment} - "
-            f"referral {self.referral}"
+            f"{self.assessment} - {self.referral}"
         )

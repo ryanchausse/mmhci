@@ -22,4 +22,4 @@ class Assessment(CreatedAndUpdatedBase):
         verbose_name_plural = "Assessments"
 
     def __str__(self):
-        return f"Assessment Name: {self.name}"
+        return self.name

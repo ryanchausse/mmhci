@@ -29,4 +29,4 @@ class SmsEvent(CreatedAndUpdatedBase):
         verbose_name_plural = "SmsEvents"
 
     def __str__(self):
-        return f"SmsEvent SMS: {self.sms} - Sent At: {self.sent_at}"
+        return f"{self.sms} - {self.sent_at}"

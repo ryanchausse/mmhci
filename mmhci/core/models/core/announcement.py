@@ -15,4 +15,4 @@ class Announcement(CreatedAndUpdatedBase):
         verbose_name_plural = "Announcements"
 
     def __str__(self):
-        return f"Announcement Name: {self.name}"
+        return self.name

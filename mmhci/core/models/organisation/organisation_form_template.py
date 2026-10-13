@@ -22,6 +22,5 @@ class OrganisationFormTemplate(CreatedAndUpdatedBase):
 
     def __str__(self):
         return (
-            f"OrganisationFormTemplate Organisation: {self.organisation} - "
-            f"FormTemplate: {self.form_template}"
+            f"{self.organisation} - {self.form_template}"
         )

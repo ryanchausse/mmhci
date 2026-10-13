@@ -30,6 +30,5 @@ class OrganisationGroupMembership(CreatedAndUpdatedBase):
 
     def __str__(self):
         return (
-            f"OrganisationGroup: {self.organisation_group} - "
-            f"User: {self.user}"
+            f"{self.organisation_group} - {self.user}"
         )

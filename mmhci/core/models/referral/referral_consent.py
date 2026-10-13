@@ -17,4 +17,4 @@ class ReferralConsent(CreatedAndUpdatedBase):
         verbose_name_plural = "ReferralConsent"
 
     def __str__(self):
-        return f"ReferralConsent Referral: {self.referral} -  Consent: {self.consent}"
+        return f"{self.referral} - {self.consent}"

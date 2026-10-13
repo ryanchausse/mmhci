@@ -19,4 +19,4 @@ class ContactUpload(CreatedAndUpdatedBase):
         verbose_name_plural = "ContactUpload"
 
     def __str__(self):
-        return f"Contact: {self.contact}, Upload: {self.upload}"
+        return f"{self.contact} - {self.upload}"

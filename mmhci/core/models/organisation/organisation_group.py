@@ -31,7 +31,5 @@ class OrganisationGroup(CreatedAndUpdatedBase):
     def __str__(self):
         roles = ", ".join(str(role) for role in self.roles.all()) or "No roles"
         return (
-            f"Name: {self.name} "
-            f"Organisation: {self.organisation} - "
-            f"OrganisationRoles: {roles}"
+            f"{self.name} - {self.organisation} - {roles}"
         )

@@ -19,4 +19,4 @@ class Survey(CreatedAndUpdatedBase):
         verbose_name_plural = "Surveys"
 
     def __str__(self):
-        return f"Survey Name: {self.name}"
+        return self.name

@@ -24,4 +24,4 @@ class FormTemplate(CreatedAndUpdatedBase):
         verbose_name_plural = "FormTemplates"
 
     def __str__(self):
-        return f"FormTemplate name: {self.name}"
+        return self.name

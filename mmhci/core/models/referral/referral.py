@@ -72,4 +72,4 @@ class Referral(CreatedAndUpdatedBase):
         verbose_name_plural = "Referrals"
 
     def __str__(self):
-        return f"Referral Name: {self.name}"
+        return self.name

@@ -27,4 +27,4 @@ class Log(CreatedAndUpdatedBase):
         verbose_name_plural = "Logs"
 
     def __str__(self):
-        return f"Log Type: {self.type}"
+        return self.type

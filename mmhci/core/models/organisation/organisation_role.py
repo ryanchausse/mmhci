@@ -30,7 +30,9 @@ class OrganisationRole(CreatedAndUpdatedBase):
 
     @property
     def permission_list(self):
-        return [str(perm) for perm in self.permissions.all()]
+        return ", ".join(
+            str(permission) for permission in self.permissions.all().values_list('name', flat=True)
+        ) or "No permissions"
 
     class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["name"]
@@ -38,9 +40,6 @@ class OrganisationRole(CreatedAndUpdatedBase):
         verbose_name_plural = "OrganisationRoles"
 
     def __str__(self):
-        # Removed as it is costly/verbose
-        # permissions = ", ".join(str(permission) for permission in self.permissions.all()) or "No permissions"
         return (
-            f"Name: {self.name} - "
-            f"Organisation: {self.organisation}"
+            f"{self.name} - {self.organisation}"
         )

@@ -20,4 +20,4 @@ class Tag(CreatedAndUpdatedBase):
         verbose_name_plural = "Tags"
 
     def __str__(self):
-        return f"Tag Name: {self.name}"
+        return self.name

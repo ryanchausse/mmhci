@@ -18,4 +18,4 @@ class MeasurementType(CreatedAndUpdatedBase):
         verbose_name_plural = "MeasurementTypes"
 
     def __str__(self):
-        return f"MeasurementType Name: {self.name}"
+        return self.name

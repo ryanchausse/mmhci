@@ -19,4 +19,4 @@ class Note(CreatedAndUpdatedBase):
         verbose_name_plural = "Notes"
 
     def __str__(self):
-        return f"Note Type: {self.type}"
+        return self.type

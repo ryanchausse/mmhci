@@ -19,4 +19,4 @@ class Consent(CreatedAndUpdatedBase):
         verbose_name_plural = "Consents"
 
     def __str__(self):
-        return f"Consent Description: {self.description}"
+        return self.description

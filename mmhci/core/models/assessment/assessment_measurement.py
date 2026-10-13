@@ -22,6 +22,5 @@ class AssessmentMeasurement(CreatedAndUpdatedBase):
 
     def __str__(self):
         return (
-            f"AssessmentMeasurement Assessment: {self.assessment} - "
-            f"Measurement: {self.measurement}"
+            f"{self.assessment} - {self.measurement}"
         )

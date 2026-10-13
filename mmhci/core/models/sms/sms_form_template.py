@@ -19,4 +19,4 @@ class SmsFormTemplate(CreatedAndUpdatedBase):
         verbose_name_plural = "SmsFormTemplate"
 
     def __str__(self):
-        return f"SmsFormTemplate SMS: {self.sms} - FormTemplate: {self.form_template}"
+        return f"{self.sms} - {self.form_template}"

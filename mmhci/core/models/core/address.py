@@ -14,4 +14,9 @@ class Address(CreatedAndUpdatedBase):
         verbose_name_plural = "Addresses"
 
     def __str__(self):
-        return f"Address Line 1: {self.address_line1}"
+        return (
+            f"{self.address_line1} - "
+            f"{self.address_line2} - "
+            f"{self.city} - "
+            f"{self.state}"
+        )

@@ -28,4 +28,4 @@ class Organisation(CreatedAndUpdatedBase):
         verbose_name_plural = "Organisations"
 
     def __str__(self):
-        return f"Organisation Name: {self.name}"
+        return self.name

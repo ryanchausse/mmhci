@@ -20,6 +20,5 @@ class OrganisationAddress(CreatedAndUpdatedBase):
 
     def __str__(self):
         return (
-            f"OrganisationAddress Organisation: {self.organisation} - "
-            f"Address: {self.address}"
+            f"{self.organisation} - {self.address}"
         )

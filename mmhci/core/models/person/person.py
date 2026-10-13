@@ -40,5 +40,5 @@ class Person(CreatedAndUpdatedBase):
 
     def __str__(self):
         return (
-            f"Person Name: {self.first_name} '{self.preferred_name}' {self.last_name}"
+            f"{self.first_name} '{self.preferred_name}' {self.last_name}"
         )

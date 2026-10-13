@@ -40,7 +40,9 @@ class ReferralEvent(CreatedAndUpdatedBase):
 
     def __str__(self):
         return (
-            f"ReferralEvent Referral: {self.referral} - "
-            f"Organisation: {self.organisation} - Practitioner: {self.practitioner} - "
-            f"Event Type: {self.type} - Status: {self.status}"
+            f"{self.referral} - "
+            f"{self.organisation} - "
+            f"{self.practitioner} - "
+            f"{self.type} - "
+            f"{self.status}"
         )

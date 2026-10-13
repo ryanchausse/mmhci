@@ -19,4 +19,4 @@ class Sms(CreatedAndUpdatedBase):
         verbose_name_plural = "SMSes"
 
     def __str__(self):
-        return f"SMS Name: {self.name}"
+        return self.name

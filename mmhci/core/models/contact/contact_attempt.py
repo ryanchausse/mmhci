@@ -20,4 +20,4 @@ class ContactAttempt(CreatedAndUpdatedBase):
         verbose_name_plural = "ContactAttempts"
 
     def __str__(self):
-        return f"ContactAttempt Contact: {self.contact}, Method: {self.method}"
+        return f"{self.contact} - {self.method}"

@@ -23,4 +23,4 @@ class Practitioner(CreatedAndUpdatedBase):
         verbose_name_plural = "Practitioners"
 
     def __str__(self):
-        return f"Practitioner Name: {self.name}"
+        return self.name

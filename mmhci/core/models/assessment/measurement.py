@@ -42,4 +42,4 @@ class Measurement(CreatedAndUpdatedBase):
         ]
 
     def __str__(self):
-        return f"Measurement Name: {self.name}"
+        return self.name

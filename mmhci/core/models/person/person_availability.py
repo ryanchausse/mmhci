@@ -36,6 +36,6 @@ class PersonAvailability(CreatedAndUpdatedBase):
 
     def __str__(self):
         return (
-            f"Person: {self.person} "
-            f"Availability: {self.day_of_week}: {self.time_from} - {self.time_until}"
+            f"{self.person} - "
+            f"{self.day_of_week}: {self.time_from} -> {self.time_until}"
         )

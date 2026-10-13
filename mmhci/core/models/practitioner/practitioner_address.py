@@ -29,4 +29,4 @@ class PractitionerAddress(CreatedAndUpdatedBase):
         ]
 
     def __str__(self):
-        return f"Practitioner Name: {self.name} - Address: {self.address}"
+        return f"{self.name} - {self.address}"

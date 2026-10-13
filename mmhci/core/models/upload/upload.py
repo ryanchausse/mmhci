@@ -20,4 +20,4 @@ class Upload(CreatedAndUpdatedBase):
         verbose_name_plural = "Uploads"
 
     def __str__(self):
-        return f"Upload Name: {self.name} Type: {self.type}"
+        return f"{self.name} - {self.type}"
