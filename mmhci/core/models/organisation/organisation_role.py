@@ -3,8 +3,8 @@ Model
   - OrganisationRole (relational)
 
 This assigns 1:M permissions to each org "role", which is defined in this model.
-There is not a Role base model; all roles are in an org context. In the future, perhaps
-there will be global roles.
+There is not a Role base model; all roles are in an org context. In the future,
+perhaps there will be global roles.
 """
 
 from django.db import models
@@ -28,13 +28,18 @@ class OrganisationRole(CreatedAndUpdatedBase):
     name = models.TextField()  # "Clinician", "Intake Administrator"
     description = models.TextField(null=True, blank=True)
 
+    @property
+    def permission_list(self):
+        return [str(perm) for perm in self.permissions.all()]
+
     class Meta(CreatedAndUpdatedBase.Meta):
         ordering = ["name"]
         verbose_name = "OrganisationRole"
         verbose_name_plural = "OrganisationRoles"
 
     def __str__(self):
-        permissions = ", ".join(str(permission) for permission in self.permissions.all()) or "No permissions"
+        # Removed as it is costly/verbose
+        # permissions = ", ".join(str(permission) for permission in self.permissions.all()) or "No permissions"
         return (
             f"Name: {self.name} - "
             f"Organisation: {self.organisation}"

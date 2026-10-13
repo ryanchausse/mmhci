@@ -1,0 +1,31 @@
+{% load crispy_forms_tags %}
+<!-- Include these partials for out-of-band htmx updates -->
+{% if request.htmx %}
+  {% include 'adminlte_4_1/mmhci/general/flash_messages.html' %}
+  {% include 'adminlte_4_1/mmhci/org_context_bar.html' %}
+  {% include 'adminlte_4_1/mmhci/organisation_roles/partial/organisation_role_view_or_update_log.html' %}
+{% endif %}
+<div class="form-container">
+  {% if pk %}
+    <form
+      method="post"
+      action="{% url 'core:organisation_roles:update' pk=pk %}"
+      hx-post="{% url 'core:organisation_roles:update' pk=pk %}"
+      autocomplete="off"
+      hx-target="#organisation-role-view-or-update-form-container"
+      hx-indicator="#organisation-role-view-or-update-form-container,
+                    #organisation-role-view-or-update-log-container,
+                    #org-context-bar,
+                    .messages"
+      hx-swap="innerHTML">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="btn btn-primary mt-3">Save</button>
+    </form>
+  {% else %}
+    <p>Go to /organisation_roles/(id)/ to see data for an organisation role</p>
+  {% endif %}
+</div>
+<div class="loading-spinner spinner-border text-primary" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
