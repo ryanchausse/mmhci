@@ -23,8 +23,8 @@ class UpdateOrganisationService(AuditLogBaseService, OrgPermissionsRequiredBaseS
             organisation = get_object_or_404(Organisation, pk=self.pk)
         elif self.uuid:
             organisation = get_object_or_404(Organisation.objects.filter(uuid=self.uuid))
-        organisation.name=self.data["name"]
-        organisation.description=self.data["description"]
+        organisation.name = self.data["name"]
+        organisation.description = self.data["description"]
         with self.audit_write():
             organisation.save()
 

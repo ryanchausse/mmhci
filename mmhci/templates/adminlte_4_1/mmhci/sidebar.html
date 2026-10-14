@@ -128,17 +128,36 @@
                   </ul>
                 </div>
               </li>
-              <li class="nav-item">
-                <a id="groups-nav-link" href="#" class="nav-link">
-                  <i class="nav-icon bi bi-person-lines-fill"></i>
-                  <p>Groups</p>
+              <li class="nav-item {% if organisation_groups_menu %}menu-open{% endif %}">
+                <a id="organisation-groups-menu-nav-link" href="#" class="nav-link">
+                  <i class="nav-icon bi bi-people"></i>
+                  <p>
+                    Groups
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
                 </a>
+                <div class="ms-3">
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a id="organisation-groups-nav-link" href="{% url 'core:organisation_groups:list' %}" class="nav-link {% if organisation_groups_list %}active{% endif %}">
+                        <i class="nav-icon bi bi-people"></i>
+                        <p>List Groups</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="organisation-group-create-nav-link" href="{% url 'core:organisation_groups:create' %}" class="nav-link {% if organisation_group_create %}active{% endif %}">
+                        <i class="nav-icon bi bi-person-square"></i>
+                        <p>Add Group</p>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </li>
               <li class="nav-item {% if organisation_roles_menu %}menu-open{% endif %}">
                 <a id="organisation-roles-menu-nav-link" href="#" class="nav-link">
                   <i class="nav-icon bi bi-people"></i>
                   <p>
-                    Organisation Roles
+                    Roles
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
@@ -147,13 +166,13 @@
                     <li class="nav-item">
                       <a id="organisation-roles-nav-link" href="{% url 'core:organisation_roles:list' %}" class="nav-link {% if organisation_roles_list %}active{% endif %}">
                         <i class="nav-icon bi bi-people"></i>
-                        <p>List Organisation Roles</p>
+                        <p>List Roles</p>
                       </a>
                     </li>
                     <li class="nav-item">
                       <a id="organisation-role-create-nav-link" href="{% url 'core:organisation_roles:create' %}" class="nav-link {% if organisation_role_create %}active{% endif %}">
                         <i class="nav-icon bi bi-person-square"></i>
-                        <p>Add Organisation Role</p>
+                        <p>Add Role</p>
                       </a>
                     </li>
                   </ul>
