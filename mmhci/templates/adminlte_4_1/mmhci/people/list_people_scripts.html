@@ -13,8 +13,8 @@
       {% for person in people %}
         data.push({
           link: "{% url 'core:people:view' uuid=person.uuid %}",
-          name: "{{ person.first_name }} {{ person.last_name }}",
-          email: "{{ person.email }}",
+          name: "{{ person.full_name|escapejs|safe }}",
+          email: "{{ person.email|escapejs|safe }}",
           role: "Person",
           status: "Active",
           added: "{{ person.created_at }}"
