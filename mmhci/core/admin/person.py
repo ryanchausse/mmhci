@@ -7,4 +7,6 @@ admin.site.register(PersonAvailability)
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
-    readonly_fields = ('uuid',)
+    readonly_fields = (
+        "uuid", "created_at", "created_by", "updated_at", "updated_by"
+    )
