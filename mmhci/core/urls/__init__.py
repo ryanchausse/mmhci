@@ -67,6 +67,13 @@ urlpatterns = [
         ),
     ),
     path(
+        "organisation_group_memberships/",
+            include(
+                ("mmhci.core.urls.organisation.organisation_group_membership", "organisation_group_memberships"),
+                namespace="organisation_group_memberships"
+            ),
+        ),
+    path(
         "people/",
         include(("mmhci.core.urls.person.person", "person"), namespace="people"),
     ),

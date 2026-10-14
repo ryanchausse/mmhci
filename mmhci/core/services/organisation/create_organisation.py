@@ -3,6 +3,7 @@ from mmhci.core.models.organisation import Organisation
 from mmhci.core.services.core.auditlog_base import AuditLogBaseService
 from mmhci.core.services.core.org_permissions_required_base import OrgPermissionsRequiredBaseService
 
+
 class CreateOrganisationService(AuditLogBaseService, OrgPermissionsRequiredBaseService):
     # Business rule validation lives in single-domain (model) services.
     # Multiple model/multi-stage orchestrations can import multiple

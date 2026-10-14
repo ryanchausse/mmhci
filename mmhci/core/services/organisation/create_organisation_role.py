@@ -3,6 +3,7 @@ from mmhci.core.models.organisation import OrganisationRole
 from mmhci.core.services.core.auditlog_base import AuditLogBaseService
 from mmhci.core.services.core.org_permissions_required_base import OrgPermissionsRequiredBaseService
 
+
 class CreateOrganisationRoleService(AuditLogBaseService, OrgPermissionsRequiredBaseService):
     required_permissions = frozenset({'core.create_organisationrole'})
 

@@ -2,6 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 from mmhci.core.services.organisation.list_organisation_roles import ListOrganisationRolesService
 
+
 class ListOrganisationRolesView(LoginRequiredMixin, TemplateView):
     template_name = "adminlte_4_1/mmhci/organisation_roles/organisation_roles.html"
 

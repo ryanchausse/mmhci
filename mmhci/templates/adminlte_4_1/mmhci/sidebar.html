@@ -178,11 +178,30 @@
                   </ul>
                 </div>
               </li>
-              <li class="nav-item">
-                <a id="memberships-nav-link" href="#" class="nav-link">
-                  <i class="nav-icon bi bi-person-rolodex"></i>
-                  <p>Memberships</p>
+              <li class="nav-item {% if organisation_group_memberships_menu %}menu-open{% endif %}">
+                <a id="organisation-group-memberships-menu-nav-link" href="#" class="nav-link">
+                  <i class="nav-icon bi bi-people"></i>
+                  <p>
+                    Memberships
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
                 </a>
+                <div class="ms-3">
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a id="organisation-group-memberships-nav-link" href="{% url 'core:organisation_group_memberships:list' %}" class="nav-link {% if organisation_group_memberships_list %}active{% endif %}">
+                        <i class="nav-icon bi bi-people"></i>
+                        <p>List Memberships</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="organisation-group-membership-create-nav-link" href="{% url 'core:organisation_group_memberships:create' %}" class="nav-link {% if organisation_group_membership_create %}active{% endif %}">
+                        <i class="nav-icon bi bi-person-square"></i>
+                        <p>Add Membership</p>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </li>
               <li class="nav-item">
                 <a id="templates-nav-link" href="#" class="nav-link">

@@ -3,6 +3,9 @@ Model
   - OrganisationGroupMembership (relational)
 
 This gives a User an Org Group association. Org Groups belong to Orgs.
+Consider changing to a multiple assignment-style model, as in OrganisationRole.
+Leaving as a M:M relation for now mainly for ease of org-specific views and
+assignment, but also for metadata purposes
 """
 
 from django.conf import settings
@@ -30,5 +33,5 @@ class OrganisationGroupMembership(CreatedAndUpdatedBase):
 
     def __str__(self):
         return (
-            f"{self.organisation_group} - {self.user}"
+            f"{self.user} - {self.organisation_group}"
         )

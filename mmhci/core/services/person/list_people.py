@@ -1,5 +1,6 @@
 from mmhci.core.models.person import Person
 
+
 class ListPeopleService:
     def __init__(self, request):
         self.request = request

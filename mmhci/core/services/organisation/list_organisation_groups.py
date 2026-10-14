@@ -1,5 +1,6 @@
 from mmhci.core.models.organisation import OrganisationGroup
 
+
 class ListOrganisationGroupsService:
     def __init__(self, request):
         self.request = request
