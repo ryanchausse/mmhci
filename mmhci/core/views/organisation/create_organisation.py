@@ -18,6 +18,7 @@ class CreateOrganisationFormView(LoginRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["config_menu"] = True
         context["organisations_menu"] = True
         context["organisation_create"] = True
         return context

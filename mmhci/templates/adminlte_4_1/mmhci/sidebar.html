@@ -31,6 +31,11 @@
         data-accordion="false"
         id="navigation"
       >
+        <li class="nav-item">
+          <a id="new-contact-nav-link" href="#" class="nav-link-button d-inline-flex align-items-center gap-2">
+            <span class="btn btn-primary d-inline-flex"><i class="nav-icon bi bi-plus-circle"></i>New Contact</span>
+          </a>
+        </li>
         <li class="nav-item {% if dashboard_menu %}active{% endif %}">
           <a id="dashboard-nav-link" href="{% url 'core:dashboard' %}" class="nav-link">
             <i class="nav-icon bi bi-speedometer"></i>
@@ -103,26 +108,51 @@
           </a>
           <div class="ms-3">
             <ul class="nav nav-treeview">
-              <li class="nav-item {% if users_menu %}menu-open{% endif %}">
-                <a id="users-menu-nav-link" href="#" class="nav-link">
-                  <i class="nav-icon bi bi-people"></i>
+              <li class="nav-item {% if organisations_menu %}menu-open{% endif %}">
+                <a id="organisations-menu-nav-link" href="#" class="nav-link">
+                  <i class="nav-icon bi bi-text-indent-left"></i>
                   <p>
-                    Users
+                    Organisations
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
                 <div class="ms-3">
                   <ul class="nav nav-treeview">
                     <li class="nav-item">
-                      <a id="users-nav-link" href="{% url 'core:users:list' %}" class="nav-link {% if users_list %}active{% endif %}">
-                        <i class="nav-icon bi bi-people"></i>
-                        <p>List Users</p>
+                      <a id="organisation-nav-link" href="{% url 'core:organisation:list' %}" class="nav-link {% if organisations_list %}active{% endif %}">
+                        <i class="nav-icon bi bi-text-indent-left"></i>
+                        <p>List Organisations</p>
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a id="user-create-nav-link" href="{% url 'core:users:create' %}" class="nav-link {% if user_create %}active{% endif %}">
+                      <a id="organisation-create-nav-link" href="{% url 'core:organisation:create' %}" class="nav-link {% if organisation_create %}active{% endif %}">
+                        <i class="nav-icon bi bi-text-indent-left"></i>
+                        <p>Add Organisation</p>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item {% if organisation_group_memberships_menu %}menu-open{% endif %}">
+                <a id="organisation-group-memberships-menu-nav-link" href="#" class="nav-link">
+                  <i class="nav-icon bi bi-people"></i>
+                  <p>
+                    Group Memberships
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+                <div class="ms-3">
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a id="organisation-group-memberships-nav-link" href="{% url 'core:organisation_group_memberships:list' %}" class="nav-link {% if organisation_group_memberships_list %}active{% endif %}">
+                        <i class="nav-icon bi bi-people"></i>
+                        <p>List Memberships</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a id="organisation-group-membership-create-nav-link" href="{% url 'core:organisation_group_memberships:create' %}" class="nav-link {% if organisation_group_membership_create %}active{% endif %}">
                         <i class="nav-icon bi bi-person-square"></i>
-                        <p>Add User</p>
+                        <p>Add Membership</p>
                       </a>
                     </li>
                   </ul>
@@ -178,26 +208,26 @@
                   </ul>
                 </div>
               </li>
-              <li class="nav-item {% if organisation_group_memberships_menu %}menu-open{% endif %}">
-                <a id="organisation-group-memberships-menu-nav-link" href="#" class="nav-link">
+              <li class="nav-item {% if users_menu %}menu-open{% endif %}">
+                <a id="users-menu-nav-link" href="#" class="nav-link">
                   <i class="nav-icon bi bi-people"></i>
                   <p>
-                    Memberships
+                    Users
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
                 <div class="ms-3">
                   <ul class="nav nav-treeview">
                     <li class="nav-item">
-                      <a id="organisation-group-memberships-nav-link" href="{% url 'core:organisation_group_memberships:list' %}" class="nav-link {% if organisation_group_memberships_list %}active{% endif %}">
+                      <a id="users-nav-link" href="{% url 'core:users:list' %}" class="nav-link {% if users_list %}active{% endif %}">
                         <i class="nav-icon bi bi-people"></i>
-                        <p>List Memberships</p>
+                        <p>List Users</p>
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a id="organisation-group-membership-create-nav-link" href="{% url 'core:organisation_group_memberships:create' %}" class="nav-link {% if organisation_group_membership_create %}active{% endif %}">
+                      <a id="user-create-nav-link" href="{% url 'core:users:create' %}" class="nav-link {% if user_create %}active{% endif %}">
                         <i class="nav-icon bi bi-person-square"></i>
-                        <p>Add Membership</p>
+                        <p>Add User</p>
                       </a>
                     </li>
                   </ul>
@@ -223,31 +253,6 @@
             <i class="nav-icon bi bi-bar-chart"></i>
             <p>Charts</p>
           </a>
-        </li>
-        <li class="nav-item {% if organisations_menu %}menu-open{% endif %}">
-          <a id="organisations-menu-nav-link" href="#" class="nav-link">
-            <i class="nav-icon bi bi-text-indent-left"></i>
-            <p>
-              Organisations
-              <i class="nav-arrow bi bi-chevron-right"></i>
-            </p>
-          </a>
-          <div class="ms-3">
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a id="organisation-nav-link" href="{% url 'core:organisation:list' %}" class="nav-link {% if organisations_list %}active{% endif %}">
-                  <i class="nav-icon bi bi-text-indent-left"></i>
-                  <p>List Organisations</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a id="organisation-create-nav-link" href="{% url 'core:organisation:create' %}" class="nav-link {% if organisation_create %}active{% endif %}">
-                  <i class="nav-icon bi bi-text-indent-left"></i>
-                  <p>Add Organisation</p>
-                </a>
-              </li>
-            </ul>
-          </div>
         </li>
         <li class="nav-item">
           <a id="reports-nav-link" href="#" class="nav-link">

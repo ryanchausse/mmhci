@@ -17,6 +17,7 @@ class ViewOrganisationView(LoginRequiredMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context["config_menu"] = True
         context["organisations_menu"] = True
 
         if self.kwargs.get('uuid'):
