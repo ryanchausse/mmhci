@@ -1,0 +1,54 @@
+{% load crispy_forms_tags %}
+<div id="contact-view-or-update-related-events-container" hx-swap-oob="innerHTML">
+  <div class="related-events-container table-responsive">
+    {% if uuid %}
+      <table class="table table-sm" role="table">
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Event</th>
+            <th scope="col">Org</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="align-middle">
+            <td>2026-07-05</td>
+            <td>Created</td>
+            <td>
+              SEMPHN
+            </td>
+            <td><span class="badge text-bg-danger">Pre-Referral</span></td>
+          </tr>
+          <tr class="align-middle">
+            <td>2026-07-06</td>
+            <td>Completed</td>
+            <td>
+              SEMPHN
+            </td>
+            <td><span class="badge text-bg-success">Complete</span></td>
+          </tr>
+          <tr class="align-middle">
+            <td>2026-07-06</td>
+            <td>Referred</td>
+            <td>
+              SEMPHN
+            </td>
+            <td><span class="badge text-bg-warning">Created Referral</span></td>
+          </tr>
+          <tr class="align-middle">
+            <td>2026-07-05</td>
+            <td>Referral Sent</td>
+            <td>
+              MWMPHN
+            </td>
+            <td><span class="badge text-bg-success">Referral Sent</span></td>
+          </tr>
+        </tbody>
+      </table>
+    {% endif %}
+  </div>
+  <div class="loading-spinner spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>

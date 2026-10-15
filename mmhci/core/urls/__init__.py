@@ -28,7 +28,10 @@ urlpatterns = [
     ),
     path(
         "contacts/",
-        include(("mmhci.core.urls.contact.contact", "contact"), namespace="contacts"),
+        include(
+            ("mmhci.core.urls.contact.contact", "contacts"),
+            namespace="contacts"
+        ),
     ),
     path(
         "form_templates/",

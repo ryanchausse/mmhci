@@ -67,11 +67,30 @@
             </ul>
           </div>
         </li>
-        <li class="nav-item">
-          <a id="contacts-nav-link" href="{% url 'core:contacts:list' %}" class="nav-link">
-            <i class="nav-icon bi bi-person-vcard"></i>
-            <p>Contacts</p>
+        <li class="nav-item {% if contacts_menu %}menu-open{% endif %}">
+          <a id="contacts-menu-nav-link" href="#" class="nav-link">
+            <i class="nav-icon bi bi-people"></i>
+            <p>
+              Contacts
+              <i class="nav-arrow bi bi-chevron-right"></i>
+            </p>
           </a>
+          <div class="ms-3">
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a id="contacts-nav-link" href="{% url 'core:contacts:list' %}" class="nav-link {% if contacts_list %}active{% endif %}">
+                  <i class="nav-icon bi bi-people"></i>
+                  <p>List Contacts</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a id="contact-create-nav-link" href="{% url 'core:contacts:create' %}" class="nav-link {% if contact_create %}active{% endif %}">
+                  <i class="nav-icon bi bi-person-square"></i>
+                  <p>Add Contact</p>
+                </a>
+              </li>
+            </ul>
+          </div>
         </li>
         <li class="nav-item">
           <a id="referrals-nav-link" href="#" class="nav-link">

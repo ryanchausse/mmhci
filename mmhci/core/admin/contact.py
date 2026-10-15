@@ -8,4 +8,9 @@ admin.site.register(ContactNote)
 admin.site.register(ContactPerson)
 admin.site.register(ContactRequest)
 admin.site.register(ContactUpload)
-admin.site.register(Contact)
+
+@admin.register(Contact)
+class ContactAdmin(admin.ModelAdmin):
+    readonly_fields = (
+        "uuid", "created_at", "created_by", "updated_at", "updated_by"
+    )

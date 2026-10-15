@@ -25,12 +25,12 @@ class UpdatePersonService(AuditLogBaseService, OrgPermissionsRequiredBaseService
             person = get_object_or_404(Person.objects.filter(uuid=self.uuid))
         if person.owning_organisation_id not in self.authorized_org_ids:
             raise PermissionDenied("You do not have permission for this Person.")
-        person.first_name=self.data["first_name"]
-        person.last_name=self.data["last_name"]
-        person.preferred_name=self.data["preferred_name"]
-        person.dob=self.data["dob"]
-        person.phone=self.data["phone"]
-        person.email=self.data["email"]
+        person.first_name = self.data["first_name"]
+        person.last_name = self.data["last_name"]
+        person.preferred_name = self.data["preferred_name"]
+        person.dob = self.data["dob"]
+        person.phone = self.data["phone"]
+        person.email = self.data["email"]
         with self.audit_write():
             person.save()
 

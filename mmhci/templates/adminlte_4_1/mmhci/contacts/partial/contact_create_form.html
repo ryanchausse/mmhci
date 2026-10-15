@@ -1,0 +1,9 @@
+{% load crispy_forms_tags %}
+<form
+  method="post"
+  action="{% url 'core:contacts:create' %}"
+  autocomplete="off">
+  {% csrf_token %}
+  {{ form|crispy }}
+  <button type="submit" class="btn btn-primary mt-3">Add Contact</button>
+</form>

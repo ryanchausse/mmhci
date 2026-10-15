@@ -1,0 +1,33 @@
+{% load crispy_forms_tags %}
+<!-- Include these partials for out-of-band htmx updates -->
+{% if request.htmx %}
+  {% include 'adminlte_4_1/mmhci/general/flash_messages.html' %}
+  {% include 'adminlte_4_1/mmhci/org_context_bar.html' %}
+  {% include 'adminlte_4_1/mmhci/contacts/partial/contact_view_or_update_remaining_fields.html' %}
+  {% include 'adminlte_4_1/mmhci/contacts/partial/contact_view_or_update_log.html' %}
+{% endif %}
+<div class="form-container">
+  {% if uuid %}
+    <form
+      method="post"
+      action="{% url 'core:contacts:update' uuid=uuid %}"
+      hx-post="{% url 'core:contacts:update' uuid=uuid %}"
+      autocomplete="off"
+      hx-target="#contact-view-or-update-form-container"
+      hx-indicator="#contact-view-or-update-form-container,
+                    #contact-view-or-update-log-container,
+                    #contact-view-or-update-remaining-fields-container,
+                    #org-context-bar,
+                    .messages"
+      hx-swap="innerHTML">
+      {% csrf_token %}
+      {{ form|crispy }}
+      <button type="submit" class="btn btn-primary mt-3">Save</button>
+    </form>
+  {% else %}
+    <p>Go to /contacts/(uuid)/ to see data for a Contact</p>
+  {% endif %}
+</div>
+<div class="loading-spinner spinner-border text-primary" role="status">
+  <span class="sr-only">Loading...</span>
+</div>

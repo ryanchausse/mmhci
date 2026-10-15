@@ -13,7 +13,7 @@ class AuditLogBaseService:
         actor = self.user if self.user and self.user.is_authenticated else None
 
         with set_actor(actor=actor):
-            # To handle context cleanup for potential crashes in service layer
+            # To handle context cleanup for potential crashes in the service layer
             try:
                 yield
             finally:

@@ -1,0 +1,22 @@
+{% load crispy_forms_tags %}
+<div id="contact-view-or-update-log-container" hx-swap-oob="innerHTML">
+  <div class="log-container">
+    {% if uuid %}
+      <table class="table-sm" role="table">
+        <tbody>
+          <tr class="align-left">
+            <td class="text-secondary">2026-09-19 19:20</td>
+            <td>Jack <span class="text-secondary">updated type from </span>phone <span class="text-secondary">to</span> website</td>
+          </tr>
+          <tr class="align-left">
+            <td class="text-secondary">2026-09-19 19:30</td>
+            <td>Beverly <span class="text-secondary">updated description from </span>wants information <span class="text-secondary">to</span> needs referral</td>
+          </tr>
+        </tbody>
+      </table>
+    {% endif %}
+  </div>
+  <div class="loading-spinner spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
