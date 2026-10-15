@@ -48,5 +48,5 @@ default_admin_role_permissions = {
     "core.survey": None,
     "core.tag": None,
     "core.upload": None,
-    "core.users": None,
+    "users.user": None,
 }

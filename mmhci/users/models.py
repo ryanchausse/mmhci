@@ -85,3 +85,11 @@ class User(AbstractUser):
             organisation_group__organisation_id=organisation_id,
             organisation_role__permissions__codename=permission_codename
         ).exists()
+
+    class Meta:
+        permissions = [
+            (
+                'can_view_user_list',
+                'Can view a list of users'
+            ),
+        ]
