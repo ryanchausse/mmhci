@@ -24,11 +24,18 @@
                             </div>
                         {% endif %}
                         <h2 class="login-box-msg">403 Error</h2>
-                        {% if exception %}
-                            <h5>{{ exception }}</h5>
-                        {% else %}
-                            <h2>Permission Denied</h2>
-                        {% endif %}
+                        <div class="d-flex flex-column align-items-center gap-2">
+                            <div>
+                                {% if exception %}
+                                    <h5>{{ exception }}</h5>
+                                {% else %}
+                                    <h2>Permission Denied</h2>
+                                {% endif %}
+                            </div>
+                            <div>
+                                <a href="{% url 'core:dashboard' %}" class="btn btn-secondary">Go to Dashboard</a>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.login-card-body -->
                 </div>
