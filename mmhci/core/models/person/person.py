@@ -102,6 +102,18 @@ class Person(CreatedAndUpdatedBase):
         verbose_name = "Person"
         verbose_name_plural = "People"
 
+        permissions = [
+            (
+                'can_view_full_name',
+                'Can see the full legal and/or preferred name of a Person'
+            ),
+            (
+                'can_view_hidden_name',
+                'Can see the initials/truncated version of the '
+                'legal and/or preferred name of a Person'
+            )
+        ]
+
     def __str__(self):
         return (
             f"{self.uuid} - {self.full_name_private}"
