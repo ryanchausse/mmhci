@@ -4,10 +4,11 @@ Model
 
 NB: Do we need to have a ReferralPerson model? A ReferralPersonConsent model?
 """
-
+import uuid
 from django.db import models
 
 from mmhci.core.models.core.created_and_updated_base import CreatedAndUpdatedBase
+
 
 # Enum. Move to another location.
 class Statuses(models.IntegerChoices):
@@ -20,6 +21,11 @@ class Statuses(models.IntegerChoices):
 
 
 class Referral(CreatedAndUpdatedBase):
+    uuid = models.UUIDField(
+        default=uuid.uuid4,
+        editable=False,
+        unique=True
+    )
     org_originated = models.ForeignKey(
         "core.Organisation",
         on_delete=models.PROTECT,
