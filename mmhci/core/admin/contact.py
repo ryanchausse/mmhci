@@ -9,6 +9,7 @@ admin.site.register(ContactPerson)
 admin.site.register(ContactRequest)
 admin.site.register(ContactUpload)
 
+
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
     readonly_fields = (
