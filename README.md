@@ -2222,8 +2222,36 @@ In the admin user group/role assignment screen, how to filter available users? M
   - currently we filter on matching email as the collision point, and display the org to which that user belongs. maybe we just show all users and their orgs by default, just as in PMHCIS
 
 
+----------------------------
+
+Remaining big pieces:
+- add fields to all models
+- calculate remaining fields for a given model (use form attributes? custom model property with a list of required for different situations?)
+- implement collapsible card in main contact -> client/referral flow
+  - also flesh out that flow, including e.g. IAR-DST
+- apply permissions
+- api endpoints: flesh out for one model; should not be too difficult
+- a first report?
+- delta API?
+- file uploads?
+- user - change password?
 
 
+
+----------------------------
+
+preventing dupes on collapsible card in new contact flow:
+
+- allow selection or create new
+- save button, which returns the UUID for display / updates the select box
+  - select box updated with the new record __str__()
+  - unified search in select box? tabulator table even?
+  - tabulator might be best as it could re-use potential match logic
+  - subsequent saves are updates on the same record, maybe change the button label
+- dont use modal
+- debounce?
+
+--------------------------------
 
 
 
