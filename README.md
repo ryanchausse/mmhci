@@ -2226,7 +2226,7 @@ In the admin user group/role assignment screen, how to filter available users? M
 
 Remaining big pieces:
 - add fields to all models
-- calculate remaining fields for a given model (use form attributes? custom model property with a list of required for different situations?)
+- calculate remaining fields for a given model (use form attributes? custom model or orchestration property with a list of required for different situations?)
 - implement collapsible card in main contact -> client/referral flow
   - also flesh out that flow, including e.g. IAR-DST
 - apply permissions
@@ -2235,7 +2235,7 @@ Remaining big pieces:
 - delta API?
 - file uploads?
 - user - change password?
-
+- apply uuid to organisation/assessment/practitioner/survey?
 
 
 ----------------------------
