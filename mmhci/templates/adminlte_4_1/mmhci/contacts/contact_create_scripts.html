@@ -1,6 +1,18 @@
 {% load static %}
 <script nonce="{{ csp_nonce }}" type="text/javascript">
   document.addEventListener('DOMContentLoaded', () => {
-    //
+    document.body.addEventListener('htmx:afterSwap', function(evt) {
+        if (evt.detail.target.id === '{{ form.person.id_for_label }}') {
+            const selectEl = evt.detail.target;
+            selectEl.size = selectEl.options.length;
+        }
+    });
+    document.body.addEventListener('change', function(evt) {
+      if (evt.target.id === '{{ form.person.id_for_label }}') {
+          const selectEl = evt.target;
+          selectEl.size = 1;
+          selectEl.blur();
+      }
+    });
   });
 </script>

@@ -4,6 +4,26 @@
   action="{% url 'core:contacts:create' %}"
   autocomplete="off">
   {% csrf_token %}
-  {{ form|crispy }}
+  <label for="{{ form.person.id_for_label }}">Person</label>
+  <br />
+  <input
+    type="search"
+    name="q"
+    placeholder="Type to find a person..."
+    autocomplete="off"
+    hx-get="{% url 'core:people:search' %}"
+    hx-trigger="input changed delay:300ms"
+    hx-target="#{{ form.person.id_for_label }}"
+    hx-swap="innerHTML">
+  <br />
+  <select
+    name="{{ form.person.html_name }}"
+    id="{{ form.person.id_for_label }}"
+    required>
+  </select>
+  {{ form.person.errors }}
+  <br /><br />
+  {{ form.type|as_crispy_field }}
+  {{ form.description|as_crispy_field }}
   <button type="submit" class="btn btn-primary mt-3">Add Contact</button>
 </form>
