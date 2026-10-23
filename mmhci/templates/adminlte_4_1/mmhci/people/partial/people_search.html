@@ -1,8 +1,8 @@
 <option value="" disabled>Select Person</option>
 {% for person in people %}
-<option value="{{ person.pk }}">{{ person.full_name }}</option>
-{% empty %}
-    {% if request.GET.q %}
-    <option value="" disabled>No matching people</option>
-    {% endif %}
+    <option value="{{ person.pk }}">{{ person.full_name }}</option>
+    {% empty %}
+        {% if request.GET.q %}
+            <option value="" disabled>No matching people</option>
+        {% endif %}
 {% endfor %}

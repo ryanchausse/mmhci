@@ -2244,7 +2244,7 @@ preventing dupes on collapsible card in new contact flow:
 
 - allow selection or create new
 - save button, which returns the UUID for display / updates the select box
-  - select box updated with the new record __str__()
+  - select box updated with the new record __str__() or custom @property method
   - unified search in select box? tabulator table even?
   - tabulator might be best as it could re-use potential match logic
   - subsequent saves are updates on the same record, maybe change the button label

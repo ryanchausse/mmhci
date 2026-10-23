@@ -7,7 +7,9 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView
 
 from mmhci.core.forms.contact.contact import ContactForm
+from mmhci.core.forms.person.person import PersonForm
 from mmhci.core.services.contact.create_contact import CreateContactService
+from mmhci.core.services.person.create_person import CreatePersonService
 
 
 class CreateContactFormView(LoginRequiredMixin, FormView):
@@ -19,7 +21,28 @@ class CreateContactFormView(LoginRequiredMixin, FormView):
         context = super().get_context_data(**kwargs)
         context["contacts_menu"] = True
         context["contact_create"] = True
+        if "person_form" not in context:
+            context["person_form"] = PersonForm()
         return context
+
+    def post(self, request, *args, **kwargs):
+        # Needed because we show the "Create Person" form if they can't find an existing
+        # TODO: implement with HTMX (don't redirect)
+        if 'person_submit' in request.POST:
+            person_form = PersonForm(request.POST)
+            if person_form.is_valid():
+                person = CreatePersonService(
+                    request=self.request,
+                    data=person_form.cleaned_data
+                ).execute()
+                messages.success(request, 'Create Person completed successfully')
+                return redirect(self.success_url)
+            else:
+                return self.render_to_response(
+                    self.get_context_data(person_form=person_form)
+                )
+
+        return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
         contact = CreateContactService(

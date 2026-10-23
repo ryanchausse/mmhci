@@ -15,7 +15,8 @@
     hx-get="{% url 'core:people:search' %}"
     hx-trigger="input changed delay:300ms"
     hx-target="#{{ form.person.id_for_label }}"
-    hx-swap="innerHTML">
+    hx-swap="innerHTML"
+    autofocus>
 
   <select
     id="{{ form.person.id_for_label }}"
@@ -28,5 +29,5 @@
   <br />
   {{ form.type|as_crispy_field }}
   {{ form.description|as_crispy_field }}
-  <button type="submit" class="btn btn-primary mt-3">Add Contact</button>
+  <button type="submit" name="contact_submit" class="btn btn-primary mt-3">Add Contact</button>
 </form>

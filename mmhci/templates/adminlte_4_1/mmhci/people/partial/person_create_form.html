@@ -4,6 +4,6 @@
   action="{% url 'core:people:create' %}"
   autocomplete="off">
   {% csrf_token %}
-  {{ form|crispy }}
-  <button type="submit" class="btn btn-primary mt-3">Add Person</button>
+  {{ person_form|crispy }}
+  <button type="submit" name="person_submit" class="btn btn-primary mt-3">Add Person</button>
 </form>
