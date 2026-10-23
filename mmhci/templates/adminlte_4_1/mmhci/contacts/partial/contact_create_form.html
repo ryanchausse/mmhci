@@ -7,6 +7,7 @@
   <label for="{{ form.person.id_for_label }}">Person</label>
   <br />
   <input
+    class="form-control w-25 mt-1"
     type="search"
     name="q"
     placeholder="Type to find a person..."
@@ -15,14 +16,16 @@
     hx-trigger="input changed delay:300ms"
     hx-target="#{{ form.person.id_for_label }}"
     hx-swap="innerHTML">
-  <br />
+
   <select
-    name="{{ form.person.html_name }}"
     id="{{ form.person.id_for_label }}"
+    class="form-select mt-1"
+    name="{{ form.person.html_name }}"
     required>
+    <option value="" disabled>No matching people</option>
   </select>
   {{ form.person.errors }}
-  <br /><br />
+  <br />
   {{ form.type|as_crispy_field }}
   {{ form.description|as_crispy_field }}
   <button type="submit" class="btn btn-primary mt-3">Add Contact</button>
