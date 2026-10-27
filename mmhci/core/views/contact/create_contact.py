@@ -35,7 +35,14 @@ class CreateContactFormView(LoginRequiredMixin, FormView):
                     request=self.request,
                     data=person_form.cleaned_data
                 ).execute()
-                messages.success(request, 'Create Person completed successfully')
+                #messages.success(request, 'Create Person completed successfully')
+                # if self.request.htmx:
+                #     return render(
+                #         self.request,
+                #         'adminlte_4_1/mmhci/people/partial/person_create_form.html',
+                #         {'person': person},
+                #         status=201
+                #     )
                 return redirect(self.success_url)
             else:
                 return self.render_to_response(
