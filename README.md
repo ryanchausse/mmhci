@@ -2484,13 +2484,13 @@ when creating a new person via the form, I need to configure the createpersonvie
 1. Handle differently if it is an htmx request, meaning respond via a rendered template partial instead of standard form_valid/form_invalid redirect?
   - maybe i can detect HTMX after the form_valid/form_invalid
 
-2. If the form is valid, respond with only the form as input to the template (standard {"form": form} formview handling in django
+2. If the form is invalid, respond with only the form as input to the template (standard {"form": form} formview handling in django
 
-3. If form is valid, respond with a new PersonForm() which will clear the create person form template, and also an OOB htmx element with a <select><option value="1" name="id_person" selected>Jim Smith</option></select>
+3. If form is valid, respond with a new PersonForm() which will clear the create person form template, and also an OOB htmx element with a <select><option value="1" name="id_person" selected>Jim Smith</option></select>. Prob also need to include the messages partial for the "Person created successfully" flash message to appear.
 
 This requires the first Create Contact form element, for id_person, and its associated type to search input box, be wrapped in a div, as well as the template partial.
 
-On the "Person" side, a separate template for "create person success htmx" needs to be created and used in the form_valid() + HTMX request condition, whereas everything else can be the same
+On the "Person" side, a separate template for "create person success htmx" needs to be created and used in the form_valid() + HTMX request condition, whereas the other template can remain the same
 
 
 
