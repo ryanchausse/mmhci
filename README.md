@@ -2484,14 +2484,34 @@ when creating a new person via the form, I need to configure the createpersonvie
 1. Handle differently if it is an htmx request, meaning respond via a rendered template partial instead of standard form_valid/form_invalid redirect?
   - maybe i can detect HTMX after the form_valid/form_invalid
 
-2. If the form is invalid, respond with only the form as input to the template (standard {"form": form} formview handling in django
+2. If the form is invalid, respond with only the form as input to the template (standard {"form": form}) formview handling in django
 
 3. If form is valid, respond with a new PersonForm() which will clear the create person form template, and also an OOB htmx element with a <select><option value="1" name="id_person" selected>Jim Smith</option></select>. Prob also need to include the messages partial for the "Person created successfully" flash message to appear.
 
 This requires the first Create Contact form element, for id_person, and its associated type to search input box, be wrapped in a div, as well as the template partial.
 
-On the "Person" side, a separate template for "create person success htmx" needs to be created and used in the form_valid() + HTMX request condition, whereas the other template can remain the same
+On the "Person" side, a separate template for "create person success htmx" may need to be created and used in the form_valid() + HTMX request condition, whereas the other template can remain the same
 
+Taking a look at the Person view-or-update view and template, I see that I already have a pattern (which I may need to change). Some notes:
+
+- the UpdatePersonView has form_valid(), and a "if self.request.htmx:" within form_valid() and form_invalid()
+  - renders the partial with uuid and form
+  - there is no "normal" form_valid() redirect on success, only htmx.
+
+- the update person form template partial is used for both htmx and "normal" page loads (the latter is the initial render) via {% if request.htmx %}
+  - includes partials which update many includes on the page if so, like the flash message template partial
+
+- the update person form template partial determines what to render with the presence of variables ({% if uuid %})
+
+So, I can follow the pattern from PersonVieworUpdate:
+
+1. One template partial for the select Person field, and one template partial for the create Person form
+  - containing div for this partial is  <div id="person-create-form-container">
+  - probably just update /people/partial/person_create_form.html to look more like the view or update partial which is at /people/partial/person_view_or_update_form_htmx.html
+
+2. Add containing div for /contacts/partial/contact_create_form.html's person selection field to be able to swap it out via OOB update innerHTML replacement
+  - this has some attributes specific to the person form; maybe i can send those vars form the view into the template partial, instead of hard coding them, which would also preserve the HTMX triggers in that form as they are at present. I want to ideally reuse the contact_create_form.html
+  - extant contact create scripts should be able to live there undisturbed. It really is just the <select> that needs to be wrapped, and made htmx-responsive like the person update template partial.
 
 
 
