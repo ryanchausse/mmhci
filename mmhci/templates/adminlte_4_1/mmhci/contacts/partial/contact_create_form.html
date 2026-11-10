@@ -17,14 +17,9 @@
     hx-target="#{{ form.person.id_for_label }}"
     hx-swap="innerHTML"
     autofocus>
-
-  <select
-    id="{{ form.person.id_for_label }}"
-    class="form-select mt-1"
-    name="{{ form.person.html_name }}"
-    required>
-    <option value="" disabled>No matching people</option>
-  </select>
+  <div class="person_select">
+    {% include 'adminlte_4_1/mmhci/people/partial/person_select.html' %}
+  </div>
   {{ form.person.errors }}
   <br />
   {{ form.type|as_crispy_field }}
